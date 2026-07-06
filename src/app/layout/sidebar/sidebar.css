@@ -1,0 +1,80 @@
+.sidebar {
+  width: 19rem;
+  min-height: 100vh;
+  padding: 1.8rem 1.2rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.12), transparent 34%),
+    #050816;
+}
+
+.sidebar-brand img {
+  width: 15rem;
+  margin-bottom: 2.3rem;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nav-section {
+  margin: 1.6rem 0 0.5rem;
+  padding-left: 0.8rem;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+  color: #f8fafc;
+  text-decoration: none;
+  transition: 180ms ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  border-color: rgba(168, 85, 247, 0.45);
+  background: linear-gradient(
+    90deg,
+    rgba(168, 85, 247, 0.32),
+    rgba(147, 51, 234, 0.16),
+    rgba(255, 122, 61, 0.05)
+  );
+}
+
+.nav-icon {
+  width: 1.5rem;
+  color: #a855f7;
+  font-size: 1.35rem;
+}
+
+.info-card {
+  margin-top: 2rem;
+  border: 1px solid rgba(168, 85, 247, 0.22);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: rgba(17, 24, 39, 0.62);
+}
+
+.info-card h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+}
+
+.info-card p {
+  margin: 0 0 1rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.info-card a {
+  color: #a855f7;
+  font-weight: 600;
+}

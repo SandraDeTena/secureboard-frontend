@@ -1,15 +1,25 @@
 import { Routes } from '@angular/router';
 import { Welcome } from './pages/welcome/welcome';
+import { MainLayout } from './layout/main-layout/main-layout';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
   {
     path: '',
     component: Welcome,
-    title: 'SecureBoard · Security Operations Center',
+    title: 'SecureBoard · Welcome',
   },
-
-  // Si alguien escribe una ruta que todavía no existe,
-  // vuelve a la pantalla Welcome.
+  {
+    path: '',
+    component: MainLayout,
+    children: [
+      {
+        path: 'dashboard',
+        component: Dashboard,
+        title: 'SecureBoard · Dashboard SOC',
+      },
+    ],
+  },
   {
     path: '**',
     redirectTo: '',

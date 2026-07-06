@@ -1,0 +1,57 @@
+.metric-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(17, 24, 39, 0.72);
+  transition: 180ms ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(168, 85, 247, 0.42);
+}
+
+.metric-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  background: rgba(168, 85, 247, 0.12);
+}
+
+p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+strong {
+  display: block;
+  margin: 0.25rem 0;
+  font-size: 1.7rem;
+}
+
+span {
+  color: #10b981;
+  font-size: 0.8rem;
+}
+
+.orange .metric-icon {
+  background: rgba(255, 122, 61, 0.14);
+}
+
+.green .metric-icon {
+  background: rgba(16, 185, 129, 0.14);
+}
+
+.red .metric-icon {
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.blue .metric-icon {
+  background: rgba(59, 130, 246, 0.14);
+}

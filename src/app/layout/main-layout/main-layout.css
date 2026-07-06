@@ -1,0 +1,17 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #050816;
+  color: #f8fafc;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.app-content {
+  padding: 1.5rem 2rem 2rem;
+}

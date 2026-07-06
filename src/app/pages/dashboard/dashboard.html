@@ -1,0 +1,159 @@
+<section class="dashboard-page">
+  <section class="summary-grid">
+    @for (card of summaryCards; track card.label) {
+      <article class="summary-card" [class]="card.tone">
+        <div class="summary-icon">{{ card.icon }}</div>
+
+        <div>
+          <p>{{ card.label }}</p>
+
+          <h2>
+            {{ card.value }}
+            <span>{{ card.suffix }}</span>
+          </h2>
+
+          <small>{{ card.detail }}</small>
+        </div>
+      </article>
+    }
+  </section>
+
+  <section class="main-grid">
+    <article class="panel activity-panel">
+      <header>
+        <h3>Resumen de actividad</h3>
+        <button>Últimos 7 días⌄</button>
+      </header>
+
+      <div class="activity-content">
+        <div class="donut-wrap">
+          <div class="donut">
+            <strong>87</strong>
+            <span>Total</span>
+          </div>
+        </div>
+
+        <div class="legend">
+          <p><span class="dot purple"></span> OSINT Investigation <b>28 (32%)</b></p>
+          <p><span class="dot blue"></span> Blue Team Analyst <b>21 (24%)</b></p>
+          <p><span class="dot orange"></span> Red Team Assessment <b>15 (17%)</b></p>
+          <p><span class="dot green"></span> Security Engineer <b>12 (14%)</b></p>
+          <p><span class="dot red"></span> Incident Response <b>11 (13%)</b></p>
+        </div>
+
+        <div class="line-chart">
+          <p>Actividad diaria</p>
+
+          <svg viewBox="0 0 360 220" role="img">
+            <defs>
+              <linearGradient id="lineFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.42" />
+                <stop offset="100%" stop-color="#A855F7" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <path
+              d="M20 170 L60 135 L100 160 L140 122 L180 78 L220 98 L260 92 L300 120 L340 74"
+              fill="none"
+              stroke="#A855F7"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M20 170 L60 135 L100 160 L140 122 L180 78 L220 98 L260 92 L300 120 L340 74 L340 205 L20 205 Z"
+              fill="url(#lineFill)"
+            />
+
+            <circle cx="180" cy="78" r="7" fill="#A855F7" />
+            <circle cx="340" cy="74" r="7" fill="#A855F7" />
+          </svg>
+
+          <div class="days">
+            <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span>
+            <span>Vie</span><span>Sáb</span><span>Dom</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel alerts-panel">
+      <header>
+        <h3>Alertas recientes</h3>
+        <a>Ver todas</a>
+      </header>
+
+      <div class="alerts-list">
+        @for (alert of alerts; track alert.title) {
+          <article class="alert-card" [class]="alert.tone">
+            <div class="alert-icon">{{ alert.icon }}</div>
+
+            <div>
+              <h4>{{ alert.title }}</h4>
+              <p>Caso: {{ alert.case }}</p>
+            </div>
+
+            <div class="alert-meta">
+              <span>{{ alert.time }}</span>
+              <small>• {{ alert.level }}</small>
+            </div>
+          </article>
+        }
+      </div>
+    </article>
+
+    <article class="panel progress-panel">
+      <header>
+        <h3>Progreso por caso</h3>
+        <a>Ver todos los casos</a>
+      </header>
+
+      <div class="case-rings">
+        @for (item of progressCases; track item.name) {
+          <article class="case-ring-card" [class]="item.tone">
+            <div class="case-ring" [style.--value]="item.value">
+              <span>{{ item.icon }}</span>
+            </div>
+
+            <h4>{{ item.name }}</h4>
+            <strong>{{ item.value }}%</strong>
+
+            <div class="mini-bar">
+              <span [style.width.%]="item.value"></span>
+            </div>
+          </article>
+        }
+      </div>
+    </article>
+
+    <aside class="side-column">
+      <article class="panel quick-panel">
+        <h3>Acciones rápidas</h3>
+
+        @for (action of quickActions; track action.title) {
+          <button class="quick-action" [class]="action.tone">
+            <span>{{ action.icon }}</span>
+
+            <div>
+              <strong>{{ action.title }}</strong>
+              <small>{{ action.text }}</small>
+            </div>
+
+            <b>›</b>
+          </button>
+        }
+      </article>
+    </aside>
+  </section>
+
+  <article class="cta-panel">
+    <div class="cta-icon">◆</div>
+
+    <div>
+      <h3>Sigue aprendiendo y mejora tus habilidades</h3>
+      <p>Completa casos, gana puntos y demuestra tu talento en ciberseguridad.</p>
+    </div>
+
+    <button>Explorar casos →</button>
+  </article>
+</section>
