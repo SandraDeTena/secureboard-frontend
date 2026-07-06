@@ -1,3 +1,377 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@import 'tailwindcss';
+
+/* =========================================================
+   SECUREBOARD · ESTILOS GLOBALES
+   Angular 21 + Tailwind CSS 4
+   Identidad visual: SOC oscuro, morado, violeta y naranja
+   ========================================================= */
+
+/* =========================================================
+   01. TOKENS DE MARCA
+   Colores, tipografías y valores reutilizables
+   ========================================================= */
+
+@theme {
+  /* Fondos */
+  --color-sb-bg: #050816;
+  --color-sb-bg-soft: #080d17;
+  --color-sb-surface: #0b1020;
+  --color-sb-card: #111827;
+  --color-sb-card-hover: #172033;
+
+  /* Texto */
+  --color-sb-text: #f8fafc;
+  --color-sb-muted: #94a3b8;
+  --color-sb-soft: #cbd5e1;
+
+  /* Bordes */
+  --color-sb-border: rgba(255, 255, 255, 0.08);
+  --color-sb-border-active: rgba(168, 85, 247, 0.48);
+
+  /* Gradiente oficial SecureBoard */
+  --color-sb-purple: #a855f7;
+  --color-sb-violet: #8b5cf6;
+  --color-sb-deep: #6d28d9;
+  --color-sb-magenta: #9333ea;
+  --color-sb-orange: #ff7a3d;
+
+  /* Estados de ciberseguridad */
+  --color-risk-info: #3b82f6;
+  --color-risk-low: #10b981;
+  --color-risk-medium: #facc15;
+  --color-risk-high: #f97316;
+  --color-risk-critical: #ef4444;
+
+  /* Tipografías */
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* =========================================================
+   02. BASE GENERAL
+   Fondo global, texto y comportamiento de la web
+   ========================================================= */
+
+@layer base {
+  html {
+    background: var(--color-sb-bg);
+    color: var(--color-sb-text);
+    font-family: var(--font-body);
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 78% 8%, rgba(168, 85, 247, 0.18), transparent 28%),
+      radial-gradient(circle at 8% 92%, rgba(255, 122, 61, 0.1), transparent 26%),
+      linear-gradient(135deg, #050816 0%, #080d17 55%, #0b1020 100%);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+/* =========================================================
+   03. TIPOGRAFÍA DE SECUREBOARD
+   Títulos, textos destacados y texto técnico
+   ========================================================= */
+
+@layer components {
+  .sb-title {
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
+
+  .sb-text-muted {
+    color: var(--color-sb-muted);
+  }
+
+  .sb-code {
+    font-family: var(--font-code);
+  }
+
+  .sb-gradient-text {
+    background: linear-gradient(
+      90deg,
+      #a855f7 0%,
+      #8b5cf6 15%,
+      #6d28d9 30%,
+      #9333ea 50%,
+      #ff7a3d 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* =========================================================
+   04. TARJETAS / PANELES
+   Estilo base de dashboard, casos, portfolio y perfil
+   ========================================================= */
+
+@layer components {
+  .sb-card {
+    border: 1px solid var(--color-sb-border);
+    border-radius: 1rem;
+    background: rgba(17, 24, 39, 0.82);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(16px);
+  }
+
+  .sb-card-hover {
+    transition:
+      transform 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      background 220ms ease;
+  }
+
+  .sb-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-sb-border-active);
+    background: rgba(23, 32, 51, 0.92);
+    box-shadow: 0 18px 45px rgba(109, 40, 217, 0.2);
+  }
+
+  .sb-glow-border {
+    border: 1px solid rgba(168, 85, 247, 0.34);
+    box-shadow:
+      0 0 0 1px rgba(255, 122, 61, 0.08),
+      0 0 32px rgba(168, 85, 247, 0.16);
+  }
+}
+
+/* =========================================================
+   05. BOTONES
+   Botón principal, secundario y botones de casos
+   ========================================================= */
+
+@layer components {
+  .sb-primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 0;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-weight: 600;
+    background: linear-gradient(
+      90deg,
+      #a855f7 0%,
+      #8b5cf6 15%,
+      #6d28d9 30%,
+      #9333ea 50%,
+      #ff7a3d 100%
+    );
+    box-shadow: 0 10px 28px rgba(168, 85, 247, 0.24);
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      filter 180ms ease;
+  }
+
+  .sb-primary-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 14px 34px rgba(168, 85, 247, 0.35);
+  }
+
+  .sb-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-sb-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--color-sb-text);
+    background: rgba(255, 255, 255, 0.04);
+    transition:
+      background 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .sb-secondary-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(168, 85, 247, 0.45);
+    background: rgba(168, 85, 247, 0.08);
+  }
+}
+
+/* =========================================================
+   06. BADGES / ESTADOS DE RIESGO
+   Para vulnerabilidades, alertas, dificultad y severidad
+   ========================================================= */
+
+@layer components {
+  .sb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+  }
+
+  .sb-badge-info {
+    color: var(--color-risk-info);
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.28);
+  }
+
+  .sb-badge-low {
+    color: var(--color-risk-low);
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.28);
+  }
+
+  .sb-badge-medium {
+    color: var(--color-risk-medium);
+    background: rgba(250, 204, 21, 0.12);
+    border-color: rgba(250, 204, 21, 0.28);
+  }
+
+  .sb-badge-high {
+    color: var(--color-risk-high);
+    background: rgba(249, 115, 22, 0.12);
+    border-color: rgba(249, 115, 22, 0.28);
+  }
+
+  .sb-badge-critical {
+    color: var(--color-risk-critical);
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.28);
+  }
+}
+
+/* =========================================================
+   07. FONDOS Y EFECTOS VISUALES
+   Para Welcome, Dashboard y pantallas tipo SOC
+   ========================================================= */
+
+@layer components {
+  .sb-page-grid {
+    position: relative;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .sb-radial-glow {
+    position: absolute;
+    pointer-events: none;
+    inset: auto;
+    width: 26rem;
+    height: 26rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.18), transparent 68%);
+    filter: blur(8px);
+  }
+
+  .sb-orange-glow {
+    background: radial-gradient(circle, rgba(255, 122, 61, 0.16), transparent 68%);
+  }
+}
+
+/* =========================================================
+   08. ANIMACIONES
+   Hover, entrada suave y círculos de Welcome
+   ========================================================= */
+
+@layer utilities {
+  .sb-animate-fade-up {
+    animation: sbFadeUp 520ms ease both;
+  }
+
+  .sb-animate-pulse-soft {
+    animation: sbPulseSoft 3.6s ease-in-out infinite;
+  }
+
+  .sb-animate-spin-slow {
+    animation: sbSpin 24s linear infinite;
+  }
+
+  @keyframes sbFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes sbPulseSoft {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(0.98);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes sbSpin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* =========================================================
+   09. ACCESIBILIDAD
+   Reduce animaciones si el usuario lo tiene configurado
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
