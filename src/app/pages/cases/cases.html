@@ -1,0 +1,163 @@
+<section class="cases-page">
+  <header class="cases-header">
+    <div>
+      <h1>Casos Prácticos</h1>
+      <p>Elige un escenario y demuestra tus habilidades en ciberseguridad.</p>
+    </div>
+
+    <div class="cases-actions">
+      <label class="case-search">
+        <span>⌕</span>
+        <input type="text" placeholder="Buscar casos..." />
+      </label>
+    </div>
+  </header>
+
+  <nav class="tabs-bar">
+    <button class="active">Todos los casos</button>
+    <button>No iniciados <span>5</span></button>
+    <button>En progreso <span>0</span></button>
+    <button>Completados <span>0</span></button>
+
+    <div class="filters">
+      <label>
+        Filtrar por dificultad
+        <select>
+          <option>Todas</option>
+        </select>
+      </label>
+
+      <label>
+        Ordenar por
+        <select>
+          <option>Recomendados</option>
+        </select>
+      </label>
+
+      <button class="view active">▦</button>
+      <button class="view">☷</button>
+    </div>
+  </nav>
+
+  <section class="case-grid">
+    @for (caseItem of cases; track caseItem.number) {
+      <article class="case-card" [class]="caseItem.tone">
+        <div class="case-number">{{ caseItem.number }}</div>
+
+        <div class="case-icon">
+          @switch (caseItem.icon) {
+            @case ('osint') {
+              <svg viewBox="0 0 120 120">
+                <circle cx="54" cy="52" r="32"></circle>
+                <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
+                <circle cx="76" cy="74" r="18"></circle>
+                <path d="M89 87l17 17"></path>
+              </svg>
+            }
+
+            @case ('blue') {
+              <svg viewBox="0 0 120 120">
+                <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
+                <rect x="47" y="54" width="26" height="26" rx="4"></rect>
+                <path d="M52 54V44a8 8 0 0116 0v10"></path>
+              </svg>
+            }
+
+            @case ('red') {
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="34"></circle>
+                <circle cx="60" cy="60" r="8"></circle>
+                <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
+                <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
+              </svg>
+            }
+
+            @case ('engineer') {
+              <svg viewBox="0 0 120 120">
+                <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
+                <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+                <path d="M51 55V45a9 9 0 0118 0v10"></path>
+              </svg>
+            }
+
+            @case ('incident') {
+              <svg viewBox="0 0 120 120">
+                <rect x="23" y="25" width="74" height="55" rx="5"></rect>
+                <path d="M46 92h28M38 102h44"></path>
+                <circle cx="60" cy="52" r="15"></circle>
+                <path d="M49 67l-9 9M71 67l9 9M50 49h.1M70 49h.1M52 59c5 4 11 4 16 0"></path>
+              </svg>
+            }
+          }
+        </div>
+
+        <h2>{{ caseItem.title }}</h2>
+        <p class="description">{{ caseItem.description }}</p>
+
+        <div class="divider"></div>
+
+        <div class="difficulty-row">
+          <span>Dificultad</span>
+
+          <div class="dots">
+            @for (dot of [1,2,3,4,5]; track dot) {
+              <i [class.filled]="dot <= caseItem.dots"></i>
+            }
+          </div>
+
+          <strong>{{ caseItem.difficulty }}</strong>
+        </div>
+
+        <div class="time-row">
+          <span>◷</span>
+          <p>Tiempo estimado</p>
+          <strong>{{ caseItem.time }}</strong>
+        </div>
+
+        <div class="progress-row">
+          <span>{{ caseItem.progress }}%</span>
+          <div>
+            <i [style.width.%]="caseItem.progress"></i>
+          </div>
+        </div>
+
+        <button class="case-button">
+          Ver caso
+          <span>→</span>
+        </button>
+      </article>
+    }
+  </section>
+
+  <section class="learning-panel">
+    <div class="learning-main">
+      <div class="learning-icon">◎</div>
+      <div>
+        <h2>Aprende practicando</h2>
+        <p>
+          Cada caso está diseñado para simular situaciones reales del mundo
+          empresarial. Al completarlos, mejorarás tus habilidades y construirás
+          tu portfolio profesional.
+        </p>
+      </div>
+    </div>
+
+    <article>
+      <div class="mini-icon purple">▣</div>
+      <h3>Escenarios reales</h3>
+      <p>Casos basados en incidentes y amenazas actuales.</p>
+    </article>
+
+    <article>
+      <div class="mini-icon orange">▥</div>
+      <h3>Evaluación y feedback</h3>
+      <p>Recibe una puntuación y recomendaciones al finalizar.</p>
+    </article>
+
+    <article>
+      <div class="mini-icon red">◎</div>
+      <h3>Certifica tu progreso</h3>
+      <p>Demuestra tu conocimiento y destaca tu perfil.</p>
+    </article>
+  </section>
+</section>
