@@ -83,9 +83,9 @@ export class Dashboard {
   progressCases = [
     { icon: 'osint', name: 'OSINT Investigation', value: 75, tone: 'purple' },
     { icon: 'blue', name: 'Blue Team Analyst', value: 60, tone: 'blue' },
-    { icon: 'red', name: 'Red Team Assessment', value: 40, tone: 'orange' },
-    { icon: 'engineer', name: 'Security Engineer', value: 55, tone: 'green' },
-    { icon: 'incident', name: 'Incident Response', value: 30, tone: 'red' },
+    { icon: 'red', name: 'Red Team Assessment', value: 40, tone: 'red' },
+    { icon: 'engineer', name: 'Security Engineer', value: 55, tone: 'orange' },
+    { icon: 'incident', name: 'Incident Response', value: 30, tone: 'green' },
   ];
   quickActions = [
   {
