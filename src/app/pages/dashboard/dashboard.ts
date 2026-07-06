@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [
+    RouterLink,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -78,31 +81,33 @@ export class Dashboard {
   ];
 
   progressCases = [
-    { icon: '◎', name: 'OSINT Investigation', value: 75, tone: 'purple' },
-    { icon: '⬡', name: 'Blue Team Analyst', value: 60, tone: 'blue' },
-    { icon: '⌖', name: 'Red Team Assessment', value: 40, tone: 'orange' },
-    { icon: '⌘', name: 'Security Engineer', value: 55, tone: 'green' },
-    { icon: '♧', name: 'Incident Response', value: 30, tone: 'red' },
+    { icon: 'osint', name: 'OSINT Investigation', value: 75, tone: 'purple' },
+    { icon: 'blue', name: 'Blue Team Analyst', value: 60, tone: 'blue' },
+    { icon: 'red', name: 'Red Team Assessment', value: 40, tone: 'orange' },
+    { icon: 'engineer', name: 'Security Engineer', value: 55, tone: 'green' },
+    { icon: 'incident', name: 'Incident Response', value: 30, tone: 'red' },
   ];
-
   quickActions = [
-    {
-      icon: '▷',
-      title: 'Iniciar nuevo caso',
-      text: 'Elige un escenario y comienza',
-      tone: 'purple',
-    },
-    {
-      icon: '▦',
-      title: 'Ver todos los casos',
-      text: 'Explora todos los escenarios disponibles',
-      tone: 'blue',
-    },
-    {
-      icon: '▱',
-      title: 'Ir a mi portfolio',
-      text: 'Gestiona tus proyectos y logros',
-      tone: 'orange',
-    },
+  {
+    icon: '▷',
+    title: 'Iniciar nuevo caso',
+    text: 'Elige un escenario y comienza',
+    tone: 'purple',
+    route: '/cases',
+  },
+  {
+    icon: '▦',
+    title: 'Ver todos los casos',
+    text: 'Explora todos los escenarios disponibles',
+    tone: 'blue',
+    route: '/cases',
+  },
+  {
+    icon: '▱',
+    title: 'Ir a mi portfolio',
+    text: 'Gestiona tus proyectos y logros',
+    tone: 'orange',
+    route: '/portfolio',
+  },
   ];
 }

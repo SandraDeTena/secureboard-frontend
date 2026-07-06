@@ -11,6 +11,11 @@
 
     <p class="nav-section">CASOS PRÁCTICOS</p>
 
+    <a routerLink="/cases" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">▱</span>
+      <span>Casos Prácticos</span>
+    </a>
+
     @for (item of caseItems; track item.label) {
       <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">{{ item.icon }}</span>
