@@ -1,1 +1,194 @@
-<p>welcome works!</p>
+<section class="welcome-page">
+  <div class="welcome-bg"></div>
+  <div class="welcome-grid"></div>
+  <div class="welcome-particles"></div>
+
+  <header class="welcome-header">
+    <img
+      src="/images/logos/Sublogo_SecureBoard.svg"
+      alt="SecureBoard"
+      class="brand-logo"
+    />
+
+    <div class="status-card">
+      <span>SYSTEM STATUS</span>
+      <strong>PROTEGIDO</strong>
+    </div>
+  </header>
+
+  <main class="welcome-content">
+    <section class="left-panel">
+      <p class="eyebrow">BIENVENIDA A</p>
+
+      <h1>
+        <span>SECURE</span><span class="gradient-text">BOARD</span>
+      </h1>
+
+      <h2>TU CENTRO DE OPERACIONES DE SEGURIDAD</h2>
+
+      <p class="intro">
+        Simula, aprende y demuestra tus habilidades como profesional en
+        ciberseguridad resolviendo casos reales en un entorno controlado e
+        inmersivo.
+      </p>
+
+      <div class="features">
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="iconGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#A855F7" />
+                  <stop offset="15%" stop-color="#8B5CF6" />
+                  <stop offset="30%" stop-color="#6D28D9" />
+                  <stop offset="50%" stop-color="#9333EA" />
+                  <stop offset="100%" stop-color="#FF7A3D" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="18" />
+              <path d="M32 8v10M32 46v10M8 32h10M46 32h10" />
+              <path d="M22 32l7 7 14-16" />
+            </svg>
+          </div>
+
+          <div>
+            <h3>APRENDE HACIENDO</h3>
+            <p>Casos prácticos diseñados para aplicar técnicas reales.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="iconGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#A855F7" />
+                  <stop offset="15%" stop-color="#8B5CF6" />
+                  <stop offset="30%" stop-color="#6D28D9" />
+                  <stop offset="50%" stop-color="#9333EA" />
+                  <stop offset="100%" stop-color="#FF7A3D" />
+                </linearGradient>
+              </defs>
+              <path d="M32 6l22 9v16c0 14-9 24-22 29C19 55 10 45 10 31V15l22-9z" />
+              <path d="M22 33l7 7 14-17" />
+            </svg>
+          </div>
+
+          <div>
+            <h3>MEJORA TUS HABILIDADES</h3>
+            <p>Desde OSINT hasta Respuesta a Incidentes.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="iconGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#A855F7" />
+                  <stop offset="15%" stop-color="#8B5CF6" />
+                  <stop offset="30%" stop-color="#6D28D9" />
+                  <stop offset="50%" stop-color="#9333EA" />
+                  <stop offset="100%" stop-color="#FF7A3D" />
+                </linearGradient>
+              </defs>
+              <path d="M12 50h40" />
+              <rect x="16" y="34" width="8" height="16" />
+              <rect x="30" y="24" width="8" height="26" />
+              <rect x="44" y="14" width="8" height="36" />
+            </svg>
+          </div>
+
+          <div>
+            <h3>MIDE TU PROGRESO</h3>
+            <p>Sigue tu evolución y construye tu portfolio profesional.</p>
+          </div>
+        </article>
+      </div>
+
+      <form class="access-form" (submit)="$event.preventDefault(); enterSoc()">
+        <label for="username">¿Listo para comenzar?</label>
+
+        <input
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Escribe tu nombre (opcional)"
+        />
+
+        <button type="submit">
+          <span>↪</span>
+          ENTRAR AL SOC
+        </button>
+      </form>
+    </section>
+
+    <section class="hero-panel">
+      <div class="data-rain">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="scanner">
+        <span class="ring ring-1"></span>
+        <span class="ring ring-2"></span>
+        <span class="ring ring-3"></span>
+        <span class="ring ring-4"></span>
+        <span class="ring ring-5"></span>
+
+        <div class="scanner-glow"></div>
+
+        <img
+          src="/images/logos/Sublogo_SecureBoard_Isotopo.svg"
+          alt="Isotipo SecureBoard"
+          class="hero-logo"
+        />
+      </div>
+
+      <p class="claim">ANALIZA · PROTEGE · RESPONDE</p>
+    </section>
+
+    <aside class="right-panel">
+      <article class="metric-card">
+        <span>AMENAZAS BLOQUEADAS</span>
+        <strong>1,248</strong>
+        <small>↑ 87% últimas 24h</small>
+      </article>
+
+      <article class="metric-card">
+        <span>INCIDENTES RESPONDIDOS</span>
+        <strong>36</strong>
+        <small>↑ 24% últimas 24h</small>
+      </article>
+
+      <article class="risk-card">
+        <span>NIVEL DE RIESGO</span>
+        <div class="risk-ring">MEDIO</div>
+        <small>RIESGO CONTROLADO</small>
+      </article>
+    </aside>
+  </main>
+
+  <footer class="welcome-footer">
+    <div>
+      <span>ENTORNO SEGURO</span>
+      <small>100% Ético</small>
+    </div>
+
+    <div>
+      <span>CASOS REALES</span>
+      <small>Escenarios prácticos</small>
+    </div>
+
+    <div>
+      <span>CERTIFICA TU NIVEL</span>
+      <small>Demuestra tu talento</small>
+    </div>
+  </footer>
+</section>
