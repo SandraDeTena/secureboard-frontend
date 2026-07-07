@@ -1,0 +1,243 @@
+<section class="security-engineer-page">
+  <a class="back-link" routerLink="/cases">← Volver a casos</a>
+
+  <header class="case-header">
+    <div class="case-icon-large" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+            <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
+            <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+            <path d="M51 55V45a9 9 0 0118 0v10"></path>
+        </svg>
+    </div>
+
+    <div>
+      <span class="case-tag">Caso 04</span>
+      <h1>Security Engineer</h1>
+      <p>Diseña, implementa y verifica controles de seguridad en una infraestructura simulada.</p>
+    </div>
+
+    <button class="guide-button" type="button">
+      <span>▣</span>
+      Ver guía del caso
+    </button>
+  </header>
+
+  <section class="status-grid">
+    <article class="status-card">
+      <div class="status-icon">♜</div>
+      <div>
+        <small>Dificultad</small>
+        <div class="difficulty">
+          <span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span>
+        </div>
+      </div>
+      <strong class="orange-text">Media</strong>
+    </article>
+
+    <article class="status-card">
+      <div class="status-icon">◷</div>
+      <div>
+        <small>Tiempo estimado</small>
+        <strong>90 - 120 min</strong>
+      </div>
+    </article>
+
+    <article class="status-card">
+      <div class="progress-circle">45%</div>
+      <div>
+        <small>Estado del caso</small>
+        <strong class="orange-text">En progreso</strong>
+      </div>
+    </article>
+
+    <article class="status-card">
+      <div class="status-icon">♜</div>
+      <div>
+        <small>Puntos posibles</small>
+        <strong>300 pts</strong>
+      </div>
+    </article>
+  </section>
+
+  <nav class="case-tabs" aria-label="Secciones del caso">
+    <button class="active" type="button">▣ <span>Resumen</span></button>
+    <button type="button">⌘ <span>Fase a fase</span></button>
+    <button type="button">ⓘ <span>Hallazgos</span></button>
+    <button type="button">▤ <span>Informe</span></button>
+    <button type="button">▱ <span>Notas</span></button>
+  </nav>
+
+  <section class="case-layout">
+    <main class="main-content">
+      <article class="panel summary-panel">
+        <h2>Resumen de la ingeniería de seguridad</h2>
+
+        <div class="summary-content">
+          <div class="security-illustration">
+            <div class="grid-lines"></div>
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+                <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
+                <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+                <path d="M51 55V45a9 9 0 0118 0v10"></path>
+            </svg>
+          </div>
+
+          <article class="scenario-card">
+            <h3>Escenario</h3>
+            <p>
+              Tu misión es fortalecer la infraestructura de una empresa ficticia
+              implementando controles de seguridad y verificando su efectividad.
+            </p>
+
+            <div class="scenario-details">
+              <div>
+                <span>▤</span>
+                <small>Entorno</small>
+                <strong>Empresa ficticia</strong>
+              </div>
+
+              <div>
+                <span>♙</span>
+                <small>Rol</small>
+                <strong>Security Engineer</strong>
+              </div>
+
+              <div>
+                <span>▦</span>
+                <small>Infraestructura</small>
+                <strong>Red interna + Cloud</strong>
+              </div>
+
+              <div>
+                <span>♜</span>
+                <small>Objetivo principal</small>
+                <strong>Diseñar e implementar<br />y validar su eficacia</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="info-card">
+            <h3>Información clave</h3>
+
+            @for (item of keyInfo; track item.label) {
+              <p>
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+              </p>
+            }
+          </article>
+        </div>
+      </article>
+
+      <article class="panel controls-panel">
+        <h2>Controles a implementar</h2>
+
+        <div class="controls-grid">
+          @for (control of controls; track control.name) {
+            <article class="control-card">
+              <div class="control-icon">{{ control.icon }}</div>
+
+              <div>
+                <small>{{ control.name }}</small>
+                <strong>{{ control.value }}</strong>
+                <button type="button">Ver detalles →</button>
+              </div>
+            </article>
+          }
+        </div>
+      </article>
+
+      <article class="panel activity-panel">
+        <h2>Actividad reciente</h2>
+
+        <div class="activity-table">
+          <div class="activity-row activity-head">
+            <span>Hora</span>
+            <span>Actividad</span>
+            <span>Herramienta / Recurso</span>
+            <span>Estado</span>
+          </div>
+
+          @for (activity of activities; track activity.time) {
+            <div class="activity-row">
+              <span>{{ activity.time }}</span>
+              <strong>{{ activity.action }}</strong>
+              <span>{{ activity.tool }}</span>
+              <span [class]="activity.tone">{{ activity.status }} <b>●</b></span>
+            </div>
+          }
+        </div>
+
+        <button class="view-activity" type="button">Ver toda la actividad →</button>
+      </article>
+    </main>
+
+    <aside class="side-content">
+      <article class="panel tools-panel">
+        <h2>Recursos y herramientas</h2>
+        <p>Accede rápidamente a los recursos que necesitas.</p>
+
+        <div class="tools-list">
+          @for (tool of tools; track tool.name) {
+            <article class="tool-item">
+              <span class="tool-icon">{{ tool.icon }}</span>
+
+              <div>
+                <strong>{{ tool.name }}</strong>
+                <small>{{ tool.description }}</small>
+              </div>
+
+              <button type="button">Abrir</button>
+              <span class="external">↗</span>
+            </article>
+          }
+        </div>
+
+        <button class="view-tools" type="button">Ver todos los recursos →</button>
+      </article>
+
+      <article class="panel notes-panel">
+        <header>
+          <h2>Notas rápidas</h2>
+          <button type="button">＋ Nueva nota</button>
+        </header>
+
+        <nav class="notes-tabs">
+          <button class="active" type="button">Todas</button>
+          <button type="button">Importantes</button>
+          <button type="button">Recordatorios</button>
+        </nav>
+
+        <div class="notes-list">
+          @for (note of notes; track note.text) {
+            <article class="note-item">
+              <div>
+                <small>{{ note.time }}</small>
+                <span [class]="note.type">{{ note.tag }}</span>
+                <p>{{ note.text }}</p>
+              </div>
+
+              <div class="note-actions">♢　♧</div>
+            </article>
+          }
+        </div>
+
+        <button class="view-notes" type="button">Ver todas las notas　→</button>
+      </article>
+
+      <article class="continue-panel">
+        <h2>¿Listo para continuar?</h2>
+        <p>
+          Continúa con la siguiente fase para validar los controles implementados
+          y medir su efectividad.
+        </p>
+
+        <button type="button">
+          <span>⌘</span>
+          Ir a Fase a fase
+          <b>→</b>
+        </button>
+      </article>
+    </aside>
+  </section>
+</section>
