@@ -1,0 +1,344 @@
+<section class="blue-page">
+  <!-- CABECERA DEL CASO -->
+  <header class="case-top">
+    <a routerLink="/cases" class="back-link">← Volver a casos</a>
+
+    <div class="case-title-row">
+      <div class="case-icon-main">
+        <!-- Icono Blue Team: escudo + candado -->
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
+            <rect x="47" y="54" width="26" height="26" rx="4"></rect>
+            <path d="M52 54V44a8 8 0 0116 0v10"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span class="case-chip">Caso 02</span>
+        <h1>Blue Team Analyst</h1>
+        <p>
+          Analiza alertas y logs para detectar, contener y responder a amenazas
+          en un entorno simulado.
+        </p>
+      </div>
+    </div>
+
+    <button class="guide-button">▣ Ver guía del caso</button>
+  </header>
+
+  <!-- MÉTRICAS SUPERIORES -->
+  <section class="stats-grid">
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M32 6l22 9v17c0 15-9 25-22 31C19 57 10 47 10 32V15l22-9z"></path>
+          <path d="M32 22v18"></path>
+          <path d="M23 31h18"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Dificultad</span>
+        <div class="difficulty-dots">
+          <i></i><i></i><i></i><i class="empty"></i><i class="empty"></i>
+        </div>
+      </div>
+
+      <strong>Media</strong>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="22"></circle>
+          <path d="M32 18v15l10 7"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Tiempo estimado</span>
+        <strong>90 - 120 min</strong>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="progress-circle">40%</div>
+
+      <div>
+        <span>Estado del caso</span>
+        <strong class="blue-text">En progreso</strong>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M32 7l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 25l17-2 7-16z"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span>Puntos posibles</span>
+        <strong>300 pts</strong>
+      </div>
+    </article>
+  </section>
+
+  <!-- PESTAÑAS -->
+  <nav class="case-tabs">
+    <button class="active">
+      <span>▣</span>
+      Resumen
+    </button>
+
+    <button>
+      <span>⌘</span>
+      Fase a fase
+    </button>
+
+    <button>
+      <span>ⓘ</span>
+      Hallazgos
+    </button>
+
+    <button>
+      <span>▤</span>
+      Informe
+    </button>
+
+    <button>
+      <span>□</span>
+      Notas
+    </button>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <section class="content-grid">
+    <main class="main-column">
+      <!-- RESUMEN -->
+      <article class="panel investigation-summary">
+        <h2>Resumen de la investigación</h2>
+
+        <div class="summary-layout">
+          <div class="blue-visual">
+            <!-- Escudo + candado central -->
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+                <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
+                <rect x="47" y="54" width="26" height="26" rx="4"></rect>
+                <path d="M52 54V44a8 8 0 0116 0v10"></path>
+            </svg>
+          </div>
+
+          <div class="scenario-card">
+            <h3>Escenario</h3>
+
+            <p>
+              Se ha detectado actividad sospechosa en los sistemas corporativos.
+              Tu misión es analizar las alertas y los logs para identificar el
+              origen del ataque, contener la amenaza y proponer medidas de
+              mitigación.
+            </p>
+
+            <div class="scenario-grid">
+              <div>
+                <span class="mini-icon">
+                  <svg viewBox="0 0 64 64">
+                    <rect x="12" y="16" width="40" height="30" rx="4"></rect>
+                    <path d="M20 26h12M20 34h20"></path>
+                  </svg>
+                </span>
+                <div>
+                  <small>Entorno</small>
+                  <strong>Empresa ficticia</strong>
+                </div>
+              </div>
+
+              <div>
+                <span class="mini-icon">
+                  <svg viewBox="0 0 64 64">
+                    <circle cx="32" cy="22" r="10"></circle>
+                    <path d="M16 54c2-12 10-18 16-18s14 6 16 18"></path>
+                  </svg>
+                </span>
+                <div>
+                  <small>Rol</small>
+                  <strong>Analista Blue Team</strong>
+                </div>
+              </div>
+
+              <div>
+                <span class="mini-icon">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M12 16h40v32H12z"></path>
+                    <path d="M20 26h24M20 36h16"></path>
+                  </svg>
+                </span>
+                <div>
+                  <small>Sistemas</small>
+                  <strong>Windows Server, Linux, Firewall, SIEM</strong>
+                </div>
+              </div>
+
+              <div>
+                <span class="mini-icon">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M32 6l22 9v17c0 15-9 25-22 31C19 57 10 47 10 32V15l22-9z"></path>
+                    <path d="M24 34l6 6 12-16"></path>
+                  </svg>
+                </span>
+                <div>
+                  <small>Objetivo principal</small>
+                  <strong>Detectar, contener y responder al incidente</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h4>Información clave</h4>
+
+            <p><span>Alertas generadas</span><strong>15</strong></p>
+            <p><span>Logs disponibles</span><strong>8 fuentes</strong></p>
+            <p><span>Sistemas afectados</span><strong>3</strong></p>
+            <p><span>Usuarios implicados</span><strong>2</strong></p>
+            <p><span>IoCs identificados</span><strong>0 / 6</strong></p>
+            <p><span>Tiempo transcurrido</span><strong>00:36:24</strong></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- HALLAZGOS -->
+      <article class="panel">
+        <h2>Hallazgos detectados</h2>
+
+        <div class="findings-grid">
+          @for (item of findings; track item.label) {
+            <article class="finding-card" [class]="item.tone">
+              <div class="finding-icon">{{ item.icon }}</div>
+
+              <div>
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+                <small>{{ item.detail }}</small>
+              </div>
+            </article>
+          }
+        </div>
+      </article>
+
+      <!-- ACTIVIDAD -->
+      <article class="panel activity-panel">
+        <h2>Actividad reciente</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Actividad</th>
+              <th>Fuente</th>
+              <th>Severidad</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of activities; track item.time) {
+              <tr>
+                <td>{{ item.time }}</td>
+                <td>{{ item.activity }}</td>
+                <td>{{ item.source }}</td>
+                <td>
+                  <span class="severity-pill" [class]="item.severityTone">
+                    {{ item.severity }}
+                  </span>
+                </td>
+                <td>
+                  <span class="status-pill" [class]="item.statusTone">
+                    {{ item.status }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <button class="secondary-button">Ver toda la actividad →</button>
+      </article>
+    </main>
+
+    <!-- COLUMNA DERECHA -->
+    <aside class="side-column">
+      <!-- HERRAMIENTAS -->
+      <article class="panel">
+        <h2>Herramientas recomendadas</h2>
+        <p class="side-subtitle">
+          Accede a las herramientas que necesitas para este caso.
+        </p>
+
+        <div class="tools-list">
+          @for (tool of tools; track tool.name) {
+            <article class="tool-card">
+              <div class="tool-icon" [class]="tool.tone">{{ tool.icon }}</div>
+
+              <div>
+                <strong>{{ tool.name }}</strong>
+                <span>{{ tool.text }}</span>
+              </div>
+
+              <button>Abrir</button>
+              <a>↗</a>
+            </article>
+          }
+        </div>
+
+        <a class="all-tools">Ver todas las herramientas →</a>
+      </article>
+
+      <!-- NOTAS -->
+      <article class="panel notes-panel">
+        <header>
+          <h2>Notas de investigación</h2>
+          <button>＋ Nueva nota</button>
+        </header>
+
+        <nav class="notes-tabs">
+          <button class="active">Todas</button>
+          <button>Importantes</button>
+          <button>Recordatorios</button>
+        </nav>
+
+        <div class="note-list">
+          @for (note of notes; track note.time) {
+            <article class="note-card">
+              <span>Hoy, {{ note.time }}</span>
+              <strong [class]="note.tone">{{ note.tag }}</strong>
+              <p>{{ note.text }}</p>
+
+              <div>
+                <button>✎</button>
+                <button>🗑</button>
+              </div>
+            </article>
+          }
+        </div>
+
+        <a class="all-tools">Ver todas las notas →</a>
+      </article>
+
+      <!-- CTA -->
+      <article class="continue-card">
+        <div>
+          <h2>¿Listo para continuar?</h2>
+          <p>
+            Continúa con la siguiente fase para profundizar en el análisis.
+          </p>
+        </div>
+
+        <button>
+          <span>⌘</span>
+          Ir a Fase a fase →
+        </button>
+      </article>
+    </aside>
+  </section>
+</section>
