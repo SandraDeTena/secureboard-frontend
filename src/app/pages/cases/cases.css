@@ -440,4 +440,16 @@
   .learning-panel {
     grid-template-columns: 1fr;
   }
+
+  .case-button {
+  display: block;
+  width: 100%;
+  border: 1px solid currentColor;
+  border-radius: 0.7rem;
+  padding: 0.9rem 1rem;
+  color: currentColor;
+  text-align: center;
+  text-decoration: none;
+  background: transparent;
+}
 }

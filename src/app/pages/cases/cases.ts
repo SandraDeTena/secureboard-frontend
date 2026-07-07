@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 interface CaseCard {
   number: string;
@@ -10,11 +11,12 @@ interface CaseCard {
   tone: 'purple' | 'blue' | 'red' | 'orange' | 'green';
   icon: string;
   dots: number;
+  route: string,
 }
 
 @Component({
   selector: 'app-cases',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cases.html',
   styleUrl: './cases.css',
 })
@@ -31,6 +33,7 @@ export class Cases {
       tone: 'purple',
       icon: 'osint',
       dots: 4,
+      route: '/cases/osint',
     },
     {
       number: '02',
@@ -43,6 +46,7 @@ export class Cases {
       tone: 'blue',
       icon: 'blue',
       dots: 3,
+      route: '/cases/blue-team',
     },
     {
       number: '03',
@@ -55,6 +59,7 @@ export class Cases {
       tone: 'red',
       icon: 'red',
       dots: 4,
+      route: '/cases/red-team',
     },
     {
       number: '04',
@@ -67,6 +72,7 @@ export class Cases {
       tone: 'orange',
       icon: 'engineer',
       dots: 4,
+      route: '/cases/security-engineer',
     },
     {
       number: '05',
@@ -79,6 +85,7 @@ export class Cases {
       tone: 'green',
       icon: 'incident',
       dots: 4,
+      route: '/cases/incident-response',
     },
   ];
 }
