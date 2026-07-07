@@ -8,6 +8,7 @@ import { BlueTeamAnalyst } from './pages/blue-team-analyst/blue-team-analyst';
 import { RedTeamAssessment } from './pages/red-team-assessment/red-team-assessment';
 import { SecurityEngineer } from './pages/security-engineer/security-engineer';
 import { IncidentResponse } from './pages/incident-response/incident-response';
+import { Portfolio } from './pages/portfolio/portfolio';
 
 export const routes: Routes = [
   {
@@ -54,7 +55,12 @@ export const routes: Routes = [
         component: IncidentResponse,
         title: 'SecureBoard · Incident Response',
       },
-    ],
+      {
+        path: 'portfolio',
+        component: Portfolio,
+        title: 'SecureBoard · Mi Portfolio',
+      },
+          ],
   },
   {
     path: '**',
