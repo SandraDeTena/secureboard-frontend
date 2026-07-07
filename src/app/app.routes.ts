@@ -7,6 +7,7 @@ import { OsintInvestigation } from './pages/osint-investigation/osint-investigat
 import { BlueTeamAnalyst } from './pages/blue-team-analyst/blue-team-analyst';
 import { RedTeamAssessment } from './pages/red-team-assessment/red-team-assessment';
 import { SecurityEngineer } from './pages/security-engineer/security-engineer';
+import { IncidentResponse } from './pages/incident-response/incident-response';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,11 @@ export const routes: Routes = [
         path: 'cases/security-engineer',
         component: SecurityEngineer,
         title: 'SecureBoard · Security Engineer',
+      },
+      {
+        path: 'cases/incident-response',
+        component: IncidentResponse,
+        title: 'SecureBoard · Incident Response',
       },
     ],
   },
