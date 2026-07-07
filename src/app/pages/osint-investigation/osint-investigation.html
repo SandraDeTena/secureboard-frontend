@@ -1,0 +1,208 @@
+<section class="osint-page">
+  <header class="case-top">
+    <a routerLink="/cases" class="back-link">← Volver a casos</a>
+
+    <div class="case-title-row">
+      <div class="case-icon-main">
+        <svg viewBox="0 0 120 120">
+          <circle cx="54" cy="52" r="32"></circle>
+          <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
+          <circle cx="76" cy="74" r="18"></circle>
+          <path d="M89 87l17 17"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span class="case-chip">Caso 01</span>
+        <h1>OSINT Investigation</h1>
+        <p>Investiga un dominio y recopila información pública para identificar posibles riesgos.</p>
+      </div>
+    </div>
+
+    <button class="guide-button">▣ Ver guía del caso</button>
+  </header>
+
+  <section class="stats-grid">
+    <article class="stat-card">
+      <div class="stat-icon">⌘</div>
+      <div>
+        <span>Dificultad</span>
+        <div class="difficulty-dots">
+          <i></i><i></i><i></i><i></i><i class="empty"></i>
+        </div>
+      </div>
+      <strong>Fácil</strong>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon">◷</div>
+      <div>
+        <span>Tiempo estimado</span>
+        <strong>60 - 90 min</strong>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="progress-circle">35%</div>
+      <div>
+        <span>Estado del caso</span>
+        <strong class="purple-text">En progreso</strong>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon">☆</div>
+      <div>
+        <span>Puntos posibles</span>
+        <strong>250 pts</strong>
+      </div>
+    </article>
+  </section>
+
+  <nav class="case-tabs">
+    <button class="active">▣ Resumen</button>
+    <button>⌘ Fase a fase</button>
+    <button>ⓘ Hallazgos</button>
+    <button>▤ Informe</button>
+    <button>□ Notas</button>
+  </nav>
+
+  <section class="content-grid">
+    <main class="main-column">
+      <article class="panel investigation-summary">
+        <h2>Resumen de la investigación</h2>
+
+        <div class="summary-layout">
+          <div class="osint-visual">
+            <svg viewBox="0 0 120 120">
+              <circle cx="54" cy="52" r="32"></circle>
+              <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
+              <circle cx="76" cy="74" r="18"></circle>
+              <path d="M89 87l17 17"></path>
+            </svg>
+          </div>
+
+          <div class="domain-card">
+            <h3>neolandsecure.com ↗</h3>
+            <span class="active-domain">● Dominio activo</span>
+
+            <div class="domain-grid">
+              <div><small>IP Dirección</small><strong>104.21.16.1</strong></div>
+              <div><small>Servidor</small><strong>cloudflare</strong></div>
+              <div><small>País</small><strong>🇺🇸 Estados Unidos</strong></div>
+              <div><small>Fecha de registro</small><strong>2021-05-18</strong></div>
+              <div><small>Fecha de expiración</small><strong>2026-05-18</strong></div>
+              <div><small>Registrador</small><strong>GoDaddy.com, LLC</strong></div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h4>Información encontrada</h4>
+            <p><span>Subdominios</span><strong>12</strong></p>
+            <p><span>Registros DNS</span><strong>28</strong></p>
+            <p><span>Puertos abiertos</span><strong>7</strong></p>
+            <p><span>Tecnologías</span><strong>9</strong></p>
+            <p><span>Emails encontrados</span><strong>3</strong></p>
+            <p><span>Filtros de Google</span><strong>15</strong></p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Hallazgos principales</h2>
+
+        <div class="findings-grid">
+          @for (item of findings; track item.label) {
+            <article class="finding-card" [class]="item.tone">
+              <div class="finding-icon">{{ item.icon }}</div>
+              <div>
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+                <small>{{ item.detail }}</small>
+              </div>
+            </article>
+          }
+        </div>
+      </article>
+
+      <article class="panel activity-panel">
+        <h2>Actividad reciente</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Actividad</th>
+              <th>Fuente</th>
+              <th>Herramienta</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of activities; track item.time) {
+              <tr>
+                <td>{{ item.time }}</td>
+                <td>{{ item.action }}</td>
+                <td>{{ item.source }}</td>
+                <td><span class="tool-pill">{{ item.tool }}</span></td>
+                <td><span class="completed">Completado ✓</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <button class="secondary-button">Ver toda la actividad →</button>
+      </article>
+    </main>
+
+    <aside class="side-column">
+      <article class="panel">
+        <h2>Herramientas OSINT</h2>
+        <p class="side-subtitle">Accede a las herramientas que necesitas.</p>
+
+        <div class="tools-list">
+          @for (tool of tools; track tool.name) {
+            <article class="tool-card">
+              <div class="tool-icon" [class]="tool.tone">{{ tool.icon }}</div>
+              <div>
+                <strong>{{ tool.name }}</strong>
+                <span>{{ tool.text }}</span>
+              </div>
+              <button>Abrir</button>
+            </article>
+          }
+        </div>
+
+        <a class="all-tools">Ver todas las herramientas →</a>
+      </article>
+
+      <article class="panel notes-panel">
+        <header>
+          <h2>Notas rápidas</h2>
+          <button>＋ Nueva nota</button>
+        </header>
+
+        <div class="note-box">
+          <span>Hoy, 10:25</span>
+          <ul>
+            <li>Dominio protegido por Cloudflare</li>
+            <li>Se detectaron 12 subdominios activos</li>
+            <li>Puerto 443 y 80 abiertos</li>
+            <li>Tecnología: WordPress, Google Analytics</li>
+            <li>Posible panel de administración en /wp-admin</li>
+          </ul>
+          <button class="edit-note">✎</button>
+        </div>
+      </article>
+
+      <article class="continue-card">
+        <div>
+          <h2>¿Listo para continuar?</h2>
+          <p>Continúa con la siguiente fase para avanzar en tu investigación.</p>
+        </div>
+
+        <button>Ir a Fase a fase →</button>
+      </article>
+    </aside>
+  </section>
+</section>
