@@ -9,6 +9,7 @@ import { RedTeamAssessment } from './pages/red-team-assessment/red-team-assessme
 import { SecurityEngineer } from './pages/security-engineer/security-engineer';
 import { IncidentResponse } from './pages/incident-response/incident-response';
 import { Portfolio } from './pages/portfolio/portfolio';
+import { ProjectDetail } from './pages/project-detail/project-detail';
 
 export const routes: Routes = [
   {
@@ -59,6 +60,11 @@ export const routes: Routes = [
         path: 'portfolio',
         component: Portfolio,
         title: 'SecureBoard · Mi Portfolio',
+      },
+      {
+        path: 'portfolio/:slug',
+        component: ProjectDetail,
+        title: 'SecureBoard · Proyecto',
       },
           ],
   },

@@ -1,0 +1,145 @@
+<section class="project-detail-page">
+  @if (project) {
+    <a routerLink="/portfolio" class="back-link">← Volver a mi portfolio</a>
+
+    <header class="project-header">
+      <img class="project-cover-small" [src]="project.logo" [alt]="project.title" />
+
+      <div>
+        <span class="project-chip">{{ project.category }}</span>
+        <h1>{{ project.title }}</h1>
+        <p>{{ project.subtitle }}</p>
+
+        <div class="tags">
+          @for (tag of project.tags; track tag) {
+            <span>{{ tag }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="project-actions">
+        @if (project.github) {
+          <a [href]="project.github" target="_blank">GitHub</a>
+        }
+
+        @if (project.demo) {
+          <a [href]="project.demo" target="_blank">Ver demo ↗</a>
+        }
+
+        @if (project.behance) {
+          <a class="primary" [href]="project.behance" target="_blank">Ver proyecto en Behance</a>
+        }
+      </div>
+    </header>
+
+    <section class="hero-grid">
+      <article class="hero-preview">
+        <img [src]="project.hero" [alt]="project.title" />
+      </article>
+
+      <aside class="project-sidebar">
+        <article class="side-card">
+          <h2>Sobre el proyecto</h2>
+          <p>{{ project.about }}</p>
+
+          <ul>
+            @for (item of project.features; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </article>
+
+        <article class="side-card">
+          <h2>Resultados</h2>
+
+          <div class="results-grid">
+            @for (result of project.results; track result.label) {
+              <div>
+                <strong>{{ result.value }}</strong>
+                <span>{{ result.label }}</span>
+              </div>
+            }
+          </div>
+        </article>
+
+        <article class="side-card">
+          <h2>Enlaces del proyecto</h2>
+
+          <div class="project-links">
+            @if (project.demo) {
+              <a [href]="project.demo" target="_blank">Ver demo online ↗</a>
+            }
+
+            @if (project.github) {
+              <a [href]="project.github" target="_blank">Repositorio en GitHub ↗</a>
+            }
+
+            @if (project.behance) {
+              <a [href]="project.behance" target="_blank">Ver proyecto en Behance ↗</a>
+            }
+          </div>
+        </article>
+      </aside>
+    </section>
+
+    <nav class="detail-tabs">
+      <button class="active">Resumen</button>
+      <button>Características</button>
+      <button>Tecnologías</button>
+      <button>Galería</button>
+      <button>Reto y solución</button>
+      <button>Qué aprendí</button>
+    </nav>
+
+    <section class="detail-grid">
+      <article class="panel">
+        <h2>Descripción del proyecto</h2>
+        <p>{{ project.description }}</p>
+
+        <div class="meta-grid">
+          <div>
+            <span>Mi rol</span>
+            <strong>{{ project.role }}</strong>
+          </div>
+
+          <div>
+            <span>Fecha</span>
+            <strong>{{ project.date }}</strong>
+          </div>
+
+          <div>
+            <span>Duración</span>
+            <strong>{{ project.duration }}</strong>
+          </div>
+
+          <div>
+            <span>Tipo de proyecto</span>
+            <strong>{{ project.type }}</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Qué he hecho</h2>
+
+        <ul class="done-list">
+          @for (item of project.done; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </article>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Galería de capturas</h2>
+
+      <div class="gallery-grid">
+        @for (image of project.gallery; track image) {
+          <img [src]="image" [alt]="project.title" />
+        }
+      </div>
+
+      <button>Ver todas las capturas →</button>
+    </section>
+  }
+</section>
