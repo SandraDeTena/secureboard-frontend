@@ -78,3 +78,15 @@
   color: #a855f7;
   font-weight: 600;
 }
+/* Botón de Saber más de ¿Qué es SecureBoard? */
+.learn-more-link {
+  display: inline-flex;
+  margin-top: 1rem;
+  color: #a855f7;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.learn-more-link:hover {
+  color: #ff7a3d;
+}

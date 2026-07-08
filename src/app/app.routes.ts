@@ -10,6 +10,7 @@ import { SecurityEngineer } from './pages/security-engineer/security-engineer';
 import { IncidentResponse } from './pages/incident-response/incident-response';
 import { Portfolio } from './pages/portfolio/portfolio';
 import { ProjectDetail } from './pages/project-detail/project-detail';
+import { AboutSecureboard } from './pages/about-secureboard/about-secureboard';
 
 export const routes: Routes = [
   {
@@ -65,6 +66,11 @@ export const routes: Routes = [
         path: 'portfolio/:slug',
         component: ProjectDetail,
         title: 'SecureBoard · Proyecto',
+      },
+      {
+        path: 'about-secureboard',
+        component: AboutSecureboard,
+        title: 'SecureBoard · Qué es',
       },
           ],
   },
