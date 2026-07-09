@@ -15,7 +15,7 @@ export class Portfolio {
       title: 'SayTattoo',
       type: 'Personal',
       tone: 'purple',
-      image: '/images/portfolio/saytattoo.jpg',
+      image: '/images/portfolio/Say_Tattoo!.png',
       description: 'Plataforma para portfolios de tatuadores y descubrimiento de estudios.',
       tags: ['Angular', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS'],
       github: 'https://github.com/SandraDeTena/Say_Tattoo-_ProyectoFullStack',
