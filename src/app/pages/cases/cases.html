@@ -1,88 +1,247 @@
 <section class="cases-page">
+  <!-- ======================================================
+       CABECERA
+       ====================================================== -->
+
   <header class="cases-header">
-    <div>
+    <div class="cases-heading">
       <h1>Casos Prácticos</h1>
-      <p>Elige un escenario y demuestra tus habilidades en ciberseguridad.</p>
+
+      <p>
+        Elige un escenario y demuestra tus habilidades en ciberseguridad.
+      </p>
     </div>
 
-    <div class="cases-actions">
-      <label class="case-search">
-        <span>⌕</span>
-        <input type="text" placeholder="Buscar casos..." />
-      </label>
-    </div>
+    <label class="case-search">
+      <span aria-hidden="true">⌕</span>
+
+      <input
+        type="search"
+        placeholder="Buscar casos..."
+        aria-label="Buscar casos prácticos"
+        [value]="searchTerm"
+        (input)="setSearch($any($event.target).value)"
+      />
+    </label>
   </header>
 
-  <nav class="tabs-bar">
-    <button class="active">Todos los casos</button>
-    <button>No iniciados <span>5</span></button>
-    <button>En progreso <span>0</span></button>
-    <button>Completados <span>0</span></button>
+  <!-- ======================================================
+       PESTAÑAS, FILTROS Y VISTAS
+       ====================================================== -->
 
-    <div class="filters">
-      <label>
-        Filtrar por dificultad
-        <select>
-          <option>Todas</option>
+  <section class="cases-toolbar">
+    <nav class="case-status-tabs" aria-label="Estado de los casos">
+      <button
+        type="button"
+        [class.active]="selectedTab === 'all'"
+        (click)="setTab('all')"
+      >
+        Todos los casos
+      </button>
+
+      <button
+        type="button"
+        [class.active]="selectedTab === 'not-started'"
+        (click)="setTab('not-started')"
+      >
+        No iniciados
+
+        <span>{{ notStartedCount }}</span>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="selectedTab === 'in-progress'"
+        (click)="setTab('in-progress')"
+      >
+        En progreso
+
+        <span>{{ inProgressCount }}</span>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="selectedTab === 'completed'"
+        (click)="setTab('completed')"
+      >
+        Completados
+
+        <span>{{ completedCount }}</span>
+      </button>
+    </nav>
+
+    <div class="cases-controls">
+      <label class="cases-select-control">
+        <span>Filtrar por dificultad</span>
+
+        <select
+          [value]="selectedDifficulty"
+          (change)="setDifficulty($any($event.target).value)"
+        >
+          <option value="Todas">Todas</option>
+          <option value="Fácil">Fácil</option>
+          <option value="Media">Media</option>
+          <option value="Difícil">Difícil</option>
         </select>
       </label>
 
-      <label>
-        Ordenar por
-        <select>
-          <option>Recomendados</option>
+      <label class="cases-select-control">
+        <span>Ordenar por</span>
+
+        <select
+          [value]="selectedOrder"
+          (change)="setOrder($any($event.target).value)"
+        >
+          <option value="Recomendados">Recomendados</option>
+          <option value="Nombre A-Z">Nombre A-Z</option>
+          <option value="Más fáciles">Más fáciles</option>
+          <option value="Más difíciles">Más difíciles</option>
+          <option value="Menor duración">Menor duración</option>
+          <option value="Mayor duración">Mayor duración</option>
         </select>
       </label>
 
-      <button class="view active">▦</button>
-      <button class="view">☷</button>
+      <div
+        class="cases-view-switcher"
+        aria-label="Cambiar visualización de los casos"
+      >
+        <button
+          type="button"
+          [class.active]="viewMode === 'grid'"
+          (click)="setViewMode('grid')"
+          aria-label="Vista en cuadrícula"
+          title="Vista en cuadrícula"
+        >
+          ▦
+        </button>
+
+        <button
+          type="button"
+          [class.active]="viewMode === 'list'"
+          (click)="setViewMode('list')"
+          aria-label="Vista en lista"
+          title="Vista en lista"
+        >
+          ☷
+        </button>
+      </div>
     </div>
-  </nav>
+  </section>
 
-  <section class="case-grid">
-    @for (caseItem of cases; track caseItem.number) {
-      <article class="case-card" [class]="caseItem.tone">
-        <div class="case-number">{{ caseItem.number }}</div>
+  <!-- ======================================================
+       CASOS
+       ====================================================== -->
+
+  <section
+    class="case-grid"
+    [class.list-view]="viewMode === 'list'"
+  >
+    @for (caseItem of filteredCases; track caseItem.number) {
+      <article
+        class="case-card"
+        [class]="caseItem.tone"
+      >
+        <div class="case-number">
+          {{ caseItem.number }}
+        </div>
 
         <div class="case-icon">
           @switch (caseItem.icon) {
             @case ('osint') {
-              <svg viewBox="0 0 120 120">
+              <svg
+                viewBox="0 0 120 120"
+                role="img"
+                aria-label="Investigación OSINT"
+              >
                 <circle cx="54" cy="52" r="32"></circle>
-                <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
+
+                <path
+                  d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"
+                ></path>
+
                 <circle cx="76" cy="74" r="18"></circle>
+
                 <path d="M89 87l17 17"></path>
               </svg>
             }
 
             @case ('blue') {
-              <svg viewBox="0 0 120 120">
-                <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
-                <rect x="47" y="54" width="26" height="26" rx="4"></rect>
+              <svg
+                viewBox="0 0 120 120"
+                role="img"
+                aria-label="Blue Team Analyst"
+              >
+                <path
+                  d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"
+                ></path>
+
+                <rect
+                  x="47"
+                  y="54"
+                  width="26"
+                  height="26"
+                  rx="4"
+                ></rect>
+
                 <path d="M52 54V44a8 8 0 0116 0v10"></path>
               </svg>
             }
 
             @case ('red') {
-              <svg viewBox="0 0 120 120">
+              <svg
+                viewBox="0 0 120 120"
+                role="img"
+                aria-label="Red Team Assessment"
+              >
                 <circle cx="60" cy="60" r="34"></circle>
                 <circle cx="60" cy="60" r="8"></circle>
-                <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
-                <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
+
+                <path
+                  d="M60 12v25M60 83v25M12 60h25M83 60h25"
+                ></path>
+
+                <path
+                  d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"
+                ></path>
               </svg>
             }
 
             @case ('engineer') {
-              <svg viewBox="0 0 120 120">
-                <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
-                <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+              <svg
+                viewBox="0 0 120 120"
+                role="img"
+                aria-label="Security Engineer"
+              >
+                <path
+                  d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"
+                ></path>
+
+                <rect
+                  x="46"
+                  y="55"
+                  width="28"
+                  height="26"
+                  rx="4"
+                ></rect>
+
                 <path d="M51 55V45a9 9 0 0118 0v10"></path>
               </svg>
             }
 
             @case ('incident') {
-              <svg viewBox="0 0 120 120">
-                <rect x="24" y="26" width="72" height="52" rx="5"></rect>
+              <svg
+                viewBox="0 0 120 120"
+                role="img"
+                aria-label="Incident Response"
+              >
+                <rect
+                  x="24"
+                  y="26"
+                  width="72"
+                  height="52"
+                  rx="5"
+                ></rect>
+
                 <path d="M24 68h72"></path>
                 <path d="M50 92h20M42 102h36"></path>
                 <path d="M54 78l-5 14M66 78l5 14"></path>
@@ -90,6 +249,7 @@
                 <circle cx="60" cy="48" r="14"></circle>
                 <circle cx="54" cy="46" r="2.5"></circle>
                 <circle cx="66" cy="46" r="2.5"></circle>
+
                 <path d="M60 52l-3 5h6l-3-5z"></path>
                 <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
               </svg>
@@ -97,16 +257,21 @@
           }
         </div>
 
-        <h2>{{ caseItem.title }}</h2>
-        <p class="description">{{ caseItem.description }}</p>
+        <div class="case-main-info">
+          <h2>{{ caseItem.title }}</h2>
+
+          <p class="description">
+            {{ caseItem.description }}
+          </p>
+        </div>
 
         <div class="divider"></div>
 
         <div class="difficulty-row">
           <span>Dificultad</span>
 
-          <div class="dots">
-            @for (dot of [1,2,3,4,5]; track dot) {
+          <div class="dots" aria-hidden="true">
+            @for (dot of [1, 2, 3, 4, 5]; track dot) {
               <i [class.filled]="dot <= caseItem.dots"></i>
             }
           </div>
@@ -115,82 +280,158 @@
         </div>
 
         <div class="time-row">
-          <span>◷</span>
+          <span aria-hidden="true">◷</span>
+
           <p>Tiempo estimado</p>
+
           <strong>{{ caseItem.time }}</strong>
         </div>
 
         <div class="progress-row">
           <span>{{ caseItem.progress }}%</span>
+
           <div>
             <i [style.width.%]="caseItem.progress"></i>
           </div>
         </div>
 
-        <a class="case-button" [routerLink]="caseItem.route">
-          Ver caso →
+        <a
+          class="case-button"
+          [routerLink]="caseItem.route"
+        >
+          Ver caso
+          <span aria-hidden="true">→</span>
         </a>
+      </article>
+    } @empty {
+      <article class="empty-cases">
+        <div class="empty-icon">⌕</div>
+
+        <h2>No se han encontrado casos</h2>
+
+        <p>
+          Prueba con otra búsqueda, dificultad o estado.
+        </p>
+
+        <button
+          type="button"
+          (click)="resetFilters()"
+        >
+          Mostrar todos los casos
+        </button>
       </article>
     }
   </section>
 
-    <section class="learning-panel">
-    <div class="learning-main">
-        <div class="learning-icon">
-        <svg viewBox="0 0 64 64">
-            <circle cx="32" cy="32" r="11"></circle>
-            <circle cx="32" cy="32" r="24"></circle>
-            <path d="M32 4v10M32 50v10M4 32h10M50 32h10"></path>
-            <path d="M14 14l7 7M43 43l7 7M50 14l-7 7M21 43l-7 7"></path>
-        </svg>
-        </div>
+  <!-- ======================================================
+       PANEL INFERIOR
+       ====================================================== -->
 
-        <div>
+  <section class="learning-panel">
+    <div class="learning-main">
+      <div class="learning-icon">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="11"></circle>
+          <circle cx="32" cy="32" r="24"></circle>
+
+          <path
+            d="M32 4v10M32 50v10M4 32h10M50 32h10"
+          ></path>
+
+          <path
+            d="M14 14l7 7M43 43l7 7M50 14l-7 7M21 43l-7 7"
+          ></path>
+        </svg>
+      </div>
+
+      <div>
         <h2>Aprende practicando</h2>
+
         <p>
-            Cada caso está diseñado para simular situaciones reales del mundo
-            empresarial. Al completarlos, mejorarás tus habilidades y construirás
-            tu portfolio profesional.
+          Cada caso está diseñado para simular situaciones reales del mundo
+          empresarial. Al completarlos, mejorarás tus habilidades y construirás
+          tu portfolio profesional.
         </p>
-        </div>
+      </div>
     </div>
 
     <article>
-        <div class="mini-icon purple-blue">
-        <svg viewBox="0 0 64 64">
-            <rect x="14" y="14" width="36" height="36" rx="4"></rect>
-            <path d="M22 31l7 7 14-17"></path>
-            <circle cx="46" cy="46" r="8"></circle>
-            <path d="M46 41v5l4 3"></path>
+      <div class="mini-icon purple-blue">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect
+            x="14"
+            y="14"
+            width="36"
+            height="36"
+            rx="4"
+          ></rect>
+
+          <path d="M22 31l7 7 14-17"></path>
+
+          <circle cx="46" cy="46" r="8"></circle>
+
+          <path d="M46 41v5l4 3"></path>
         </svg>
-        </div>
-        <h3>Escenarios reales</h3>
-        <p>Casos basados en incidentes y amenazas actuales.</p>
+      </div>
+
+      <h3>Escenarios reales</h3>
+
+      <p>
+        Casos basados en incidentes y amenazas actuales.
+      </p>
     </article>
 
     <article>
-        <div class="mini-icon orange">
-        <svg viewBox="0 0 64 64">
-            <path d="M12 50h40"></path>
-            <rect x="16" y="34" width="7" height="16"></rect>
-            <rect x="29" y="24" width="7" height="26"></rect>
-            <rect x="42" y="14" width="7" height="36"></rect>
+      <div class="mini-icon orange">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M12 50h40"></path>
+
+          <rect
+            x="16"
+            y="34"
+            width="7"
+            height="16"
+          ></rect>
+
+          <rect
+            x="29"
+            y="24"
+            width="7"
+            height="26"
+          ></rect>
+
+          <rect
+            x="42"
+            y="14"
+            width="7"
+            height="36"
+          ></rect>
         </svg>
-        </div>
-        <h3>Evaluación y feedback</h3>
-        <p>Recibe una puntuación y recomendaciones al finalizar.</p>
+      </div>
+
+      <h3>Evaluación y feedback</h3>
+
+      <p>
+        Recibe una puntuación y recomendaciones al finalizar.
+      </p>
     </article>
 
     <article>
-        <div class="mini-icon red">
-        <svg viewBox="0 0 64 64">
-            <circle cx="32" cy="24" r="14"></circle>
-            <path d="M24 38l-5 18 13-7 13 7-5-18"></path>
-            <path d="M25 24l5 5 10-11"></path>
+      <div class="mini-icon red">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="24" r="14"></circle>
+
+          <path d="M24 38l-5 18 13-7 13 7-5-18"></path>
+
+          <path d="M25 24l5 5 10-11"></path>
         </svg>
-        </div>
-        <h3>Certifica tu progreso</h3>
-        <p>Demuestra tu conocimiento y destaca tu perfil.</p>
+      </div>
+
+      <h3>Certifica tu progreso</h3>
+
+      <p>
+        Demuestra tu conocimiento y destaca tu perfil.
+      </p>
     </article>
-    </section>
+  </section>
 </section>

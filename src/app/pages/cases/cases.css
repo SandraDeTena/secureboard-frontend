@@ -1,24 +1,40 @@
-.cases-page {
-  display: grid;
-  gap: 2rem;
+:host {
+  display: block;
+  width: 100%;
 }
 
-/* HEADER */
+/* =========================================================
+   PÁGINA
+   ========================================================= */
+
+.cases-page {
+  display: grid;
+  gap: 1.75rem;
+  width: 100%;
+  color: #f8fafc;
+}
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
 
 .cases-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
 }
 
-.cases-header h1 {
+.cases-heading h1 {
   margin: 0;
-  font-size: 2rem;
   font-family: var(--font-body);
+  font-size: 2rem;
+  font-weight: 500;
 }
 
-.cases-header p {
-  margin: 0.4rem 0 0;
+.cases-heading p {
+  margin: 0.45rem 0 0;
   color: #cbd5e1;
   font-size: 1rem;
 }
@@ -27,11 +43,21 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  width: 18rem;
+  width: 19rem;
+  min-height: 3rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 0.85rem;
-  padding: 0.9rem 1rem;
+  padding: 0 1rem;
+  color: #94a3b8;
   background: rgba(17, 24, 39, 0.58);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.case-search:focus-within {
+  border-color: rgba(168, 85, 247, 0.78);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
 }
 
 .case-search input {
@@ -39,109 +65,219 @@
   border: 0;
   outline: 0;
   color: #f8fafc;
+  font: inherit;
   background: transparent;
 }
 
-/* TABS */
+.case-search input::placeholder {
+  color: #94a3b8;
+}
 
-.tabs-bar {
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.cases-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   PESTAÑAS DE ESTADO
+   ========================================================= */
+
+.case-status-tabs {
   display: flex;
   align-items: center;
-  gap: 2.4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.tabs-bar button {
-  border: 0;
+.case-status-tabs button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.8rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.7rem;
+  padding: 0.65rem 1rem;
   color: #cbd5e1;
-  background: transparent;
-  font-size: 0.95rem;
+  font: inherit;
+  white-space: nowrap;
+  background: rgba(15, 23, 42, 0.65);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.case-status-tabs button:hover {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.58);
+  transform: translateY(-1px);
+}
+
+.case-status-tabs button.active {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.85);
+  background: rgba(168, 85, 247, 0.16);
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.09);
+}
+
+.case-status-tabs button span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  padding: 0 0.35rem;
+  color: #e2e8f0;
+  font-size: 0.72rem;
+  line-height: 1;
+  background: rgba(148, 163, 184, 0.17);
+}
+
+.case-status-tabs button.active span {
+  color: #f3e8ff;
+  background: rgba(168, 85, 247, 0.28);
+}
+
+/* =========================================================
+   FILTROS Y VISTAS
+   ========================================================= */
+
+.cases-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.cases-select-control {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.cases-select-control select {
+  height: 2.8rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.7rem;
+  padding: 0 2.2rem 0 0.85rem;
+  color: #f8fafc;
+  font: inherit;
+  outline: 0;
+  background: #0f172a;
   cursor: pointer;
 }
 
-.tabs-bar button.active {
-  position: relative;
-  color: #a855f7;
+.cases-select-control:first-child select {
+  min-width: 7.25rem;
 }
 
-.tabs-bar button.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1.05rem;
-  height: 2px;
-  background: #a855f7;
+.cases-select-control:nth-child(2) select {
+  min-width: 10.5rem;
 }
 
-.tabs-bar button span {
-  display: inline-grid;
-  place-items: center;
-  width: 1.45rem;
-  height: 1.45rem;
-  margin-left: 0.4rem;
-  border-radius: 999px;
-  background: rgba(148, 163, 184, 0.16);
+.cases-select-control select:hover,
+.cases-select-control select:focus {
+  border-color: rgba(168, 85, 247, 0.72);
+}
+
+.cases-select-control select option {
   color: #f8fafc;
-  font-size: 0.75rem;
+  background: #0f172a;
 }
 
-.filters {
+/* Los dos botones quedan siempre uno al lado del otro */
+
+.cases-view-switcher {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 1.2rem;
-  margin-left: auto;
+  gap: 0.55rem;
+  flex-shrink: 0;
 }
 
-.filters label {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: #cbd5e1;
-  font-size: 0.85rem;
-}
-
-.filters select {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0.7rem;
-  padding: 0.65rem 0.9rem;
-  color: #f8fafc;
-  background: #0b1020;
-}
-
-.view {
+.cases-view-switcher button {
   display: grid;
   place-items: center;
-  width: 2.9rem;
-  height: 2.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  width: 2.8rem;
+  min-width: 2.8rem;
+  height: 2.8rem;
+  margin: 0;
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 0.7rem;
+  padding: 0;
+  color: #94a3b8;
+  font-size: 1.05rem;
+  line-height: 1;
+  background: rgba(15, 23, 42, 0.74);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
 }
 
-.view.active {
-  border-color: #a855f7 !important;
-  color: #a855f7 !important;
-  background: rgba(168, 85, 247, 0.12) !important;
+.cases-view-switcher button:hover {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.58);
+  transform: translateY(-1px);
 }
 
-/* CASE CARDS */
+.cases-view-switcher button.active {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.85);
+  background: rgba(168, 85, 247, 0.17);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.11);
+}
+
+/* =========================================================
+   CUADRÍCULA
+   ========================================================= */
 
 .case-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1.15rem;
+  width: 100%;
 }
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
 
 .case-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  min-width: 0;
   min-height: 34.5rem;
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 1rem;
   padding: 1.25rem;
   background:
-    radial-gradient(circle at 50% 18%, rgba(168, 85, 247, 0.12), transparent 32%),
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(168, 85, 247, 0.12),
+      transparent 32%
+    ),
     rgba(17, 24, 39, 0.56);
   transition:
     transform 180ms ease,
@@ -153,11 +289,50 @@
   transform: translateY(-5px);
 }
 
-.case-card.purple:hover { border-color: #a855f7; box-shadow: 0 0 32px rgba(168, 85, 247, 0.2); }
-.case-card.blue:hover { border-color: #3b82f6; box-shadow: 0 0 32px rgba(59, 130, 246, 0.18); }
-.case-card.red:hover { border-color: #ef4444; box-shadow: 0 0 32px rgba(239, 68, 68, 0.18); }
-.case-card.orange:hover { border-color: #f97316; box-shadow: 0 0 32px rgba(249, 115, 22, 0.18); }
-.case-card.green:hover { border-color: #22c55e; box-shadow: 0 0 32px rgba(34, 197, 94, 0.18); }
+.case-card.purple {
+  color: #a855f7;
+}
+
+.case-card.blue {
+  color: #3b82f6;
+}
+
+.case-card.red {
+  color: #ef4444;
+}
+
+.case-card.orange {
+  color: #f97316;
+}
+
+.case-card.green {
+  color: #22c55e;
+}
+
+.case-card.purple:hover {
+  border-color: #a855f7;
+  box-shadow: 0 0 32px rgba(168, 85, 247, 0.2);
+}
+
+.case-card.blue:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 0 32px rgba(59, 130, 246, 0.18);
+}
+
+.case-card.red:hover {
+  border-color: #ef4444;
+  box-shadow: 0 0 32px rgba(239, 68, 68, 0.18);
+}
+
+.case-card.orange:hover {
+  border-color: #f97316;
+  box-shadow: 0 0 32px rgba(249, 115, 22, 0.18);
+}
+
+.case-card.green:hover {
+  border-color: #22c55e;
+  box-shadow: 0 0 32px rgba(34, 197, 94, 0.18);
+}
 
 .case-number {
   display: grid;
@@ -169,12 +344,6 @@
   font-family: var(--font-display);
   font-size: 1.2rem;
 }
-
-.case-card.purple { color: #a855f7; }
-.case-card.blue { color: #3b82f6; }
-.case-card.red { color: #ef4444; }
-.case-card.orange { color: #f97316; }
-.case-card.green { color: #22c55e; }
 
 .case-icon {
   display: grid;
@@ -195,7 +364,7 @@
   opacity: 0.92;
 }
 
-.case-card h2 {
+.case-main-info h2 {
   margin: 1.4rem 0 1rem;
   color: #f8fafc;
   font-size: 1.25rem;
@@ -263,7 +432,8 @@
 }
 
 .progress-row {
-  margin-top: 1.4rem;
+  margin-top: auto;
+  padding-top: 1.4rem;
 }
 
 .progress-row > span {
@@ -295,11 +465,170 @@
   border-radius: 0.7rem;
   padding: 0.85rem;
   color: currentColor;
+  text-align: center;
+  text-decoration: none;
   background: transparent;
   font-weight: 600;
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease;
 }
 
-/* PANEL INFERIOR */
+.case-button:hover {
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.04);
+}
+
+/* =========================================================
+   VISTA EN LISTA
+   ========================================================= */
+
+.case-grid.list-view {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.case-grid.list-view .case-card {
+  display: grid;
+  grid-template-columns:
+    4rem
+    7rem
+    minmax(250px, 1.6fr)
+    minmax(160px, 0.75fr)
+    minmax(150px, 0.65fr)
+    minmax(180px, 0.8fr);
+  grid-template-rows: auto auto;
+  column-gap: 1.35rem;
+  row-gap: 0.35rem;
+  align-items: center;
+  min-height: 11rem;
+  padding: 1.25rem 1.4rem;
+}
+
+.case-grid.list-view .case-number {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: start;
+}
+
+.case-grid.list-view .case-icon {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  width: 6.5rem;
+  height: 6.5rem;
+  margin: 0;
+}
+
+.case-grid.list-view .case-icon svg {
+  width: 5.6rem;
+  height: 5.6rem;
+}
+
+.case-grid.list-view .case-main-info {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+.case-grid.list-view .case-main-info h2 {
+  margin: 0 0 0.7rem;
+}
+
+.case-grid.list-view .description {
+  min-height: 0;
+}
+
+.case-grid.list-view .divider {
+  display: none;
+}
+
+.case-grid.list-view .difficulty-row {
+  grid-column: 4;
+  grid-row: 1 / 3;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.case-grid.list-view .difficulty-row strong {
+  margin: 0;
+}
+
+.case-grid.list-view .time-row {
+  grid-column: 5;
+  grid-row: 1 / 3;
+  margin: 0;
+}
+
+.case-grid.list-view .progress-row {
+  grid-column: 6;
+  grid-row: 1;
+  align-self: end;
+  margin: 0;
+  padding: 0;
+}
+
+.case-grid.list-view .case-button {
+  grid-column: 6;
+  grid-row: 2;
+  align-self: start;
+  margin: 0;
+}
+
+/* =========================================================
+   SIN RESULTADOS
+   ========================================================= */
+
+.empty-cases {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  min-height: 18rem;
+  border: 1px dashed rgba(168, 85, 247, 0.38);
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(168, 85, 247, 0.1),
+      transparent 55%
+    ),
+    rgba(15, 23, 42, 0.5);
+}
+
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  color: #a855f7;
+  font-size: 2rem;
+  background: rgba(168, 85, 247, 0.14);
+}
+
+.empty-cases h2 {
+  margin: 1rem 0 0;
+}
+
+.empty-cases p {
+  margin: 0.5rem 0 1.2rem;
+  color: #94a3b8;
+}
+
+.empty-cases button {
+  border: 1px solid rgba(168, 85, 247, 0.65);
+  border-radius: 0.7rem;
+  padding: 0.8rem 1.1rem;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.1);
+  cursor: pointer;
+}
+
+/* =========================================================
+   PANEL INFERIOR
+   ========================================================= */
 
 .learning-panel {
   display: grid;
@@ -412,11 +741,70 @@
   box-shadow: 0 0 22px rgba(239, 68, 68, 0.14);
 }
 
-/* RESPONSIVE */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
-@media (max-width: 1500px) {
+@media (max-width: 1550px) {
+  .cases-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cases-controls {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
   .case-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .case-grid.list-view .case-card {
+    grid-template-columns:
+      4rem
+      6rem
+      minmax(230px, 1fr)
+      minmax(160px, 0.7fr);
+  }
+
+  .case-grid.list-view .case-number {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .case-grid.list-view .case-icon {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .case-grid.list-view .case-main-info {
+    grid-column: 3;
+    grid-row: 1 / 3;
+  }
+
+  .case-grid.list-view .difficulty-row {
+    grid-column: 4;
+    grid-row: 1 / 3;
+  }
+
+  .case-grid.list-view .time-row {
+    grid-column: 3;
+    grid-row: 3;
+    margin-top: 1rem;
+  }
+
+  .case-grid.list-view .progress-row {
+    grid-column: 4;
+    grid-row: 3;
+    align-self: center;
+  }
+
+  .case-grid.list-view .case-button {
+    grid-column: 3 / 5;
+    grid-row: 4;
+    margin-top: 0.75rem;
   }
 
   .learning-panel {
@@ -424,16 +812,85 @@
   }
 }
 
-@media (max-width: 900px) {
-  .cases-header,
-  .tabs-bar,
-  .filters {
-    align-items: flex-start;
+@media (max-width: 1050px) {
+  .cases-header {
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .filters {
-    margin-left: 0;
+  .case-search {
+    width: 100%;
+  }
+
+  .case-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-grid.list-view .case-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .case-grid.list-view .case-number {
+    align-self: flex-start;
+  }
+
+  .case-grid.list-view .case-icon {
+    align-self: center;
+  }
+
+  .case-grid.list-view .case-main-info h2 {
+    margin-top: 1rem;
+  }
+
+  .case-grid.list-view .difficulty-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .case-grid.list-view .time-row {
+    margin-top: 1.5rem;
+  }
+
+  .case-grid.list-view .progress-row {
+    margin-top: auto;
+    padding-top: 1.4rem;
+  }
+
+  .case-grid.list-view .case-button {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .case-status-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .case-status-tabs button {
+    width: 100%;
+  }
+
+  .cases-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cases-select-control {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cases-select-control select {
+    width: 100%;
+  }
+
+  .cases-view-switcher {
+    align-self: flex-start;
   }
 
   .case-grid,
@@ -441,15 +898,21 @@
     grid-template-columns: 1fr;
   }
 
-  .case-button {
-  display: block;
-  width: 100%;
-  border: 1px solid currentColor;
-  border-radius: 0.7rem;
-  padding: 0.9rem 1rem;
-  color: currentColor;
-  text-align: center;
-  text-decoration: none;
-  background: transparent;
+  .learning-panel article {
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    border-left: 0;
+    padding-top: 1.5rem;
+    padding-left: 0;
+  }
 }
+
+@media (max-width: 480px) {
+  .case-status-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-main {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
