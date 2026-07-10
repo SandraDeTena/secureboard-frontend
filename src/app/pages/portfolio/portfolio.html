@@ -14,7 +14,13 @@
     </div>
 
     <div class="header-actions">
-      <input type="text" placeholder="Buscar en mi portfolio..." />
+      <input
+        type="search"
+        placeholder="Buscar en mi portfolio..."
+        aria-label="Buscar proyectos en mi portfolio"
+        [value]="searchTerm"
+        (input)="onSearch($any($event.target).value)"
+      />
 
       <div class="social-links">
         <a href="https://github.com/SandraDeTena" target="_blank">GitHub</a>
@@ -25,8 +31,14 @@
   </header>
 
   <nav class="filters">
-    @for (filter of filters; track filter) {
-      <button [class.active]="filter === 'Todos'">{{ filter }}</button>
+      @for (filter of filters; track filter) {
+        <button
+          type="button"
+          [class.active]="selectedFilter === filter"
+          (click)="setFilter(filter)"
+        >
+          {{ filter }}
+        </button>
     }
   </nav>
 
@@ -34,7 +46,7 @@
     <h2>Proyectos de Desarrollo Front-End</h2>
 
     <div class="projects-grid frontend-grid">
-      @for (project of frontendProjects; track project.title) {
+      @for (project of filteredFrontendProjects; track project.title) {
         <article class="project-card" [class]="project.tone">
           <div class="project-image">
             <img [src]="project.image" [alt]="project.title" />
@@ -77,7 +89,7 @@
     <h2>Proyectos de Diseño Gráfico y Branding</h2>
 
     <div class="projects-grid design-grid">
-      @for (project of designProjects; track project.title) {
+      @for (project of filteredDesignProjects; track project.title) {
         <article class="project-card" [class]="project.tone">
           <div class="project-image">
             <img [src]="project.image" [alt]="project.title" />
