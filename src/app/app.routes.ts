@@ -11,6 +11,7 @@ import { IncidentResponse } from './pages/incident-response/incident-response';
 import { Portfolio } from './pages/portfolio/portfolio';
 import { ProjectDetail } from './pages/project-detail/project-detail';
 import { AboutSecureboard } from './pages/about-secureboard/about-secureboard';
+import { Certifications } from './pages/certifications/certifications';
 
 export const routes: Routes = [
   {
@@ -71,6 +72,11 @@ export const routes: Routes = [
         path: 'about-secureboard',
         component: AboutSecureboard,
         title: 'SecureBoard · Qué es',
+      },
+      {
+        path: 'certifications',
+        component: Certifications,
+        title: 'SecureBoard · Certificaciones',
       },
           ],
   },
