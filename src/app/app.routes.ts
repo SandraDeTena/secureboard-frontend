@@ -78,7 +78,7 @@ export const routes: Routes = [
         component: Certifications,
         title: 'SecureBoard · Certificaciones',
       },
-          ],
+    ],
   },
   {
     path: '**',

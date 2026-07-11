@@ -6,8 +6,8 @@
       <span>Portfolio profesional</span>
       <h1>Certificaciones y formación</h1>
       <p>
-        Selección de formación oficial, certificaciones y aprendizajes relevantes
-        para mi perfil Front-End, UI/UX, IA y ciberseguridad.
+        Selección de formación oficial, certificaciones y aprendizajes relevantes para mi perfil
+        Front-End, UI/UX, IA y ciberseguridad.
       </p>
     </div>
   </header>
@@ -31,14 +31,14 @@
 
   <nav class="filters">
     @for (filter of filters; track filter) {
-      <button
-            type="button"
-            [class.active]="selectedFilter === filter"
-            (click)="setFilter(filter)"
-            >
-            {{ filter }}
-      </button>
-            }
+    <button
+      type="button"
+      [class.active]="selectedFilter === filter"
+      (click)="setFilter(filter)"
+    >
+      {{ filter }}
+    </button>
+    }
   </nav>
 
   <section class="section-block">
@@ -46,32 +46,36 @@
 
     <div class="cards-grid official-grid">
       @for (item of filteredOfficialEducation; track item.title) {
-        <article class="education-card" [class]="item.tone">
-          <div class="card-top">
-            <div class="logo-box">
-                <img [src]="item.logo" [alt]="item.center" />
-            </div>
-
-            <div>
-              <span class="status-badge">{{ item.status }}</span>
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.center }}</p>
-              <small>{{ item.year }}</small>
-            </div>
+      <article
+        class="education-card"
+        [class]="item.tone"
+      >
+        <div class="card-top">
+          <div class="logo-box">
+            <img
+              [src]="item.logo"
+              [alt]="item.center"
+            />
           </div>
 
-          @if (item.credential) {
-            <div class="credential">
-                📄 {{ item.credential }}
-            </div>
+          <div>
+            <span class="status-badge">{{ item.status }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.center }}</p>
+            <small>{{ item.year }}</small>
+          </div>
+        </div>
+
+        @if (item.credential) {
+        <div class="credential">📄 {{ item.credential }}</div>
+        }
+
+        <div class="tags">
+          @for (tag of item.tags; track tag) {
+          <span>{{ tag }}</span>
           }
-
-          <div class="tags">
-            @for (tag of item.tags; track tag) {
-              <span>{{ tag }}</span>
-            }
-          </div>
-        </article>
+        </div>
+      </article>
       }
     </div>
   </section>
@@ -81,32 +85,36 @@
 
     <div class="cards-grid cert-grid">
       @for (item of filteredCertifications; track item.title) {
-        <article class="cert-card" [class]="item.tone">
-          <div class="card-top">
-            <div class="logo-box">
-                <img [src]="item.logo" [alt]="item.center" />
-            </div>
-
-            <div>
-              <span class="category-badge">{{ item.category }}</span>
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.center }}</p>
-              <small>{{ item.year }}</small>
-            </div>
+      <article
+        class="cert-card"
+        [class]="item.tone"
+      >
+        <div class="card-top">
+          <div class="logo-box">
+            <img
+              [src]="item.logo"
+              [alt]="item.center"
+            />
           </div>
 
-          @if (item.credential) {
-            <div class="credential">
-                📄 {{ item.credential }}
-            </div>
+          <div>
+            <span class="category-badge">{{ item.category }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.center }}</p>
+            <small>{{ item.year }}</small>
+          </div>
+        </div>
+
+        @if (item.credential) {
+        <div class="credential">📄 {{ item.credential }}</div>
+        }
+
+        <div class="tags">
+          @for (tag of item.tags; track tag) {
+          <span>{{ tag }}</span>
           }
-
-          <div class="tags">
-            @for (tag of item.tags; track tag) {
-              <span>{{ tag }}</span>
-            }
-          </div>
-        </article>
+        </div>
+      </article>
       }
     </div>
   </section>
@@ -116,25 +124,29 @@
 
     <div class="cards-grid cyber-grid">
       @for (item of filteredCybersecurity; track item.title) {
-        <article class="cyber-card" [class]="item.tone">
-          <div class="card-top">
-            <div class="logo-box">
-                <img [src]="item.logo" [alt]="item.center" />
-            </div>
-            <div>
-              <span class="status-badge">{{ item.status }}</span>
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.center }}</p>
-              <small>{{ item.year }}</small>
-            </div>
+      <article
+        class="cyber-card"
+        [class]="item.tone"
+      >
+        <div class="card-top">
+          <div class="logo-box">
+            <img
+              [src]="item.logo"
+              [alt]="item.center"
+            />
           </div>
+          <div>
+            <span class="status-badge">{{ item.status }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.center }}</p>
+            <small>{{ item.year }}</small>
+          </div>
+        </div>
 
-          @if (item.credential) {
-            <div class="credential">
-                📄 {{ item.credential }}
-            </div>
-          }
-        </article>
+        @if (item.credential) {
+        <div class="credential">📄 {{ item.credential }}</div>
+        }
+      </article>
       }
     </div>
   </section>

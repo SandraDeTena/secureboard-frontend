@@ -23,14 +23,7 @@ type CertItem = {
 export class Certifications {
   selectedFilter = 'Todos';
 
-  filters = [
-    'Todos',
-    'Formación oficial',
-    'Front-End',
-    'Diseño & UI/UX',
-    'IA',
-    'Ciberseguridad',
-  ];
+  filters = ['Todos', 'Formación oficial', 'Front-End', 'Diseño & UI/UX', 'IA', 'Ciberseguridad'];
 
   officialEducation: CertItem[] = [
     {

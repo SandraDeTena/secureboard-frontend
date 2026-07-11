@@ -1,12 +1,16 @@
 <section class="about-page">
-  <a routerLink="/dashboard" class="back-link">← Volver al Dashboard</a>
+  <a
+    routerLink="/dashboard"
+    class="back-link"
+    >← Volver al Dashboard</a
+  >
 
   <header class="about-hero">
     <div class="hero-icon">
-        <img
-            src="/images/logos/Sublogo_SecureBoard_Isotopo.svg"
-            alt="Isotipo de SecureBoard"
-        />
+      <img
+        src="/images/logos/Sublogo_SecureBoard_Isotopo.svg"
+        alt="Isotipo de SecureBoard"
+      />
     </div>
 
     <div>
@@ -23,25 +27,23 @@
     <article class="panel main-panel">
       <h2>La idea del proyecto</h2>
       <p>
-        El objetivo de SecureBoard es convertir el aprendizaje de ciberseguridad en una
-        experiencia visual, práctica y profesional. En lugar de presentar solo teoría,
-        la plataforma organiza el trabajo como si fuera un pequeño centro de operaciones
-        de seguridad, donde cada caso representa una situación distinta.
+        El objetivo de SecureBoard es convertir el aprendizaje de ciberseguridad en una experiencia
+        visual, práctica y profesional. En lugar de presentar solo teoría, la plataforma organiza el
+        trabajo como si fuera un pequeño centro de operaciones de seguridad, donde cada caso
+        representa una situación distinta.
       </p>
 
       <p>
-        La aplicación está pensada para documentar el proceso, mostrar evidencias,
-        registrar hallazgos y construir un portfolio técnico que demuestre habilidades
-        reales de análisis, investigación y respuesta.
+        La aplicación está pensada para documentar el proceso, mostrar evidencias, registrar
+        hallazgos y construir un portfolio técnico que demuestre habilidades reales de análisis,
+        investigación y respuesta.
       </p>
     </article>
 
     <article class="panel highlight-panel">
       <span>Objetivo principal</span>
       <strong>Analiza · Protege · Responde</strong>
-      <p>
-        Practicar casos de seguridad de forma ordenada, visual y demostrable.
-      </p>
+      <p>Practicar casos de seguridad de forma ordenada, visual y demostrable.</p>
     </article>
   </section>
 
@@ -50,14 +52,17 @@
 
     <div class="cases-grid">
       @for (item of cases; track item.title) {
-        <article class="case-card" [class]="item.tone">
-          <div class="case-icon">{{ item.number }}</div>
+      <article
+        class="case-card"
+        [class]="item.tone"
+      >
+        <div class="case-icon">{{ item.number }}</div>
 
-          <div>
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.text }}</p>
-          </div>
-        </article>
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+        </div>
+      </article>
       }
     </div>
   </section>
@@ -68,7 +73,7 @@
 
       <ul class="check-list">
         @for (item of goals; track item) {
-          <li>{{ item }}</li>
+        <li>{{ item }}</li>
         }
       </ul>
     </article>
@@ -78,7 +83,7 @@
 
       <div class="tech-list">
         @for (tech of technologies; track tech) {
-          <span>{{ tech }}</span>
+        <span>{{ tech }}</span>
         }
       </div>
     </article>
@@ -89,11 +94,11 @@
 
     <div class="process-grid">
       @for (step of process; track step.title) {
-        <article>
-          <span>{{ step.number }}</span>
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.text }}</p>
-        </article>
+      <article>
+        <span>{{ step.number }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </article>
       }
     </div>
   </section>
@@ -101,9 +106,7 @@
   <footer class="about-cta">
     <div>
       <h2>Explora los casos prácticos</h2>
-      <p>
-        Empieza por OSINT, Blue Team, Red Team, Security Engineer o Incident Response.
-      </p>
+      <p>Empieza por OSINT, Blue Team, Red Team, Security Engineer o Incident Response.</p>
     </div>
 
     <a routerLink="/cases">Ir a Casos Prácticos →</a>

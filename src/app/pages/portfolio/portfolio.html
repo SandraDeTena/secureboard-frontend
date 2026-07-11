@@ -7,8 +7,8 @@
         <h1>Mi Portfolio</h1>
         <p>Desarrollo Front-End · UI/UX · Diseño gráfico</p>
         <span>
-          Una selección de proyectos donde combino diseño, tecnología y experiencia de usuario
-          para crear soluciones útiles, atractivas y funcionales.
+          Una selección de proyectos donde combino diseño, tecnología y experiencia de usuario para
+          crear soluciones útiles, atractivas y funcionales.
         </span>
       </div>
     </div>
@@ -23,22 +23,34 @@
       />
 
       <div class="social-links">
-        <a href="https://github.com/SandraDeTena" target="_blank">GitHub</a>
-        <a href="https://www.behance.net/sandradetenacv" target="_blank">Behance</a>
-        <a href="https://www.linkedin.com/in/sandradetena/" target="_blank">LinkedIn</a>
+        <a
+          href="https://github.com/SandraDeTena"
+          target="_blank"
+          >GitHub</a
+        >
+        <a
+          href="https://www.behance.net/sandradetenacv"
+          target="_blank"
+          >Behance</a
+        >
+        <a
+          href="https://www.linkedin.com/in/sandradetena/"
+          target="_blank"
+          >LinkedIn</a
+        >
       </div>
     </div>
   </header>
 
   <nav class="filters">
-      @for (filter of filters; track filter) {
-        <button
-          type="button"
-          [class.active]="selectedFilter === filter"
-          (click)="setFilter(filter)"
-        >
-          {{ filter }}
-        </button>
+    @for (filter of filters; track filter) {
+    <button
+      type="button"
+      [class.active]="selectedFilter === filter"
+      (click)="setFilter(filter)"
+    >
+      {{ filter }}
+    </button>
     }
   </nav>
 
@@ -47,40 +59,52 @@
 
     <div class="projects-grid frontend-grid">
       @for (project of filteredFrontendProjects; track project.title) {
-        <article class="project-card" [class]="project.tone">
-          <div class="project-image">
-            <img [src]="project.image" [alt]="project.title" />
-            <span>{{ project.type }}</span>
-            <button>☆</button>
-          </div>
+      <article
+        class="project-card"
+        [class]="project.tone"
+      >
+        <div class="project-image">
+          <img
+            [src]="project.image"
+            [alt]="project.title"
+          />
+          <span>{{ project.type }}</span>
+          <button>☆</button>
+        </div>
 
-          <h3>{{ project.number }}. {{ project.title }}</h3>
-          <p>{{ project.description }}</p>
+        <h3>{{ project.number }}. {{ project.title }}</h3>
+        <p>{{ project.description }}</p>
 
-          <div class="tags">
-            @for (tag of project.tags; track tag) {
-              <span>{{ tag }}</span>
-            }
-          </div>
-
-          @if (project.locked) {
-            <div class="locked">🔒 Proyecto confidencial del trabajo. Caso de estudio disponible bajo petición.</div>
+        <div class="tags">
+          @for (tag of project.tags; track tag) {
+          <span>{{ tag }}</span>
           }
+        </div>
 
-          <div class="card-actions">
-            @if (project.demo) {
-              <a [href]="project.demo" target="_blank">Ver proyecto ↗</a>
-            }
+        @if (project.locked) {
+        <div class="locked">
+          🔒 Proyecto confidencial del trabajo. Caso de estudio disponible bajo petición.
+        </div>
+        }
 
-            @if (project.github) {
-              <a [href]="project.github" target="_blank">GitHub</a>
-            }
-
-            @if (!project.github && !project.demo) {
-              <button>Ver detalles 🔒</button>
-            }
-          </div>
-        </article>
+        <div class="card-actions">
+          @if (project.demo) {
+          <a
+            [href]="project.demo"
+            target="_blank"
+            >Ver proyecto ↗</a
+          >
+          } @if (project.github) {
+          <a
+            [href]="project.github"
+            target="_blank"
+            >GitHub</a
+          >
+          } @if (!project.github && !project.demo) {
+          <button>Ver detalles 🔒</button>
+          }
+        </div>
+      </article>
       }
     </div>
   </section>
@@ -90,29 +114,43 @@
 
     <div class="projects-grid design-grid">
       @for (project of filteredDesignProjects; track project.title) {
-        <article class="project-card" [class]="project.tone">
-          <div class="project-image">
-            <img [src]="project.image" [alt]="project.title" />
-            <button>☆</button>
-          </div>
+      <article
+        class="project-card"
+        [class]="project.tone"
+      >
+        <div class="project-image">
+          <img
+            [src]="project.image"
+            [alt]="project.title"
+          />
+          <button>☆</button>
+        </div>
 
-          <h3>{{ project.number }}. {{ project.title }}</h3>
-          <p>{{ project.description }}</p>
+        <h3>{{ project.number }}. {{ project.title }}</h3>
+        <p>{{ project.description }}</p>
 
-          <div class="tags">
-            @for (tag of project.tags; track tag) {
-              <span>{{ tag }}</span>
-            }
-          </div>
+        <div class="tags">
+          @for (tag of project.tags; track tag) {
+          <span>{{ tag }}</span>
+          }
+        </div>
 
-          <div class="card-actions">
-            <a [href]="project.behance" target="_blank">Ver proyecto ↗</a>
-          </div>
-        </article>
+        <div class="card-actions">
+          <a
+            [href]="project.behance"
+            target="_blank"
+            >Ver proyecto ↗</a
+          >
+        </div>
+      </article>
       }
     </div>
 
-    <a class="behance-more" href="https://www.behance.net/sandradetenacv" target="_blank">
+    <a
+      class="behance-more"
+      href="https://www.behance.net/sandradetenacv"
+      target="_blank"
+    >
       Ver más proyectos en Behance →
     </a>
   </section>
@@ -122,10 +160,17 @@
 
     <div>
       <h2>¿Tienes un proyecto en mente?</h2>
-      <p>Diseño experiencias digitales y desarrollo interfaces Front-End con foco en usabilidad, rendimiento y accesibilidad.</p>
+      <p>
+        Diseño experiencias digitales y desarrollo interfaces Front-End con foco en usabilidad,
+        rendimiento y accesibilidad.
+      </p>
     </div>
 
     <a href="mailto:sandra.detena@email.com">sandra.detena@email.com</a>
-    <a class="contact-button" href="mailto:sandra.detena@email.com">Contactar conmigo →</a>
+    <a
+      class="contact-button"
+      href="mailto:sandra.detena@email.com"
+      >Contactar conmigo →</a
+    >
   </footer>
 </section>

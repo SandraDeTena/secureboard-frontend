@@ -273,11 +273,7 @@
   border-radius: 1rem;
   padding: 1.25rem;
   background:
-    radial-gradient(
-      circle at 50% 18%,
-      rgba(168, 85, 247, 0.12),
-      transparent 32%
-    ),
+    radial-gradient(circle at 50% 18%, rgba(168, 85, 247, 0.12), transparent 32%),
     rgba(17, 24, 39, 0.56);
   transition:
     transform 180ms ease,
@@ -589,11 +585,7 @@
   padding: 3rem 2rem;
   text-align: center;
   background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(168, 85, 247, 0.1),
-      transparent 55%
-    ),
+    radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.1), transparent 55%),
     rgba(15, 23, 42, 0.5);
 }
 

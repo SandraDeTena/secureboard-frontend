@@ -137,9 +137,7 @@ export class Cases {
   }
 
   get inProgressCount(): number {
-    return this.cases.filter(
-      (item) => item.progress > 0 && item.progress < 100
-    ).length;
+    return this.cases.filter((item) => item.progress > 0 && item.progress < 100).length;
   }
 
   get completedCount(): number {
@@ -151,21 +149,13 @@ export class Cases {
       const matchesTab = this.matchesSelectedTab(item);
 
       const matchesDifficulty =
-        this.selectedDifficulty === 'Todas' ||
-        item.difficulty === this.selectedDifficulty;
+        this.selectedDifficulty === 'Todas' || item.difficulty === this.selectedDifficulty;
 
-      const searchableText = [
-        item.title,
-        item.description,
-        item.difficulty,
-        item.time,
-      ]
+      const searchableText = [item.title, item.description, item.difficulty, item.time]
         .join(' ')
         .toLowerCase();
 
-      const matchesSearch =
-        this.searchTerm === '' ||
-        searchableText.includes(this.searchTerm);
+      const matchesSearch = this.searchTerm === '' || searchableText.includes(this.searchTerm);
 
       return matchesTab && matchesDifficulty && matchesSearch;
     });
@@ -194,48 +184,34 @@ export class Cases {
 
     switch (this.selectedOrder) {
       case 'Nombre A-Z':
-        return sortedItems.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        );
+        return sortedItems.sort((a, b) => a.title.localeCompare(b.title));
 
       case 'Más fáciles':
         return sortedItems.sort(
-          (a, b) =>
-            this.getDifficultyValue(a.difficulty) -
-            this.getDifficultyValue(b.difficulty)
+          (a, b) => this.getDifficultyValue(a.difficulty) - this.getDifficultyValue(b.difficulty),
         );
 
       case 'Más difíciles':
         return sortedItems.sort(
-          (a, b) =>
-            this.getDifficultyValue(b.difficulty) -
-            this.getDifficultyValue(a.difficulty)
+          (a, b) => this.getDifficultyValue(b.difficulty) - this.getDifficultyValue(a.difficulty),
         );
 
       case 'Menor duración':
         return sortedItems.sort(
-          (a, b) =>
-            this.getMinimumMinutes(a.time) -
-            this.getMinimumMinutes(b.time)
+          (a, b) => this.getMinimumMinutes(a.time) - this.getMinimumMinutes(b.time),
         );
 
       case 'Mayor duración':
         return sortedItems.sort(
-          (a, b) =>
-            this.getMaximumMinutes(b.time) -
-            this.getMaximumMinutes(a.time)
+          (a, b) => this.getMaximumMinutes(b.time) - this.getMaximumMinutes(a.time),
         );
 
       default:
-        return sortedItems.sort(
-          (a, b) => a.recommendedOrder - b.recommendedOrder
-        );
+        return sortedItems.sort((a, b) => a.recommendedOrder - b.recommendedOrder);
     }
   }
 
-  private getDifficultyValue(
-    difficulty: CaseCard['difficulty']
-  ): number {
+  private getDifficultyValue(difficulty: CaseCard['difficulty']): number {
     const values: Record<CaseCard['difficulty'], number> = {
       Fácil: 1,
       Media: 2,

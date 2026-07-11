@@ -3,9 +3,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [
-    RouterLink,
-  ],
+  imports: [RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -88,26 +86,26 @@ export class Dashboard {
     { icon: 'incident', name: 'Incident Response', value: 30, tone: 'green' },
   ];
   quickActions = [
-  {
-    icon: '▷',
-    title: 'Iniciar nuevo caso',
-    text: 'Elige un escenario y comienza',
-    tone: 'purple',
-    route: '/cases',
-  },
-  {
-    icon: '▦',
-    title: 'Ver todos los casos',
-    text: 'Explora todos los escenarios disponibles',
-    tone: 'blue',
-    route: '/cases',
-  },
-  {
-    icon: '▱',
-    title: 'Ir a mi portfolio',
-    text: 'Gestiona tus proyectos y logros',
-    tone: 'orange',
-    route: '/portfolio',
-  },
+    {
+      icon: '▷',
+      title: 'Iniciar nuevo caso',
+      text: 'Elige un escenario y comienza',
+      tone: 'purple',
+      route: '/cases',
+    },
+    {
+      icon: '▦',
+      title: 'Ver todos los casos',
+      text: 'Explora todos los escenarios disponibles',
+      tone: 'blue',
+      route: '/cases',
+    },
+    {
+      icon: '▱',
+      title: 'Ir a mi portfolio',
+      text: 'Gestiona tus proyectos y logros',
+      tone: 'orange',
+      route: '/portfolio',
+    },
   ];
 }

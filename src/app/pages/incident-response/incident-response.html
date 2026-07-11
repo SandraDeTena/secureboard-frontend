@@ -1,16 +1,41 @@
 <section class="incident-page">
-  <a class="back-link" routerLink="/cases">← Volver a casos</a>
+  <a
+    class="back-link"
+    routerLink="/cases"
+    >← Volver a casos</a
+  >
 
   <header class="case-header">
-    <div class="case-icon-large" aria-hidden="true">
+    <div
+      class="case-icon-large"
+      aria-hidden="true"
+    >
       <svg viewBox="0 0 120 120">
-        <rect x="24" y="26" width="72" height="52" rx="5"></rect>
+        <rect
+          x="24"
+          y="26"
+          width="72"
+          height="52"
+          rx="5"
+        ></rect>
         <path d="M24 68h72"></path>
         <path d="M50 92h20M42 102h36"></path>
         <path d="M54 78l-5 14M66 78l5 14"></path>
-        <circle cx="60" cy="48" r="14"></circle>
-        <circle cx="54" cy="46" r="2.5"></circle>
-        <circle cx="66" cy="46" r="2.5"></circle>
+        <circle
+          cx="60"
+          cy="48"
+          r="14"
+        ></circle>
+        <circle
+          cx="54"
+          cy="46"
+          r="2.5"
+        ></circle>
+        <circle
+          cx="66"
+          cy="46"
+          r="2.5"
+        ></circle>
         <path d="M60 52l-3 5h6l-3-5z"></path>
         <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
       </svg>
@@ -19,10 +44,16 @@
     <div>
       <span class="case-tag">Caso 05</span>
       <h1>Incident Response</h1>
-      <p>Responde a un incidente de seguridad y lleva a cabo todo el proceso de respuesta y recuperación.</p>
+      <p>
+        Responde a un incidente de seguridad y lleva a cabo todo el proceso de respuesta y
+        recuperación.
+      </p>
     </div>
 
-    <button class="guide-button" type="button">
+    <button
+      class="guide-button"
+      type="button"
+    >
       <span>▣</span>
       Ver guía del caso
     </button>
@@ -34,7 +65,8 @@
       <div>
         <small>Dificultad</small>
         <div class="difficulty">
-          <span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span
+          ><span class="active"></span><span></span>
         </div>
       </div>
       <strong class="green-text">Difícil</strong>
@@ -66,7 +98,12 @@
   </section>
 
   <nav class="case-tabs">
-    <button class="active" type="button">▣ <span>Resumen</span></button>
+    <button
+      class="active"
+      type="button"
+    >
+      ▣ <span>Resumen</span>
+    </button>
     <button type="button">⌘ <span>Fase a fase</span></button>
     <button type="button">ⓘ <span>Hallazgos</span></button>
     <button type="button">▤ <span>Informe</span></button>
@@ -82,13 +119,31 @@
           <div class="incident-illustration">
             <div class="grid-lines"></div>
             <svg viewBox="0 0 120 120">
-              <rect x="24" y="26" width="72" height="52" rx="5"></rect>
+              <rect
+                x="24"
+                y="26"
+                width="72"
+                height="52"
+                rx="5"
+              ></rect>
               <path d="M24 68h72"></path>
               <path d="M50 92h20M42 102h36"></path>
               <path d="M54 78l-5 14M66 78l5 14"></path>
-              <circle cx="60" cy="48" r="14"></circle>
-              <circle cx="54" cy="46" r="2.5"></circle>
-              <circle cx="66" cy="46" r="2.5"></circle>
+              <circle
+                cx="60"
+                cy="48"
+                r="14"
+              ></circle>
+              <circle
+                cx="54"
+                cy="46"
+                r="2.5"
+              ></circle>
+              <circle
+                cx="66"
+                cy="46"
+                r="2.5"
+              ></circle>
               <path d="M60 52l-3 5h6l-3-5z"></path>
               <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
             </svg>
@@ -97,9 +152,8 @@
           <article class="scenario-card">
             <h3>Escenario</h3>
             <p>
-              Se ha detectado actividad sospechosa en varios sistemas corporativos.
-              Tu equipo debe investigar, contener la amenaza, erradicarla y recuperar
-              los servicios afectados.
+              Se ha detectado actividad sospechosa en varios sistemas corporativos. Tu equipo debe
+              investigar, contener la amenaza, erradicarla y recuperar los servicios afectados.
             </p>
 
             <div class="scenario-details">
@@ -132,10 +186,10 @@
           <article class="info-card">
             <h3>Información clave</h3>
             @for (item of keyInfo; track item.label) {
-              <p>
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
-              </p>
+            <p>
+              <span>{{ item.label }}</span>
+              <strong>{{ item.value }}</strong>
+            </p>
             }
           </article>
         </div>
@@ -146,11 +200,14 @@
 
         <div class="phase-line">
           @for (phase of phases; track phase.title) {
-            <article class="phase-item" [class.active]="phase.active">
-              <div>{{ phase.icon }}</div>
-              <strong>{{ phase.title }}</strong>
-              <p>{{ phase.text }}</p>
-            </article>
+          <article
+            class="phase-item"
+            [class.active]="phase.active"
+          >
+            <div>{{ phase.icon }}</div>
+            <strong>{{ phase.title }}</strong>
+            <p>{{ phase.text }}</p>
+          </article>
           }
         </div>
       </article>
@@ -159,10 +216,10 @@
         <article class="panel">
           <h2>Indicadores del incidente</h2>
           @for (item of indicators; track item.label) {
-            <p class="info-line">
-              <span>{{ item.label }}</span>
-              <strong [class]="item.tone">{{ item.value }}</strong>
-            </p>
+          <p class="info-line">
+            <span>{{ item.label }}</span>
+            <strong [class]="item.tone">{{ item.value }}</strong>
+          </p>
           }
         </article>
 
@@ -203,17 +260,22 @@
           </div>
 
           @for (activity of activities; track activity.time) {
-            <div class="activity-row">
-              <span>{{ activity.time }}</span>
-              <strong>{{ activity.action }}</strong>
-              <span>{{ activity.tool }}</span>
-              <span class="owner">{{ activity.owner }}</span>
-              <span [class]="activity.tone">{{ activity.status }} <b>●</b></span>
-            </div>
+          <div class="activity-row">
+            <span>{{ activity.time }}</span>
+            <strong>{{ activity.action }}</strong>
+            <span>{{ activity.tool }}</span>
+            <span class="owner">{{ activity.owner }}</span>
+            <span [class]="activity.tone">{{ activity.status }} <b>●</b></span>
+          </div>
           }
         </div>
 
-        <button class="view-activity" type="button">Ver toda la actividad →</button>
+        <button
+          class="view-activity"
+          type="button"
+        >
+          Ver toda la actividad →
+        </button>
       </article>
     </main>
 
@@ -224,19 +286,24 @@
 
         <div class="tools-list">
           @for (tool of tools; track tool.name) {
-            <article class="tool-item">
-              <span class="tool-icon">{{ tool.icon }}</span>
-              <div>
-                <strong>{{ tool.name }}</strong>
-                <small>{{ tool.description }}</small>
-              </div>
-              <button type="button">Abrir</button>
-              <span class="external">↗</span>
-            </article>
+          <article class="tool-item">
+            <span class="tool-icon">{{ tool.icon }}</span>
+            <div>
+              <strong>{{ tool.name }}</strong>
+              <small>{{ tool.description }}</small>
+            </div>
+            <button type="button">Abrir</button>
+            <span class="external">↗</span>
+          </article>
           }
         </div>
 
-        <button class="view-tools" type="button">Ver todas las herramientas →</button>
+        <button
+          class="view-tools"
+          type="button"
+        >
+          Ver todas las herramientas →
+        </button>
       </article>
 
       <article class="panel notes-panel">
@@ -246,25 +313,35 @@
         </header>
 
         <nav class="notes-tabs">
-          <button class="active" type="button">Todas</button>
+          <button
+            class="active"
+            type="button"
+          >
+            Todas
+          </button>
           <button type="button">Importantes</button>
           <button type="button">Recordatorios</button>
         </nav>
 
         <div class="notes-list">
           @for (note of notes; track note.text) {
-            <article class="note-item">
-              <div>
-                <small>{{ note.time }}</small>
-                <span [class]="note.type">{{ note.tag }}</span>
-                <p>{{ note.text }}</p>
-              </div>
-              <div class="note-actions">♢　♧</div>
-            </article>
+          <article class="note-item">
+            <div>
+              <small>{{ note.time }}</small>
+              <span [class]="note.type">{{ note.tag }}</span>
+              <p>{{ note.text }}</p>
+            </div>
+            <div class="note-actions">♢　♧</div>
+          </article>
           }
         </div>
 
-        <button class="view-notes" type="button">Ver todas las notas →</button>
+        <button
+          class="view-notes"
+          type="button"
+        >
+          Ver todas las notas →
+        </button>
       </article>
 
       <article class="continue-panel">

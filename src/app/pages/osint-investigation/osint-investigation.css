@@ -173,10 +173,7 @@
   border-radius: 50%;
   background:
     linear-gradient(#0b1020, #0b1020) padding-box,
-    conic-gradient(
-      #a855f7 calc(var(--progress) * 1%),
-      rgba(255, 255, 255, 0.08) 0
-    ) border-box;
+    conic-gradient(#a855f7 calc(var(--progress) * 1%), rgba(255, 255, 255, 0.08) 0) border-box;
   border: 0.35rem solid transparent;
 }
 
@@ -332,11 +329,7 @@
   border-radius: 0.7rem;
   color: #a855f7;
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(168, 85, 247, 0.15),
-      transparent 62%
-    ),
+    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.15), transparent 62%),
     rgba(15, 23, 42, 0.72);
 }
 
@@ -642,11 +635,7 @@
   border: 1px solid rgba(168, 85, 247, 0.32);
   border-radius: 0.85rem;
   padding: 1rem;
-  background: linear-gradient(
-    90deg,
-    rgba(76, 29, 149, 0.72),
-    rgba(126, 34, 206, 0.55)
-  );
+  background: linear-gradient(90deg, rgba(76, 29, 149, 0.72), rgba(126, 34, 206, 0.55));
 }
 
 .continue-panel h2,
@@ -1075,12 +1064,7 @@
   min-height: 22rem;
   padding: 2.5rem;
   background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(168, 85, 247, 0.18),
-      transparent 40%
-    ),
-    #ffffff;
+    radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.18), transparent 40%), #ffffff;
 }
 
 .report-brand {
@@ -1595,7 +1579,7 @@
     border-radius: 0;
   }
 }
-  /* =========================================================
+/* =========================================================
    HALLAZGOS CREADOS POR EL ANALISTA
    ========================================================= */
 

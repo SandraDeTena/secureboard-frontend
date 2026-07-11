@@ -8,11 +8,11 @@ import { Router } from '@angular/router';
   styleUrl: './welcome.css',
 })
 export class Welcome {
-  constructor(private readonly router: Router){}
+  constructor(private readonly router: Router) {}
 
   enterSoc(): void {
     //De momento cuando se cliquee se irá al Dashboard
     //Lo crearé en la segunda pantalla el Dashboard
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/dashboard']);
   }
 }

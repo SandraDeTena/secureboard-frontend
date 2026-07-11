@@ -2,20 +2,23 @@
   <!-- TARJETAS SUPERIORES -->
   <section class="summary-grid">
     @for (card of summaryCards; track card.label) {
-      <article class="summary-card" [class]="card.tone">
-        <div class="summary-icon">{{ card.icon }}</div>
+    <article
+      class="summary-card"
+      [class]="card.tone"
+    >
+      <div class="summary-icon">{{ card.icon }}</div>
 
-        <div>
-          <p>{{ card.label }}</p>
+      <div>
+        <p>{{ card.label }}</p>
 
-          <h2>
-            {{ card.value }}
-            <span>{{ card.suffix }}</span>
-          </h2>
+        <h2>
+          {{ card.value }}
+          <span>{{ card.suffix }}</span>
+        </h2>
 
-          <small>{{ card.detail }}</small>
-        </div>
-      </article>
+        <small>{{ card.detail }}</small>
+      </div>
+    </article>
     }
   </section>
 
@@ -46,11 +49,29 @@
         <div class="line-chart">
           <p>Actividad diaria</p>
 
-          <svg viewBox="0 0 360 220" role="img" aria-label="Actividad diaria">
+          <svg
+            viewBox="0 0 360 220"
+            role="img"
+            aria-label="Actividad diaria"
+          >
             <defs>
-              <linearGradient id="lineFill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stop-color="#A855F7" stop-opacity="0.42" />
-                <stop offset="100%" stop-color="#A855F7" stop-opacity="0" />
+              <linearGradient
+                id="lineFill"
+                x1="0"
+                x2="0"
+                y1="0"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#A855F7"
+                  stop-opacity="0.42"
+                />
+                <stop
+                  offset="100%"
+                  stop-color="#A855F7"
+                  stop-opacity="0"
+                />
               </linearGradient>
             </defs>
 
@@ -67,8 +88,18 @@
               fill="url(#lineFill)"
             />
 
-            <circle cx="180" cy="78" r="7" fill="#A855F7" />
-            <circle cx="340" cy="74" r="7" fill="#A855F7" />
+            <circle
+              cx="180"
+              cy="78"
+              r="7"
+              fill="#A855F7"
+            />
+            <circle
+              cx="340"
+              cy="74"
+              r="7"
+              fill="#A855F7"
+            />
           </svg>
 
           <div class="days">
@@ -93,19 +124,22 @@
 
       <div class="alerts-list">
         @for (alert of alerts; track alert.title) {
-          <article class="alert-card" [class]="alert.tone">
-            <div class="alert-icon">{{ alert.icon }}</div>
+        <article
+          class="alert-card"
+          [class]="alert.tone"
+        >
+          <div class="alert-icon">{{ alert.icon }}</div>
 
-            <div>
-              <h4>{{ alert.title }}</h4>
-              <p>Caso: {{ alert.case }}</p>
-            </div>
+          <div>
+            <h4>{{ alert.title }}</h4>
+            <p>Caso: {{ alert.case }}</p>
+          </div>
 
-            <div class="alert-meta">
-              <span>{{ alert.time }}</span>
-              <small>• {{ alert.level }}</small>
-            </div>
-          </article>
+          <div class="alert-meta">
+            <span>{{ alert.time }}</span>
+            <small>• {{ alert.level }}</small>
+          </div>
+        </article>
         }
       </div>
     </article>
@@ -119,67 +153,123 @@
 
       <div class="case-rings">
         @for (item of progressCases; track item.name) {
-          <article class="case-ring-card" [class]="item.tone">
-            <div class="case-ring" [style.--value]="item.value">
-              @switch (item.icon) {
-                @case ('osint') {
-                  <svg viewBox="0 0 120 120" aria-label="OSINT Investigation">
-                    <circle cx="54" cy="52" r="32"></circle>
-                    <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
-                    <circle cx="76" cy="74" r="18"></circle>
-                    <path d="M89 87l17 17"></path>
-                  </svg>
-                }
+        <article
+          class="case-ring-card"
+          [class]="item.tone"
+        >
+          <div
+            class="case-ring"
+            [style.--value]="item.value"
+          >
+            @switch (item.icon) { @case ('osint') {
+            <svg
+              viewBox="0 0 120 120"
+              aria-label="OSINT Investigation"
+            >
+              <circle
+                cx="54"
+                cy="52"
+                r="32"
+              ></circle>
+              <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
+              <circle
+                cx="76"
+                cy="74"
+                r="18"
+              ></circle>
+              <path d="M89 87l17 17"></path>
+            </svg>
+            } @case ('blue') {
+            <svg
+              viewBox="0 0 120 120"
+              aria-label="Blue Team Analyst"
+            >
+              <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
+              <rect
+                x="47"
+                y="54"
+                width="26"
+                height="26"
+                rx="4"
+              ></rect>
+              <path d="M52 54V44a8 8 0 0116 0v10"></path>
+            </svg>
+            } @case ('red') {
+            <svg
+              viewBox="0 0 120 120"
+              aria-label="Red Team Assessment"
+            >
+              <circle
+                cx="60"
+                cy="60"
+                r="34"
+              ></circle>
+              <circle
+                cx="60"
+                cy="60"
+                r="8"
+              ></circle>
+              <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
+              <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
+            </svg>
+            } @case ('engineer') {
+            <svg
+              viewBox="0 0 120 120"
+              aria-label="Security Engineer"
+            >
+              <path
+                d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"
+              ></path>
+              <rect
+                x="46"
+                y="55"
+                width="28"
+                height="26"
+                rx="4"
+              ></rect>
+              <path d="M51 55V45a9 9 0 0118 0v10"></path>
+            </svg>
+            } @case ('incident') {
+            <svg viewBox="0 0 120 120">
+              <rect
+                x="24"
+                y="26"
+                width="72"
+                height="52"
+                rx="5"
+              ></rect>
+              <path d="M24 68h72"></path>
+              <path d="M50 92h20M42 102h36"></path>
+              <path d="M54 78l-5 14M66 78l5 14"></path>
 
-                @case ('blue') {
-                  <svg viewBox="0 0 120 120" aria-label="Blue Team Analyst">
-                    <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
-                    <rect x="47" y="54" width="26" height="26" rx="4"></rect>
-                    <path d="M52 54V44a8 8 0 0116 0v10"></path>
-                  </svg>
-                }
+              <circle
+                cx="60"
+                cy="48"
+                r="14"
+              ></circle>
+              <circle
+                cx="54"
+                cy="46"
+                r="2.5"
+              ></circle>
+              <circle
+                cx="66"
+                cy="46"
+                r="2.5"
+              ></circle>
+              <path d="M60 52l-3 5h6l-3-5z"></path>
+              <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
+            </svg>
+            } }
+          </div>
 
-                @case ('red') {
-                  <svg viewBox="0 0 120 120" aria-label="Red Team Assessment">
-                    <circle cx="60" cy="60" r="34"></circle>
-                    <circle cx="60" cy="60" r="8"></circle>
-                    <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
-                    <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
-                  </svg>
-                }
+          <h4>{{ item.name }}</h4>
+          <strong>{{ item.value }}%</strong>
 
-                @case ('engineer') {
-                  <svg viewBox="0 0 120 120" aria-label="Security Engineer">
-                    <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
-                    <rect x="46" y="55" width="28" height="26" rx="4"></rect>
-                    <path d="M51 55V45a9 9 0 0118 0v10"></path>
-                  </svg>
-                }
-
-                @case ('incident') {
-                  <svg viewBox="0 0 120 120">
-                    <rect x="24" y="26" width="72" height="52" rx="5"></rect>
-                    <path d="M24 68h72"></path>
-                    <path d="M50 92h20M42 102h36"></path>
-                    <path d="M54 78l-5 14M66 78l5 14"></path>
-
-                    <circle cx="60" cy="48" r="14"></circle>
-                    <circle cx="54" cy="46" r="2.5"></circle>
-                    <circle cx="66" cy="46" r="2.5"></circle>
-                    <path d="M60 52l-3 5h6l-3-5z"></path>
-                    <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
-                  </svg>
-                }
-              }
-            </div>
-
-            <h4>{{ item.name }}</h4>
-            <strong>{{ item.value }}%</strong>
-
-            <div class="mini-bar">
-              <span [style.width.%]="item.value"></span>
-            </div>
-          </article>
+          <div class="mini-bar">
+            <span [style.width.%]="item.value"></span>
+          </div>
+        </article>
         }
       </div>
     </article>
@@ -190,20 +280,20 @@
         <h3>Acciones rápidas</h3>
 
         @for (action of quickActions; track action.title) {
-          <a
-            class="quick-action"
-            [class]="action.tone"
-            [routerLink]="action.route"
-          >
-            <span>{{ action.icon }}</span>
+        <a
+          class="quick-action"
+          [class]="action.tone"
+          [routerLink]="action.route"
+        >
+          <span>{{ action.icon }}</span>
 
-            <div>
-              <strong>{{ action.title }}</strong>
-              <small>{{ action.text }}</small>
-            </div>
+          <div>
+            <strong>{{ action.title }}</strong>
+            <small>{{ action.text }}</small>
+          </div>
 
-            <b>›</b>
-          </a>
+          <b>›</b>
+        </a>
         }
       </article>
     </aside>

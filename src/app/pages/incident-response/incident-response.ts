@@ -18,11 +18,26 @@ export class IncidentResponse {
   ];
 
   phases = [
-    { icon: '♜', title: '1. Identificación', text: 'Detectar y validar el incidente', active: true },
+    {
+      icon: '♜',
+      title: '1. Identificación',
+      text: 'Detectar y validar el incidente',
+      active: true,
+    },
     { icon: '♙', title: '2. Contención', text: 'Aislar sistemas afectados', active: false },
-    { icon: '♢', title: '3. Erradicación', text: 'Eliminar la amenaza y persistencia', active: false },
+    {
+      icon: '♢',
+      title: '3. Erradicación',
+      text: 'Eliminar la amenaza y persistencia',
+      active: false,
+    },
     { icon: '⌘', title: '4. Recuperación', text: 'Restaurar servicios y datos', active: false },
-    { icon: '▣', title: '5. Lecciones aprendidas', text: 'Documentar y mejorar controles', active: false },
+    {
+      icon: '▣',
+      title: '5. Lecciones aprendidas',
+      text: 'Documentar y mejorar controles',
+      active: false,
+    },
   ];
 
   indicators = [
@@ -43,11 +58,46 @@ export class IncidentResponse {
   ];
 
   activities = [
-    { time: '09:42:15', action: 'Alerta de posible ransomware detectada', tool: 'Splunk', owner: 'Sistema', status: 'Completado', tone: 'completed' },
-    { time: '09:45:02', action: 'Análisis inicial de logs en SIEM', tool: 'Splunk', owner: 'Sandra De Tena', status: 'Completado', tone: 'completed' },
-    { time: '09:48:19', action: 'Aislamiento de endpoint WIN-10-23', tool: 'TheHive', owner: 'Sandra De Tena', status: 'En progreso', tone: 'in-progress' },
-    { time: '09:53:41', action: 'Captura de memoria del servidor SRV-DC01', tool: 'Volatility', owner: 'Sandra De Tena', status: 'Pendiente', tone: 'pending' },
-    { time: '09:55:08', action: 'Análisis de tráfico sospechoso', tool: 'Wireshark', owner: 'Sandra De Tena', status: 'Pendiente', tone: 'pending' },
+    {
+      time: '09:42:15',
+      action: 'Alerta de posible ransomware detectada',
+      tool: 'Splunk',
+      owner: 'Sistema',
+      status: 'Completado',
+      tone: 'completed',
+    },
+    {
+      time: '09:45:02',
+      action: 'Análisis inicial de logs en SIEM',
+      tool: 'Splunk',
+      owner: 'Sandra De Tena',
+      status: 'Completado',
+      tone: 'completed',
+    },
+    {
+      time: '09:48:19',
+      action: 'Aislamiento de endpoint WIN-10-23',
+      tool: 'TheHive',
+      owner: 'Sandra De Tena',
+      status: 'En progreso',
+      tone: 'in-progress',
+    },
+    {
+      time: '09:53:41',
+      action: 'Captura de memoria del servidor SRV-DC01',
+      tool: 'Volatility',
+      owner: 'Sandra De Tena',
+      status: 'Pendiente',
+      tone: 'pending',
+    },
+    {
+      time: '09:55:08',
+      action: 'Análisis de tráfico sospechoso',
+      tool: 'Wireshark',
+      owner: 'Sandra De Tena',
+      status: 'Pendiente',
+      tone: 'pending',
+    },
   ];
 
   notes = [

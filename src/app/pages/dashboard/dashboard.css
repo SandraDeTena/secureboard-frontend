@@ -117,7 +117,14 @@
   border-radius: 50%;
   background:
     linear-gradient(#050816, #050816) padding-box,
-    conic-gradient(#a855f7 0 34%, #3b82f6 34% 58%, #f97316 58% 74%, #22c55e 74% 88%, #eab308 88% 100%) border-box;
+    conic-gradient(
+        #a855f7 0 34%,
+        #3b82f6 34% 58%,
+        #f97316 58% 74%,
+        #22c55e 74% 88%,
+        #eab308 88% 100%
+      )
+      border-box;
   border: 2rem solid transparent;
 }
 
@@ -149,11 +156,21 @@
   margin-right: 0.5rem;
 }
 
-.purple { background: #a855f7; }
-.blue { background: #3b82f6; }
-.orange { background: #f97316; }
-.green { background: #22c55e; }
-.red { background: #ef4444; }
+.purple {
+  background: #a855f7;
+}
+.blue {
+  background: #3b82f6;
+}
+.orange {
+  background: #f97316;
+}
+.green {
+  background: #22c55e;
+}
+.red {
+  background: #ef4444;
+}
 
 .line-chart p {
   margin: 0 0 1rem;
@@ -200,10 +217,22 @@
   font-size: 1.8rem;
 }
 
-.alert-card.critical .alert-icon { color: #ef4444; background: rgba(239, 68, 68, 0.16); }
-.alert-card.high .alert-icon { color: #f97316; background: rgba(249, 115, 22, 0.16); }
-.alert-card.medium .alert-icon { color: #f59e0b; background: rgba(245, 158, 11, 0.16); }
-.alert-card.low .alert-icon { color: #3b82f6; background: rgba(59, 130, 246, 0.16); }
+.alert-card.critical .alert-icon {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.16);
+}
+.alert-card.high .alert-icon {
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.16);
+}
+.alert-card.medium .alert-icon {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.16);
+}
+.alert-card.low .alert-icon {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.16);
+}
 
 .alert-card h4,
 .alert-card p {
@@ -243,11 +272,21 @@
   color: #a855f7;
 }
 
-.case-ring-card.purple { color: #a855f7; }
-.case-ring-card.blue { color: #3b82f6; }
-.case-ring-card.orange { color: #f97316; }
-.case-ring-card.green { color: #22c55e; }
-.case-ring-card.red { color: #ef4444; }
+.case-ring-card.purple {
+  color: #a855f7;
+}
+.case-ring-card.blue {
+  color: #3b82f6;
+}
+.case-ring-card.orange {
+  color: #f97316;
+}
+.case-ring-card.green {
+  color: #22c55e;
+}
+.case-ring-card.red {
+  color: #ef4444;
+}
 
 .case-ring {
   --value: 50;
@@ -259,10 +298,7 @@
   border-radius: 50%;
   background:
     linear-gradient(#050816, #050816) padding-box,
-    conic-gradient(
-      currentColor calc(var(--value) * 1%),
-      rgba(255, 255, 255, 0.1) 0
-    ) border-box;
+    conic-gradient(currentColor calc(var(--value) * 1%), rgba(255, 255, 255, 0.1) 0) border-box;
   border: 0.45rem solid transparent;
 }
 
@@ -412,49 +448,45 @@
 
   /* FIX ICONOS SVG EN PROGRESO POR CASO */
 
-.case-ring-card.purple {
-  color: #a855f7;
-}
+  .case-ring-card.purple {
+    color: #a855f7;
+  }
 
-.case-ring-card.blue {
-  color: #3b82f6;
-}
+  .case-ring-card.blue {
+    color: #3b82f6;
+  }
 
-.case-ring-card.orange {
-  color: #f97316;
-}
+  .case-ring-card.orange {
+    color: #f97316;
+  }
 
-.case-ring-card.green {
-  color: #22c55e;
-}
+  .case-ring-card.green {
+    color: #22c55e;
+  }
 
-.case-ring-card.red {
-  color: #ef4444;
-}
+  .case-ring-card.red {
+    color: #ef4444;
+  }
 
-.case-ring {
-  background:
-    linear-gradient(#050816, #050816) padding-box,
-    conic-gradient(
-      currentColor calc(var(--value) * 1%),
-      rgba(255, 255, 255, 0.1) 0
-    ) border-box;
-}
+  .case-ring {
+    background:
+      linear-gradient(#050816, #050816) padding-box,
+      conic-gradient(currentColor calc(var(--value) * 1%), rgba(255, 255, 255, 0.1) 0) border-box;
+  }
 
-.case-ring svg {
-  width: 3.4rem;
-  height: 3.4rem;
-  fill: none !important;
-  stroke: currentColor !important;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 10px currentColor);
-}
+  .case-ring svg {
+    width: 3.4rem;
+    height: 3.4rem;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 10px currentColor);
+  }
 
-.case-ring svg * {
-  fill: none !important;
-  stroke: currentColor !important;
-}
-
+  .case-ring svg * {
+    fill: none !important;
+    stroke: currentColor !important;
+  }
 }

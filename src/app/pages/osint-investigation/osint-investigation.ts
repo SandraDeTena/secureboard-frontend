@@ -1,37 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-type OsintTab =
-  | 'summary'
-  | 'phases'
-  | 'findings'
-  | 'report'
-  | 'notes';
+type OsintTab = 'summary' | 'phases' | 'findings' | 'report' | 'notes';
 
-type Tone =
-  | 'purple'
-  | 'blue'
-  | 'orange'
-  | 'green'
-  | 'red'
-  | 'gray';
+type Tone = 'purple' | 'blue' | 'orange' | 'green' | 'red' | 'gray';
 
-type NoteType =
-  | 'Idea'
-  | 'Importante'
-  | 'Recordatorio'
-  | 'Hallazgo';
+type NoteType = 'Idea' | 'Importante' | 'Recordatorio' | 'Hallazgo';
 
-type FindingSeverity =
-  | 'Baja'
-  | 'Media'
-  | 'Alta'
-  | 'Crítica';
+type FindingSeverity = 'Baja' | 'Media' | 'Alta' | 'Crítica';
 
-type FindingStatus =
-  | 'Abierto'
-  | 'En revisión'
-  | 'Mitigado';
+type FindingStatus = 'Abierto' | 'En revisión' | 'Mitigado';
 
 interface OsintPhase {
   id: number;
@@ -283,10 +261,8 @@ export class Osint {
     {
       id: 1,
       title: 'Definición del alcance',
-      description:
-        'Establece qué información se analizará y cuáles son los límites del ejercicio.',
-      objective:
-        'Definir un alcance claro antes de comenzar la investigación.',
+      description: 'Establece qué información se analizará y cuáles son los límites del ejercicio.',
+      objective: 'Definir un alcance claro antes de comenzar la investigación.',
       tasks: [
         'Identificar el dominio objetivo.',
         'Confirmar que el ejercicio está autorizado.',
@@ -299,10 +275,8 @@ export class Osint {
     {
       id: 2,
       title: 'Información del dominio',
-      description:
-        'Consulta los datos públicos de registro, fechas y proveedor asociado.',
-      objective:
-        'Recopilar datos básicos del dominio mediante fuentes públicas.',
+      description: 'Consulta los datos públicos de registro, fechas y proveedor asociado.',
+      objective: 'Recopilar datos básicos del dominio mediante fuentes públicas.',
       tasks: [
         'Consultar el registro WHOIS.',
         'Identificar registrador y fechas.',
@@ -315,10 +289,8 @@ export class Osint {
     {
       id: 3,
       title: 'DNS y subdominios',
-      description:
-        'Analiza los registros DNS e identifica servicios y subdominios públicos.',
-      objective:
-        'Construir un mapa inicial de la infraestructura pública.',
+      description: 'Analiza los registros DNS e identifica servicios y subdominios públicos.',
+      objective: 'Construir un mapa inicial de la infraestructura pública.',
       tasks: [
         'Revisar registros A, MX, TXT y NS.',
         'Localizar subdominios públicos.',
@@ -333,8 +305,7 @@ export class Osint {
       title: 'Exposición pública',
       description:
         'Revisa tecnologías, servicios visibles, correos y paneles potencialmente expuestos.',
-      objective:
-        'Identificar información que pueda aumentar la superficie de exposición.',
+      objective: 'Identificar información que pueda aumentar la superficie de exposición.',
       tasks: [
         'Identificar tecnologías utilizadas.',
         'Revisar servicios públicos asociados a la IP.',
@@ -347,10 +318,8 @@ export class Osint {
     {
       id: 5,
       title: 'Análisis y recomendaciones',
-      description:
-        'Valora la información recopilada y redacta recomendaciones de seguridad.',
-      objective:
-        'Convertir las evidencias en conclusiones útiles y documentadas.',
+      description: 'Valora la información recopilada y redacta recomendaciones de seguridad.',
+      objective: 'Convertir las evidencias en conclusiones útiles y documentadas.',
       tasks: [
         'Clasificar los hallazgos.',
         'Valorar el nivel de riesgo.',
@@ -429,13 +398,7 @@ export class Osint {
     },
   ];
 
-  noteFilters = [
-    'Todas',
-    'Idea',
-    'Importante',
-    'Recordatorio',
-    'Hallazgo',
-  ];
+  noteFilters = ['Todas', 'Idea', 'Importante', 'Recordatorio', 'Hallazgo'];
 
   selectTab(tab: OsintTab): void {
     this.selectedTab = tab;
@@ -456,16 +419,12 @@ export class Osint {
 
   togglePhase(phaseId: number): void {
     this.phases = this.phases.map((phase) =>
-      phase.id === phaseId
-        ? { ...phase, completed: !phase.completed }
-        : phase
+      phase.id === phaseId ? { ...phase, completed: !phase.completed } : phase,
     );
   }
 
   isCurrentPhase(index: number): boolean {
-    const firstPendingIndex = this.phases.findIndex(
-      (phase) => !phase.completed
-    );
+    const firstPendingIndex = this.phases.findIndex((phase) => !phase.completed);
 
     return firstPendingIndex === index;
   }
@@ -512,7 +471,7 @@ export class Osint {
               risk: this.cleanText(this.findingRisk),
               recommendation: this.cleanText(this.findingRecommendation),
             }
-          : finding
+          : finding,
       );
     } else {
       const finding: OsintFinding = {
@@ -535,17 +494,13 @@ export class Osint {
   }
 
   deleteFinding(findingId: number): void {
-    const confirmed = window.confirm(
-      '¿Seguro que quieres eliminar este hallazgo?'
-    );
+    const confirmed = window.confirm('¿Seguro que quieres eliminar este hallazgo?');
 
     if (!confirmed) {
       return;
     }
 
-    this.findings = this.findings.filter(
-      (finding) => finding.id !== findingId
-    );
+    this.findings = this.findings.filter((finding) => finding.id !== findingId);
   }
 
   useFindingExample(example: FindingExample): void {
@@ -564,7 +519,7 @@ export class Osint {
 
   resetLaboratory(): void {
     const confirmed = window.confirm(
-      'Esto eliminará los hallazgos, las notas, el progreso y reiniciará el borrador de esta sesión.'
+      'Esto eliminará los hallazgos, las notas, el progreso y reiniciará el borrador de esta sesión.',
     );
 
     if (!confirmed) {
@@ -665,8 +620,7 @@ export class Osint {
       '',
       `Hallazgos registrados: ${this.findings.length}`,
       ...this.findings.map(
-        (finding) =>
-          `- ${finding.code}: ${finding.title} (${finding.severity})`
+        (finding) => `- ${finding.code}: ${finding.title} (${finding.severity})`,
       ),
       '',
       `Conclusión: ${this.reportDraft.conclusion}`,
@@ -693,9 +647,7 @@ export class Osint {
   }
 
   get progressPercentage(): number {
-    return Math.round(
-      (this.completedPhases / this.phases.length) * 100
-    );
+    return Math.round((this.completedPhases / this.phases.length) * 100);
   }
 
   get caseStatus(): string {
@@ -718,7 +670,7 @@ export class Osint {
     return this.findings.filter(
       (finding) =>
         finding.severity === this.selectedFindingFilter ||
-        finding.status === this.selectedFindingFilter
+        finding.status === this.selectedFindingFilter,
     );
   }
 
@@ -727,23 +679,17 @@ export class Osint {
       return this.notes;
     }
 
-    return this.notes.filter(
-      (note) => note.type === this.selectedNoteFilter
-    );
+    return this.notes.filter((note) => note.type === this.selectedNoteFilter);
   }
 
   get highFindingsCount(): number {
     return this.findings.filter(
-      (finding) =>
-        finding.severity === 'Alta' ||
-        finding.severity === 'Crítica'
+      (finding) => finding.severity === 'Alta' || finding.severity === 'Crítica',
     ).length;
   }
 
   get mitigatedFindingsCount(): number {
-    return this.findings.filter(
-      (finding) => finding.status === 'Mitigado'
-    ).length;
+    return this.findings.filter((finding) => finding.status === 'Mitigado').length;
   }
 
   get canSaveFinding(): boolean {
@@ -756,25 +702,14 @@ export class Osint {
   }
 
   get canCreateNote(): boolean {
-    return (
-      this.newNoteTitle.trim().length > 0 &&
-      this.newNoteContent.trim().length > 0
-    );
+    return this.newNoteTitle.trim().length > 0 && this.newNoteContent.trim().length > 0;
   }
 
   get reportSeveritySummary(): string {
-    const critical = this.findings.filter(
-      (finding) => finding.severity === 'Crítica'
-    ).length;
-    const high = this.findings.filter(
-      (finding) => finding.severity === 'Alta'
-    ).length;
-    const medium = this.findings.filter(
-      (finding) => finding.severity === 'Media'
-    ).length;
-    const low = this.findings.filter(
-      (finding) => finding.severity === 'Baja'
-    ).length;
+    const critical = this.findings.filter((finding) => finding.severity === 'Crítica').length;
+    const high = this.findings.filter((finding) => finding.severity === 'Alta').length;
+    const medium = this.findings.filter((finding) => finding.severity === 'Media').length;
+    const low = this.findings.filter((finding) => finding.severity === 'Baja').length;
 
     return `${critical} críticos · ${high} altos · ${medium} medios · ${low} bajos`;
   }

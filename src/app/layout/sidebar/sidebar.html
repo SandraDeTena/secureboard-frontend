@@ -1,54 +1,80 @@
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <img src="/images/logos/Sublogo_SecureBoard.svg" alt="SecureBoard" />
+    <img
+      src="/images/logos/Sublogo_SecureBoard.svg"
+      alt="SecureBoard"
+    />
   </div>
 
   <nav class="sidebar-nav">
-    <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-item"
+    >
       <span class="nav-icon">⌂</span>
       <span>Dashboard</span>
     </a>
 
     <p class="nav-section">CASOS PRÁCTICOS</p>
 
-    <a routerLink="/cases" routerLinkActive="active" class="nav-item">
+    <a
+      routerLink="/cases"
+      routerLinkActive="active"
+      class="nav-item"
+    >
       <span class="nav-icon">▱</span>
       <span>Casos Prácticos</span>
     </a>
 
     @for (item of caseItems; track item.label) {
-      <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">{{ item.icon }}</span>
-        <span>{{ item.label }}</span>
-      </a>
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <span class="nav-icon">{{ item.icon }}</span>
+      <span>{{ item.label }}</span>
+    </a>
     }
 
     <p class="nav-section">PORTFOLIO</p>
 
     @for (item of portfolioItems; track item.label) {
-      <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">{{ item.icon }}</span>
-        <span>{{ item.label }}</span>
-      </a>
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <span class="nav-icon">{{ item.icon }}</span>
+      <span>{{ item.label }}</span>
+    </a>
     }
 
     <p class="nav-section">MI PERFIL</p>
 
     @for (item of profileItems; track item.label) {
-      <a [routerLink]="item.route" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">{{ item.icon }}</span>
-        <span>{{ item.label }}</span>
-      </a>
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <span class="nav-icon">{{ item.icon }}</span>
+      <span>{{ item.label }}</span>
+    </a>
     }
   </nav>
 
   <article class="info-card">
     <h3>¿Qué es SecureBoard?</h3>
     <p>
-      Plataforma interactiva para aprender, demostrar y practicar
-      ciberseguridad con casos reales en un entorno controlado.
+      Plataforma interactiva para aprender, demostrar y practicar ciberseguridad con casos reales en
+      un entorno controlado.
     </p>
-    <a routerLink="/about-secureboard" class="learn-more-link">
+    <a
+      routerLink="/about-secureboard"
+      class="learn-more-link"
+    >
       Saber más →
     </a>
   </article>

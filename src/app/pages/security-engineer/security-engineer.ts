@@ -105,7 +105,13 @@ export class SecurityEngineer {
 
   summaryControls = [
     { label: 'Firewall', value: '1 / 1', detail: 'Implementado', tone: 'orange', icon: '▦' },
-    { label: 'Segmentación de red', value: '1 / 1', detail: 'Implementado', tone: 'purple', icon: '⌘' },
+    {
+      label: 'Segmentación de red',
+      value: '1 / 1',
+      detail: 'Implementado',
+      tone: 'purple',
+      icon: '⌘',
+    },
     { label: 'IDS / IPS', value: '0 / 1', detail: 'Pendiente', tone: 'yellow', icon: '⌛' },
     { label: 'Cifrado de datos', value: '1 / 1', detail: 'Implementado', tone: 'blue', icon: '▣' },
     { label: 'Gestión de parches', value: '0 / 1', detail: 'Pendiente', tone: 'red', icon: '⚙' },
@@ -208,8 +214,7 @@ export class SecurityEngineer {
       title: 'Evaluación de la infraestructura',
       description:
         'Revisa la red, los activos, las configuraciones existentes y los riesgos iniciales.',
-      objective:
-        'Crear una fotografía técnica del estado actual antes de aplicar cambios.',
+      objective: 'Crear una fotografía técnica del estado actual antes de aplicar cambios.',
       tasks: [
         'Inventariar activos y servicios.',
         'Identificar configuraciones inseguras.',
@@ -222,10 +227,8 @@ export class SecurityEngineer {
     {
       id: 2,
       title: 'Diseño de controles',
-      description:
-        'Define qué controles deben aplicarse y cómo se medirán.',
-      objective:
-        'Seleccionar medidas proporcionadas al riesgo y al entorno simulado.',
+      description: 'Define qué controles deben aplicarse y cómo se medirán.',
+      objective: 'Seleccionar medidas proporcionadas al riesgo y al entorno simulado.',
       tasks: [
         'Definir reglas de firewall.',
         'Diseñar la segmentación por VLAN.',
@@ -238,10 +241,8 @@ export class SecurityEngineer {
     {
       id: 3,
       title: 'Implementación',
-      description:
-        'Aplica los controles diseñados dentro del laboratorio.',
-      objective:
-        'Reducir la superficie de ataque sin afectar innecesariamente a la operación.',
+      description: 'Aplica los controles diseñados dentro del laboratorio.',
+      objective: 'Reducir la superficie de ataque sin afectar innecesariamente a la operación.',
       tasks: [
         'Configurar pfSense.',
         'Aplicar reglas de acceso.',
@@ -254,10 +255,8 @@ export class SecurityEngineer {
     {
       id: 4,
       title: 'Validación técnica',
-      description:
-        'Comprueba que cada control funciona y que no genera efectos adversos.',
-      objective:
-        'Aportar evidencia objetiva sobre la eficacia del control.',
+      description: 'Comprueba que cada control funciona y que no genera efectos adversos.',
+      objective: 'Aportar evidencia objetiva sobre la eficacia del control.',
       tasks: [
         'Repetir escaneos de vulnerabilidad.',
         'Validar reglas de firewall.',
@@ -270,10 +269,8 @@ export class SecurityEngineer {
     {
       id: 5,
       title: 'Documentación y mejora',
-      description:
-        'Registra los controles aplicados, riesgos residuales y próximos pasos.',
-      objective:
-        'Cerrar la intervención con una configuración trazable y mantenible.',
+      description: 'Registra los controles aplicados, riesgos residuales y próximos pasos.',
+      objective: 'Cerrar la intervención con una configuración trazable y mantenible.',
       tasks: [
         'Actualizar el inventario.',
         'Crear los controles definitivos.',
@@ -293,8 +290,7 @@ export class SecurityEngineer {
       category: 'Firewall',
       currentState:
         'El firewall permite servicios que no son necesarios para la operación del laboratorio.',
-      targetState:
-        'Permitir únicamente los puertos y orígenes incluidos en la política aprobada.',
+      targetState: 'Permitir únicamente los puertos y orígenes incluidos en la política aprobada.',
       priority: 'Alta',
       explanation:
         'El control debe incluir evidencia de las reglas aplicadas y una prueba de validación.',
@@ -302,13 +298,10 @@ export class SecurityEngineer {
     {
       title: 'Aplicar autenticación multifactor a accesos administrativos',
       category: 'Políticas de acceso',
-      currentState:
-        'Las cuentas administrativas utilizan únicamente contraseña.',
-      targetState:
-        'Los accesos privilegiados requieren un segundo factor de autenticación.',
+      currentState: 'Las cuentas administrativas utilizan únicamente contraseña.',
+      targetState: 'Los accesos privilegiados requieren un segundo factor de autenticación.',
       priority: 'Crítica',
-      explanation:
-        'Define también el procedimiento de recuperación y las excepciones autorizadas.',
+      explanation: 'Define también el procedimiento de recuperación y las excepciones autorizadas.',
     },
   ];
 
@@ -318,8 +311,7 @@ export class SecurityEngineer {
       title: 'Actualizar reglas antes de validar',
       type: 'Importante',
       date: 'Hoy, 12:05',
-      content:
-        'Revisar la política de entrada de pfSense antes de repetir el escaneo.',
+      content: 'Revisar la política de entrada de pfSense antes de repetir el escaneo.',
     },
     {
       id: 2,
@@ -370,13 +362,7 @@ export class SecurityEngineer {
     'Validado',
   ];
 
-  noteFilters = [
-    'Todas',
-    'Idea',
-    'Importante',
-    'Recordatorio',
-    'Control',
-  ];
+  noteFilters = ['Todas', 'Idea', 'Importante', 'Recordatorio', 'Control'];
 
   selectTab(tab: EngineerTab): void {
     this.selectedTab = tab;
@@ -397,9 +383,7 @@ export class SecurityEngineer {
 
   togglePhase(phaseId: number): void {
     this.phases = this.phases.map((phase) =>
-      phase.id === phaseId
-        ? { ...phase, completed: !phase.completed }
-        : phase
+      phase.id === phaseId ? { ...phase, completed: !phase.completed } : phase,
     );
   }
 
@@ -450,7 +434,7 @@ export class SecurityEngineer {
               validation: this.cleanText(this.controlValidation),
               recommendation: this.cleanText(this.controlRecommendation),
             }
-          : control
+          : control,
       );
     } else {
       const control: SecurityControl = {
@@ -515,7 +499,9 @@ export class SecurityEngineer {
   }
 
   resetLaboratory(): void {
-    if (!window.confirm('Esto reiniciará las fases, controles, notas y el borrador de esta sesión.')) {
+    if (
+      !window.confirm('Esto reiniciará las fases, controles, notas y el borrador de esta sesión.')
+    ) {
       return;
     }
 
@@ -573,9 +559,7 @@ export class SecurityEngineer {
       this.reportDraft.executiveSummary,
       '',
       `Controles registrados: ${this.controls.length}`,
-      ...this.controls.map(
-        (control) => `- ${control.code}: ${control.title} (${control.status})`
-      ),
+      ...this.controls.map((control) => `- ${control.code}: ${control.title} (${control.status})`),
     ].join('\n');
 
     try {
@@ -611,7 +595,7 @@ export class SecurityEngineer {
     return this.controls.filter(
       (control) =>
         control.priority === this.selectedControlFilter ||
-        control.status === this.selectedControlFilter
+        control.status === this.selectedControlFilter,
     );
   }
 
@@ -622,7 +606,7 @@ export class SecurityEngineer {
 
   get criticalControlsCount(): number {
     return this.controls.filter(
-      (control) => control.priority === 'Crítica' || control.priority === 'Alta'
+      (control) => control.priority === 'Crítica' || control.priority === 'Alta',
     ).length;
   }
 
@@ -641,10 +625,7 @@ export class SecurityEngineer {
   }
 
   get canCreateNote(): boolean {
-    return (
-      this.newNoteTitle.trim().length > 0 &&
-      this.newNoteContent.trim().length > 0
-    );
+    return this.newNoteTitle.trim().length > 0 && this.newNoteContent.trim().length > 0;
   }
 
   get controlStatusSummary(): string {

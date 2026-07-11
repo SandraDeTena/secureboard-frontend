@@ -295,33 +295,33 @@
   }
 
   .logo-box {
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.04);
-}
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+  }
 
-.logo-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 0.35rem;
-}
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.35rem;
+  }
 
-.status-badge {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.14);
-}
+  .status-badge {
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.14);
+  }
 
-.status-badge:has(+ h3) {
-  border: 1px solid rgba(34, 197, 94, 0.35);
-}
+  .status-badge:has(+ h3) {
+    border: 1px solid rgba(34, 197, 94, 0.35);
+  }
 
-.credential {
-  width: fit-content;
-  border: 1px solid rgba(168, 85, 247, 0.35);
-  border-radius: 999px;
-  padding: 0.45rem 0.7rem;
-  color: #d8b4fe;
-  font-size: 0.78rem;
-  background: rgba(168, 85, 247, 0.08);
-}
+  .credential {
+    width: fit-content;
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 999px;
+    padding: 0.45rem 0.7rem;
+    color: #d8b4fe;
+    font-size: 0.78rem;
+    background: rgba(168, 85, 247, 0.08);
+  }
 }

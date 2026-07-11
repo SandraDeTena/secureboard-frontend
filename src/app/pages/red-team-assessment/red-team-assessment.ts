@@ -100,11 +100,23 @@ export class RedTeamAssessment {
   ];
 
   summaryFindings = [
-    { label: 'Vulnerabilidades críticas', value: '2', detail: 'Prioridad máxima', tone: 'red', icon: '◉' },
+    {
+      label: 'Vulnerabilidades críticas',
+      value: '2',
+      detail: 'Prioridad máxima',
+      tone: 'red',
+      icon: '◉',
+    },
     { label: 'Vulnerabilidades altas', value: '4', detail: 'Revisar', tone: 'orange', icon: '⚠' },
     { label: 'Vulnerabilidades medias', value: '6', detail: 'Analizar', tone: 'yellow', icon: '+' },
     { label: 'Servicios identificados', value: '7', detail: 'Enumerados', tone: 'blue', icon: '▤' },
-    { label: 'Credenciales de laboratorio', value: '2', detail: 'Validadas', tone: 'purple', icon: '⌁' },
+    {
+      label: 'Credenciales de laboratorio',
+      value: '2',
+      detail: 'Validadas',
+      tone: 'purple',
+      icon: '⌁',
+    },
   ];
 
   tools: RedTool[] = [
@@ -224,10 +236,8 @@ export class RedTeamAssessment {
     {
       id: 2,
       title: 'Reconocimiento y enumeración',
-      description:
-        'Identifica hosts, puertos, servicios, versiones y superficie de exposición.',
-      objective:
-        'Construir un mapa técnico inicial sin alterar innecesariamente el entorno.',
+      description: 'Identifica hosts, puertos, servicios, versiones y superficie de exposición.',
+      objective: 'Construir un mapa técnico inicial sin alterar innecesariamente el entorno.',
       tasks: [
         'Descubrir hosts activos.',
         'Enumerar puertos TCP permitidos.',
@@ -242,8 +252,7 @@ export class RedTeamAssessment {
       title: 'Análisis de vulnerabilidades',
       description:
         'Relaciona versiones, configuraciones y comportamientos con vulnerabilidades conocidas.',
-      objective:
-        'Distinguir vulnerabilidades reales de simples indicios o falsos positivos.',
+      objective: 'Distinguir vulnerabilidades reales de simples indicios o falsos positivos.',
       tasks: [
         'Revisar vulnerabilidades asociadas a los servicios.',
         'Validar manualmente los resultados relevantes.',
@@ -256,8 +265,7 @@ export class RedTeamAssessment {
     {
       id: 4,
       title: 'Validación controlada',
-      description:
-        'Demuestra el impacto de forma segura y limitada dentro del laboratorio.',
+      description: 'Demuestra el impacto de forma segura y limitada dentro del laboratorio.',
       objective:
         'Confirmar el riesgo sin causar daño, persistencia real ni interrupción del servicio.',
       tasks: [
@@ -274,8 +282,7 @@ export class RedTeamAssessment {
       title: 'Post-explotación y cierre',
       description:
         'Documenta el impacto, elimina artefactos de prueba y redacta las recomendaciones.',
-      objective:
-        'Cerrar el ejercicio de manera limpia, trazable y profesional.',
+      objective: 'Cerrar el ejercicio de manera limpia, trazable y profesional.',
       tasks: [
         'Eliminar artefactos creados durante la prueba.',
         'Documentar privilegios y alcance alcanzado.',
@@ -305,8 +312,7 @@ export class RedTeamAssessment {
       evidence:
         'Ejemplo: el servicio permite autenticación con una credencial incluida en el escenario.',
       severity: 'Crítica',
-      explanation:
-        'No uses fuerza bruta fuera del laboratorio ni pruebes credenciales reales.',
+      explanation: 'No uses fuerza bruta fuera del laboratorio ni pruebes credenciales reales.',
     },
   ];
 
@@ -364,13 +370,7 @@ export class RedTeamAssessment {
     'Mitigado',
   ];
 
-  noteFilters = [
-    'Todas',
-    'Idea',
-    'Importante',
-    'Recordatorio',
-    'Hallazgo',
-  ];
+  noteFilters = ['Todas', 'Idea', 'Importante', 'Recordatorio', 'Hallazgo'];
 
   selectTab(tab: RedTab): void {
     this.selectedTab = tab;
@@ -391,9 +391,7 @@ export class RedTeamAssessment {
 
   togglePhase(phaseId: number): void {
     this.phases = this.phases.map((phase) =>
-      phase.id === phaseId
-        ? { ...phase, completed: !phase.completed }
-        : phase
+      phase.id === phaseId ? { ...phase, completed: !phase.completed } : phase,
     );
   }
 
@@ -442,7 +440,7 @@ export class RedTeamAssessment {
               impact: this.cleanText(this.findingImpact),
               recommendation: this.cleanText(this.findingRecommendation),
             }
-          : finding
+          : finding,
       );
     } else {
       const finding: RedFinding = {
@@ -505,7 +503,9 @@ export class RedTeamAssessment {
   }
 
   resetLaboratory(): void {
-    if (!window.confirm('Esto reiniciará las fases, hallazgos, notas y el borrador de esta sesión.')) {
+    if (
+      !window.confirm('Esto reiniciará las fases, hallazgos, notas y el borrador de esta sesión.')
+    ) {
       return;
     }
 
@@ -561,7 +561,7 @@ export class RedTeamAssessment {
       '',
       `Hallazgos: ${this.findings.length}`,
       ...this.findings.map(
-        (finding) => `- ${finding.code}: ${finding.title} (${finding.severity})`
+        (finding) => `- ${finding.code}: ${finding.title} (${finding.severity})`,
       ),
     ].join('\n');
 
@@ -598,7 +598,7 @@ export class RedTeamAssessment {
     return this.findings.filter(
       (finding) =>
         finding.severity === this.selectedFindingFilter ||
-        finding.status === this.selectedFindingFilter
+        finding.status === this.selectedFindingFilter,
     );
   }
 
@@ -609,7 +609,7 @@ export class RedTeamAssessment {
 
   get highFindingsCount(): number {
     return this.findings.filter(
-      (finding) => finding.severity === 'Alta' || finding.severity === 'Crítica'
+      (finding) => finding.severity === 'Alta' || finding.severity === 'Crítica',
     ).length;
   }
 
@@ -627,10 +627,7 @@ export class RedTeamAssessment {
   }
 
   get canCreateNote(): boolean {
-    return (
-      this.newNoteTitle.trim().length > 0 &&
-      this.newNoteContent.trim().length > 0
-    );
+    return this.newNoteTitle.trim().length > 0 && this.newNoteContent.trim().length > 0;
   }
 
   get reportSeveritySummary(): string {
