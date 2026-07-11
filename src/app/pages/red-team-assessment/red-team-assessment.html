@@ -15,28 +15,35 @@
       <div>
         <span class="case-chip">Caso 03</span>
         <h1>Red Team Assessment</h1>
-        <p>Realiza un reconocimiento autorizado y evalúa vulnerabilidades en los sistemas objetivo.</p>
+        <p>
+          Realiza un reconocimiento autorizado y evalúa vulnerabilidades en los
+          sistemas objetivo.
+        </p>
       </div>
     </div>
 
-    <button class="guide-button">▣ Ver guía del caso</button>
+    <button type="button" class="guide-button" (click)="openGuide()">
+      ▣ Ver guía del caso
+    </button>
   </header>
 
   <section class="stats-grid">
     <article class="stat-card">
       <div class="stat-icon">
         <svg viewBox="0 0 64 64">
-          <circle cx="32" cy="32" r="18"></circle>
+          <circle cx="32" cy="32" r="19"></circle>
           <circle cx="32" cy="32" r="5"></circle>
-          <path d="M32 7v13M32 44v13M7 32h13M44 32h13"></path>
+          <path d="M32 5v13M32 46v13M5 32h13M46 32h13"></path>
         </svg>
       </div>
+
       <div>
         <span>Dificultad</span>
         <div class="difficulty-dots">
           <i></i><i></i><i></i><i></i><i class="empty"></i>
         </div>
       </div>
+
       <strong>Difícil</strong>
     </article>
 
@@ -47,6 +54,7 @@
           <path d="M32 18v15l10 7"></path>
         </svg>
       </div>
+
       <div>
         <span>Tiempo estimado</span>
         <strong>120 - 150 min</strong>
@@ -54,10 +62,13 @@
     </article>
 
     <article class="stat-card">
-      <div class="progress-circle">25%</div>
+      <div class="progress-circle" [style.--progress]="progressPercentage">
+        {{ progressPercentage }}%
+      </div>
+
       <div>
         <span>Estado del caso</span>
-        <strong class="red-text">En progreso</strong>
+        <strong class="red-text">{{ caseStatus }}</strong>
       </div>
     </article>
 
@@ -67,6 +78,7 @@
           <path d="M32 7l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 25l17-2 7-16z"></path>
         </svg>
       </div>
+
       <div>
         <span>Puntos posibles</span>
         <strong>350 pts</strong>
@@ -74,216 +86,882 @@
     </article>
   </section>
 
-  <nav class="case-tabs">
-    <button class="active"><span>▣</span> Resumen</button>
-    <button><span>⌘</span> Fase a fase</button>
-    <button><span>ⓘ</span> Hallazgos</button>
-    <button><span>▤</span> Informe</button>
-    <button><span>□</span> Notas</button>
+  <nav class="case-tabs" aria-label="Secciones del caso Red Team">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        [class.active]="selectedTab === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span>{{ tab.icon }}</span>
+        {{ tab.label }}
+      </button>
+    }
   </nav>
 
-  <section class="content-grid">
-    <main class="main-column">
-      <article class="panel investigation-summary">
-        <h2>Resumen de la evaluación</h2>
+  <main class="tab-content">
+    @switch (selectedTab) {
+      @case ('summary') {
+        <section class="content-grid">
+          <main class="main-column">
+            <article class="panel evaluation-summary">
+              <h2>Resumen de la evaluación</h2>
 
-        <div class="summary-layout">
-          <div class="red-visual">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle cx="60" cy="60" r="34"></circle>
-              <circle cx="60" cy="60" r="8"></circle>
-              <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
-              <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
-            </svg>
-          </div>
-
-          <div class="scenario-card">
-            <h3>Escenario</h3>
-            <p>
-              Se te ha autorizado para evaluar la seguridad de una red interna ficticia.
-              Tu objetivo es identificar y explotar vulnerabilidades para demostrar el
-              impacto y proponer recomendaciones de mitigación.
-            </p>
-
-            <div class="scenario-grid">
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <rect x="12" y="16" width="40" height="30" rx="4"></rect>
-                    <path d="M20 26h12M20 34h20"></path>
+              <div class="summary-layout">
+                <div class="red-visual">
+                  <svg viewBox="0 0 120 120" aria-hidden="true">
+                    <circle cx="60" cy="60" r="34"></circle>
+                    <circle cx="60" cy="60" r="8"></circle>
+                    <path d="M60 12v25M60 83v25M12 60h25M83 60h25"></path>
+                    <path d="M29 29l15 15M76 76l15 15M91 29L76 44M44 76L29 91"></path>
                   </svg>
-                </span>
-                <div>
-                  <small>Entorno</small>
-                  <strong>Red interna simulada</strong>
+                </div>
+
+                <div class="scenario-card">
+                  <h3>Escenario</h3>
+
+                  <p>
+                    Se ha autorizado una evaluación de seguridad sobre una
+                    infraestructura de laboratorio. El objetivo es identificar
+                    vulnerabilidades, validar su explotación de forma controlada y
+                    documentar el impacto para elaborar recomendaciones de mitigación.
+                  </p>
+
+                  <div class="scenario-grid">
+                    <div>
+                      <span class="mini-icon">▣</span>
+                      <div>
+                        <small>Entorno</small>
+                        <strong>Laboratorio de pentesting</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">♙</span>
+                      <div>
+                        <small>Rol</small>
+                        <strong>Red Team Operator</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">▤</span>
+                      <div>
+                        <small>Sistema objetivo</small>
+                        <strong>Servidor Linux + aplicación web vulnerable</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">◎</span>
+                      <div>
+                        <small>Objetivo principal</small>
+                        <strong>Enumerar, validar y documentar vulnerabilidades</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-card">
+                  <h4>Información clave</h4>
+                  <p><span>Hosts objetivo</span><strong>3</strong></p>
+                  <p><span>Servicios expuestos</span><strong>7</strong></p>
+                  <p><span>Vulnerabilidades esperadas</span><strong>10+</strong></p>
+                  <p><span>Nivel de acceso objetivo</span><strong>Root</strong></p>
+                  <p><span>Tiempo asignado</span><strong>02:30:00</strong></p>
+                  <p><span>IPs en alcance</span><strong>10.10.1.0/24</strong></p>
                 </div>
               </div>
+            </article>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <circle cx="32" cy="22" r="10"></circle>
-                    <path d="M16 54c2-12 10-18 16-18s14 6 16 18"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Rol</small>
-                  <strong>Red Team Operator</strong>
-                </div>
+            <article class="panel">
+              <h2>Indicadores del escenario</h2>
+
+              <div class="findings-grid">
+                @for (item of summaryFindings; track item.label) {
+                  <article class="finding-card" [class]="item.tone">
+                    <div class="finding-icon">{{ item.icon }}</div>
+                    <div>
+                      <span>{{ item.label }}</span>
+                      <strong>{{ item.value }}</strong>
+                      <small>{{ item.detail }}</small>
+                    </div>
+                  </article>
+                }
+              </div>
+            </article>
+
+            <article class="panel activity-panel">
+              <h2>Actividad reciente</h2>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Actividad</th>
+                      <th>Herramienta</th>
+                      <th>Resultado</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    @for (item of activities; track item.time) {
+                      <tr>
+                        <td>{{ item.time }}</td>
+                        <td>{{ item.activity }}</td>
+                        <td>{{ item.tool }}</td>
+                        <td>
+                          <span class="result-pill" [class]="item.resultTone">
+                            {{ item.result }}
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
               </div>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <rect x="12" y="18" width="40" height="28" rx="3"></rect>
-                    <path d="M22 52h20M28 46v6M36 46v6"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Sistema objetivo</small>
-                  <strong>Servidor Linux y aplicación web</strong>
-                </div>
+              <button type="button" class="secondary-button" (click)="selectTab('phases')">
+                Ver toda la actividad →
+              </button>
+            </article>
+          </main>
+
+          <aside class="side-column">
+            <article class="panel">
+              <h2>Herramientas recomendadas</h2>
+              <p class="side-subtitle">
+                Utiliza únicamente las herramientas dentro del laboratorio autorizado.
+              </p>
+
+              <div class="tools-list">
+                @for (tool of visibleTools; track tool.name) {
+                  <article class="tool-card">
+                    <div class="tool-icon" [class]="tool.tone">{{ tool.initial }}</div>
+
+                    <div>
+                      <strong>{{ tool.name }}</strong>
+                      <span>{{ tool.description }}</span>
+                    </div>
+
+                    <a
+                      class="tool-open"
+                      [href]="tool.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Abrir
+                    </a>
+                  </article>
+                }
               </div>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <path d="M32 6l22 9v17c0 15-9 25-22 31C19 57 10 47 10 32V15l22-9z"></path>
-                    <circle cx="32" cy="32" r="7"></circle>
-                  </svg>
-                </span>
-                <div>
-                  <small>Objetivo principal</small>
-                  <strong>Encontrar vectores de ataque, explotar y obtener acceso</strong>
+              <button type="button" class="all-tools" (click)="toggleAllTools()">
+                {{ showAllTools ? 'Ver menos herramientas ↑' : 'Ver todas las herramientas →' }}
+              </button>
+            </article>
+
+            <article class="panel notes-panel">
+              <header>
+                <h2>Notas rápidas</h2>
+                <button type="button" (click)="selectTab('notes')">＋ Nueva nota</button>
+              </header>
+
+              @if (notes.length > 0) {
+                <div class="note-list">
+                  @for (note of notes.slice(0, 3); track note.id) {
+                    <article class="note-card">
+                      <span>{{ note.date }}</span>
+                      <strong [class]="note.type.toLowerCase()">{{ note.type }}</strong>
+                      <p>{{ note.content }}</p>
+                    </article>
+                  }
                 </div>
+              } @else {
+                <p class="empty-text">Todavía no has creado notas.</p>
+              }
+
+              <button type="button" class="all-tools" (click)="selectTab('notes')">
+                Ver todas las notas →
+              </button>
+            </article>
+
+            <article class="continue-card">
+              <div>
+                <h2>¿Listo para continuar?</h2>
+                <p>Avanza a la siguiente fase y documenta únicamente pruebas autorizadas.</p>
               </div>
+
+              <button type="button" (click)="selectTab('phases')">
+                <span>⌘</span>
+                Ir a Fase a fase →
+              </button>
+            </article>
+          </aside>
+        </section>
+      }
+
+      @case ('phases') {
+        <section class="phases-layout">
+          <div class="phases-main">
+            <article class="panel phases-intro">
+              <span class="section-eyebrow">Proceso guiado</span>
+              <h2>Fases de la evaluación Red Team</h2>
+              <p>
+                Completa cada fase dentro del alcance autorizado. El objetivo es
+                demostrar impacto de forma controlada, no causar daño.
+              </p>
+            </article>
+
+            <div class="phase-list">
+              @for (phase of phases; track phase.id; let index = $index) {
+                <article
+                  class="phase-card"
+                  [class.completed]="phase.completed"
+                  [class.current]="!phase.completed && isCurrentPhase(index)"
+                >
+                  <div class="phase-number">{{ phase.completed ? '✓' : index + 1 }}</div>
+
+                  <div class="phase-content">
+                    <div class="phase-heading">
+                      <div>
+                        <span>Fase {{ index + 1 }}</span>
+                        <h3>{{ phase.title }}</h3>
+                      </div>
+
+                      <span class="phase-status" [class.completed]="phase.completed">
+                        {{ phase.completed ? 'Completada' : 'Pendiente' }}
+                      </span>
+                    </div>
+
+                    <p>{{ phase.description }}</p>
+
+                    <div class="phase-box">
+                      <strong>Objetivo</strong>
+                      <span>{{ phase.objective }}</span>
+                    </div>
+
+                    <div class="phase-box">
+                      <strong>Tareas</strong>
+                      <ul>
+                        @for (task of phase.tasks; track task) {
+                          <li>{{ task }}</li>
+                        }
+                      </ul>
+                    </div>
+
+                    <div class="phase-tools">
+                      <strong>Herramientas sugeridas:</strong>
+                      @for (tool of phase.tools; track tool) {
+                        <span>{{ tool }}</span>
+                      }
+                    </div>
+
+                    <div class="phase-actions">
+                      <button
+                        type="button"
+                        [class.completed]="phase.completed"
+                        (click)="togglePhase(phase.id)"
+                      >
+                        {{ phase.completed ? 'Marcar como pendiente' : 'Marcar fase como completada' }}
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              }
             </div>
           </div>
 
-          <div class="info-card">
-            <h4>Información clave</h4>
-            <p><span>Hosts objetivo</span><strong>3</strong></p>
-            <p><span>Servicios expuestos</span><strong>7</strong></p>
-            <p><span>Vulnerabilidades esperadas</span><strong>10+</strong></p>
-            <p><span>Nivel de acceso objetivo</span><strong>Root</strong></p>
-            <p><span>Tiempo asignado</span><strong>02:30:00</strong></p>
-            <p><span>IPs en alcance</span><strong>10.10.1.0/24</strong></p>
-          </div>
-        </div>
-      </article>
+          <aside class="phase-side">
+            <article class="panel sticky-panel">
+              <h2>Progreso general</h2>
 
-      <article class="panel">
-        <h2>Hallazgos detectados</h2>
+              <div class="large-progress">
+                <div class="progress-circle large" [style.--progress]="progressPercentage">
+                  {{ progressPercentage }}%
+                </div>
 
-        <div class="findings-grid">
-          @for (item of findings; track item.label) {
-            <article class="finding-card" [class]="item.tone">
-              <div class="finding-icon">{{ item.icon }}</div>
-              <div>
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
-                <small>{{ item.detail }}</small>
+                <div>
+                  <strong>{{ completedPhases }} de {{ phases.length }}</strong>
+                  <span>fases completadas</span>
+                </div>
+              </div>
+
+              <div class="progress-bar">
+                <span [style.width.%]="progressPercentage"></span>
               </div>
             </article>
-          }
-        </div>
-      </article>
 
-      <article class="panel activity-panel">
-        <h2>Actividad reciente</h2>
+            <article class="panel">
+              <h2>Reglas de enfrentamiento</h2>
+              <ul class="best-practices">
+                <li>No salgas nunca del rango autorizado.</li>
+                <li>No realices ataques de denegación de servicio.</li>
+                <li>No uses credenciales reales ni objetivos externos.</li>
+                <li>Evita persistencia y cambios permanentes.</li>
+                <li>Preserva evidencias y limpia los artefactos de prueba.</li>
+              </ul>
+            </article>
+          </aside>
+        </section>
+      }
 
-        <table>
-          <thead>
-            <tr>
-              <th>Hora</th>
-              <th>Actividad</th>
-              <th>Herramienta</th>
-              <th>Resultado</th>
-            </tr>
-          </thead>
+      @case ('findings') {
+        <section class="findings-workspace">
+          <header class="workspace-header panel">
+            <div>
+              <span class="section-eyebrow">Trabajo del operador</span>
+              <h2>Hallazgos de la evaluación</h2>
+              <p>
+                Registra vulnerabilidades confirmadas. Los indicadores del resumen
+                son datos del escenario, no resultados definitivos.
+              </p>
+            </div>
 
-          <tbody>
-            @for (item of activities; track item.time) {
-              <tr>
-                <td>{{ item.time }}</td>
-                <td>{{ item.activity }}</td>
-                <td>{{ item.tool }}</td>
-                <td>
-                  <span class="status-pill" [class]="item.statusTone">
-                    {{ item.status }}
+            <div class="workspace-actions">
+              <button type="button" class="secondary-button compact-button" (click)="resetLaboratory()">
+                Reiniciar sesión
+              </button>
+
+              <button type="button" class="primary-button compact-button" (click)="openNewFindingForm()">
+                + Nuevo hallazgo
+              </button>
+            </div>
+          </header>
+
+          <section class="finding-stats">
+            <article><strong>{{ findings.length }}</strong><span>Hallazgos creados</span></article>
+            <article><strong>{{ highFindingsCount }}</strong><span>Altos o críticos</span></article>
+            <article><strong>{{ mitigatedFindingsCount }}</strong><span>Mitigados</span></article>
+          </section>
+
+          @if (showFindingForm) {
+            <article class="panel finding-form-panel">
+              <div class="form-heading">
+                <div>
+                  <span class="section-eyebrow">
+                    {{ editingFindingId === null ? 'Nuevo registro' : 'Edición' }}
                   </span>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                  <h2>{{ editingFindingId === null ? 'Crear hallazgo' : 'Editar hallazgo' }}</h2>
+                </div>
 
-        <button class="secondary-button">Ver toda la actividad →</button>
-      </article>
-    </main>
-
-    <aside class="side-column">
-      <article class="panel">
-        <h2>Herramientas recomendadas</h2>
-        <p class="side-subtitle">Accede a las herramientas que puedes utilizar en este caso.</p>
-
-        <div class="tools-list">
-          @for (tool of tools; track tool.name) {
-            <article class="tool-card">
-              <div class="tool-icon" [class]="tool.tone">{{ tool.icon }}</div>
-              <div>
-                <strong>{{ tool.name }}</strong>
-                <span>{{ tool.text }}</span>
+                <button type="button" class="close-form-button" (click)="closeFindingForm()">×</button>
               </div>
-              <button>Abrir</button>
-              <a>↗</a>
+
+              <div class="finding-form-grid">
+                <label class="full-field">
+                  <span>Título</span>
+                  <input
+                    type="text"
+                    maxlength="120"
+                    [value]="findingTitle"
+                    (input)="findingTitle = $any($event.target).value"
+                  />
+                </label>
+
+                <label>
+                  <span>Categoría</span>
+                  <select
+                    [value]="findingCategory"
+                    (change)="findingCategory = $any($event.target).value"
+                  >
+                    @for (category of findingCategories; track category) {
+                      <option [value]="category">{{ category }}</option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  <span>Severidad</span>
+                  <select
+                    [value]="findingSeverity"
+                    (change)="findingSeverity = $any($event.target).value"
+                  >
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Crítica">Crítica</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Estado</span>
+                  <select
+                    [value]="findingStatus"
+                    (change)="findingStatus = $any($event.target).value"
+                  >
+                    <option value="Abierto">Abierto</option>
+                    <option value="En revisión">En revisión</option>
+                    <option value="Mitigado">Mitigado</option>
+                  </select>
+                </label>
+
+                <label class="full-field">
+                  <span>Evidencia</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="findingEvidence"
+                    (input)="findingEvidence = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Impacto</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="findingImpact"
+                    (input)="findingImpact = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Recomendación</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="findingRecommendation"
+                    (input)="findingRecommendation = $any($event.target).value"
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="form-footer">
+                <small>No introduzcas credenciales reales ni información fuera del laboratorio.</small>
+
+                <div>
+                  <button type="button" class="secondary-button compact-button" (click)="closeFindingForm()">
+                    Cancelar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="primary-button compact-button"
+                    [disabled]="!canSaveFinding"
+                    (click)="saveFinding()"
+                  >
+                    {{ editingFindingId === null ? 'Guardar hallazgo' : 'Guardar cambios' }}
+                  </button>
+                </div>
+              </div>
             </article>
           }
-        </div>
 
-        <a class="all-tools">Ver todas las herramientas →</a>
-      </article>
+          @if (findings.length === 0 && !showFindingForm) {
+            <section class="empty-findings-layout">
+              <article class="empty-state main-empty-state">
+                <div class="empty-state-icon">◎</div>
+                <h3>Todavía no has registrado ningún hallazgo</h3>
+                <p>Completa las fases y documenta únicamente vulnerabilidades confirmadas.</p>
+                <button type="button" class="primary-button compact-button" (click)="openNewFindingForm()">
+                  Crear mi primer hallazgo
+                </button>
+              </article>
 
-      <article class="panel notes-panel">
+              <aside class="panel examples-panel">
+                <h2>Ejemplos para aprender</h2>
+                <p>No forman parte de la evaluación hasta que los revises y completes.</p>
+
+                @for (example of findingExamples; track example.title) {
+                  <article class="example-card">
+                    <span>{{ example.category }}</span>
+                    <h3>{{ example.title }}</h3>
+                    <p>{{ example.explanation }}</p>
+                    <button type="button" (click)="useFindingExample(example)">
+                      Usar como borrador →
+                    </button>
+                  </article>
+                }
+              </aside>
+            </section>
+          } @else {
+            <div class="finding-filter-buttons">
+              @for (filter of findingFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedFindingFilter === filter"
+                  (click)="selectedFindingFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <section class="analyst-findings-grid">
+              @for (finding of filteredFindings; track finding.id) {
+                <article
+                  class="analyst-finding-card"
+                  [class.severity-critical]="finding.severity === 'Crítica'"
+                  [class.severity-high]="finding.severity === 'Alta'"
+                  [class.severity-medium]="finding.severity === 'Media'"
+                  [class.severity-low]="finding.severity === 'Baja'"
+                >
+                  <header>
+                    <div>
+                      <span>{{ finding.code }}</span>
+                      <h3>{{ finding.title }}</h3>
+                    </div>
+                    <span class="finding-severity">{{ finding.severity }}</span>
+                  </header>
+
+                  <div class="finding-meta">
+                    <span>{{ finding.category }}</span>
+                    <span>{{ finding.status }}</span>
+                    <span>{{ finding.createdAt }}</span>
+                  </div>
+
+                  <section><strong>Evidencia</strong><p>{{ finding.evidence }}</p></section>
+                  <section><strong>Impacto</strong><p>{{ finding.impact }}</p></section>
+                  <section class="finding-recommendation">
+                    <strong>Recomendación</strong><p>{{ finding.recommendation }}</p>
+                  </section>
+
+                  <footer>
+                    <button type="button" class="edit-button" (click)="editFinding(finding)">Editar</button>
+                    <button type="button" class="delete-button" (click)="deleteFinding(finding.id)">Eliminar</button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay resultados para este filtro</h3>
+                </article>
+              }
+            </section>
+
+            <article class="generate-report-panel">
+              <div>
+                <h2>¿Has terminado de documentar?</h2>
+                <p>Los hallazgos se incorporan automáticamente al informe.</p>
+              </div>
+
+              <button type="button" class="primary-button compact-button" (click)="selectTab('report')">
+                Generar borrador del informe →
+              </button>
+            </article>
+          }
+        </section>
+      }
+
+      @case ('report') {
+        <section class="editable-report-layout">
+          <article class="panel report-editor">
+            <header class="workspace-header">
+              <div>
+                <span class="section-eyebrow">Borrador editable</span>
+                <h2>Informe Red Team</h2>
+                <p>El sistema añade los datos del caso y tú redactas la evaluación.</p>
+              </div>
+
+              <button type="button" class="secondary-button compact-button" (click)="resetLaboratory()">
+                Reiniciar sesión
+              </button>
+            </header>
+
+            <div class="report-editor-fields">
+              <label>
+                <span>Resumen ejecutivo</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.executiveSummary"
+                  (input)="updateExecutiveSummary($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Alcance</span>
+                <textarea
+                  rows="5"
+                  [value]="reportDraft.scope"
+                  (input)="updateScope($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Metodología</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.methodology"
+                  (input)="updateMethodology($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Recomendaciones generales</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.generalRecommendations"
+                  (input)="updateGeneralRecommendations($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Conclusión</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.conclusion"
+                  (input)="updateConclusion($any($event.target).value)"
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="security-notice">
+              <strong>Modo laboratorio:</strong>
+              <span>El contenido existe solo durante esta sesión y sobre objetivos simulados.</span>
+            </div>
+          </article>
+
+          <article class="report-document">
+            <header class="report-cover">
+              <div class="report-brand">
+                <div class="report-logo">S</div>
+                <div>
+                  <strong>SecureBoard</strong>
+                  <span>Security Operations Center</span>
+                </div>
+              </div>
+
+              <span>Informe Red Team</span>
+              <h1>Evaluación de seguridad autorizada</h1>
+              <p>Informe técnico sobre la infraestructura ficticia incluida en el laboratorio.</p>
+
+              <div class="report-meta">
+                <div><span>Operadora</span><strong>Sandra De Tena</strong></div>
+                <div><span>Fecha</span><strong>{{ reportDate }}</strong></div>
+                <div><span>Estado</span><strong>{{ caseStatus }}</strong></div>
+              </div>
+            </header>
+
+            <section class="report-section">
+              <h2>1. Resumen ejecutivo</h2>
+              <p>{{ reportDraft.executiveSummary }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>2. Alcance y limitaciones</h2>
+              <p>{{ reportDraft.scope }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>3. Metodología</h2>
+              <p>{{ reportDraft.methodology }}</p>
+              <ol>
+                @for (phase of phases; track phase.id) {
+                  <li>{{ phase.title }}: {{ phase.completed ? 'completada' : 'pendiente' }}</li>
+                }
+              </ol>
+            </section>
+
+            <section class="report-section">
+              <div class="report-section-heading">
+                <h2>4. Hallazgos registrados</h2>
+                <span>{{ reportSeveritySummary }}</span>
+              </div>
+
+              @if (findings.length > 0) {
+                <div class="report-findings">
+                  @for (finding of findings; track finding.id) {
+                    <article>
+                      <span>{{ finding.code }}</span>
+                      <div>
+                        <strong>{{ finding.title }}</strong>
+                        <p>{{ finding.impact }}</p>
+                      </div>
+                      <small>{{ finding.severity }}</small>
+                    </article>
+                  }
+                </div>
+              } @else {
+                <div class="report-empty-section">No hay hallazgos registrados.</div>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>5. Recomendaciones generales</h2>
+              <p>{{ reportDraft.generalRecommendations }}</p>
+
+              @if (findings.length > 0) {
+                <ul>
+                  @for (finding of findings; track finding.id) {
+                    <li><strong>{{ finding.code }}:</strong> {{ finding.recommendation }}</li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>6. Conclusión</h2>
+              <p>{{ reportDraft.conclusion }}</p>
+            </section>
+
+            <footer class="report-footer">Documento generado en modo laboratorio.</footer>
+          </article>
+
+          <aside class="report-session-actions">
+            <article class="panel">
+              <h2>Acciones del informe</h2>
+
+              <button type="button" class="primary-button" (click)="printReport()">
+                Imprimir / Guardar PDF
+              </button>
+
+              <button type="button" class="secondary-button" (click)="copyReportSummary()">
+                Copiar resumen
+              </button>
+
+              @if (reportCopied) {
+                <span class="copy-confirmation">Resumen copiado ✓</span>
+              }
+            </article>
+          </aside>
+        </section>
+      }
+
+      @case ('notes') {
+        <section class="notes-layout">
+          <article class="panel note-form-panel">
+            <span class="section-eyebrow">Bloc de la operadora</span>
+            <h2>Nueva nota</h2>
+
+            <label>
+              <span>Título</span>
+              <input
+                type="text"
+                [value]="newNoteTitle"
+                (input)="newNoteTitle = $any($event.target).value"
+              />
+            </label>
+
+            <label>
+              <span>Tipo</span>
+              <select
+                [value]="newNoteType"
+                (change)="newNoteType = $any($event.target).value"
+              >
+                <option value="Idea">Idea</option>
+                <option value="Importante">Importante</option>
+                <option value="Recordatorio">Recordatorio</option>
+                <option value="Hallazgo">Hallazgo</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Contenido</span>
+              <textarea
+                rows="8"
+                [value]="newNoteContent"
+                (input)="newNoteContent = $any($event.target).value"
+              ></textarea>
+            </label>
+
+            <button
+              type="button"
+              class="primary-button"
+              [disabled]="!canCreateNote"
+              (click)="createNote()"
+            >
+              Guardar nota
+            </button>
+          </article>
+
+          <section class="notes-list-section">
+            <div class="notes-heading">
+              <div>
+                <span class="section-eyebrow">Evaluación</span>
+                <h2>Mis notas</h2>
+              </div>
+              <strong>{{ notes.length }} notas</strong>
+            </div>
+
+            <div class="note-filter-buttons">
+              @for (filter of noteFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedNoteFilter === filter"
+                  (click)="selectedNoteFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <div class="notes-list">
+              @for (note of filteredNotes; track note.id) {
+                <article class="note-card-full">
+                  <header>
+                    <div>
+                      <span>{{ note.date }}</span>
+                      <h3>{{ note.title }}</h3>
+                    </div>
+                    <span class="note-type" [class]="note.type.toLowerCase()">{{ note.type }}</span>
+                  </header>
+
+                  <p>{{ note.content }}</p>
+
+                  <footer>
+                    <button type="button" (click)="deleteNote(note.id)">Eliminar</button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay notas en esta categoría</h3>
+                </article>
+              }
+            </div>
+          </section>
+        </section>
+      }
+    }
+  </main>
+
+  @if (guideOpen) {
+    <div class="modal-backdrop" (click)="closeGuide()">
+      <article class="guide-modal" (click)="$event.stopPropagation()">
         <header>
-          <h2>Notas rápidas</h2>
-          <button>＋ Nueva nota</button>
+          <div>
+            <span class="section-eyebrow">Guía del caso</span>
+            <h2>Red Team Assessment</h2>
+          </div>
+
+          <button type="button" (click)="closeGuide()">×</button>
         </header>
 
-        <nav class="notes-tabs">
-          <button class="active">Todas</button>
-          <button>Importantes</button>
-          <button>Recordatorios</button>
-        </nav>
+        <section>
+          <h3>Objetivo</h3>
+          <p>
+            Evaluar la seguridad de una infraestructura ficticia, validar
+            vulnerabilidades de forma controlada y documentar el impacto.
+          </p>
+        </section>
 
-        <div class="note-list">
-          @for (note of notes; track note.time) {
-            <article class="note-card">
-              <span>Hoy, {{ note.time }}</span>
-              <strong [class]="note.tone">{{ note.tag }}</strong>
-              <p>{{ note.text }}</p>
-              <div>
-                <button>✎</button>
-                <button>🗑</button>
-              </div>
-            </article>
-          }
-        </div>
+        <section>
+          <h3>Reglas de seguridad</h3>
+          <ul>
+            <li>Solo puedes actuar sobre los objetivos incluidos en el laboratorio.</li>
+            <li>No realices ataques de denegación de servicio.</li>
+            <li>No utilices credenciales reales.</li>
+            <li>No mantengas persistencia ni destruyas evidencias.</li>
+            <li>Detén la prueba si observas un comportamiento fuera del alcance.</li>
+          </ul>
+        </section>
 
-        <a class="all-tools">Ver todas las notas →</a>
+        <section>
+          <h3>Qué debes entregar</h3>
+          <ul>
+            <li>Las cinco fases completadas.</li>
+            <li>Los hallazgos validados y priorizados.</li>
+            <li>Evidencias suficientes y no destructivas.</li>
+            <li>El informe final con recomendaciones.</li>
+          </ul>
+        </section>
+
+        <footer>
+          <button type="button" class="primary-button" (click)="closeGuide(); selectTab('phases')">
+            Comenzar el caso
+          </button>
+        </footer>
       </article>
-
-      <article class="continue-card">
-        <div>
-          <h2>¿Listo para continuar?</h2>
-          <p>Continúa con la siguiente fase para explotar vulnerabilidades y obtener acceso al sistema objetivo.</p>
-        </div>
-
-        <button>
-          <span>⌘</span>
-          Ir a Fase a fase →
-        </button>
-      </article>
-    </aside>
-  </section>
+    </div>
+  }
 </section>
