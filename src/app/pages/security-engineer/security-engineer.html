@@ -1,243 +1,990 @@
-<section class="security-engineer-page">
-  <a class="back-link" routerLink="/cases">← Volver a casos</a>
+<section class="engineer-page">
+  <header class="case-top">
+    <a routerLink="/cases" class="back-link">← Volver a casos</a>
 
-  <header class="case-header">
-    <div class="case-icon-large" aria-hidden="true">
-        <svg viewBox="0 0 120 120">
-            <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
-            <rect x="46" y="55" width="28" height="26" rx="4"></rect>
-            <path d="M51 55V45a9 9 0 0118 0v10"></path>
+    <div class="case-title-row">
+      <div class="case-icon-main">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
+          <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+          <path d="M51 55V45a9 9 0 0118 0v10"></path>
         </svg>
+      </div>
+
+      <div>
+        <span class="case-chip">Caso 04</span>
+        <h1>Security Engineer</h1>
+        <p>
+          Diseña, implementa y valida controles de seguridad en una infraestructura simulada.
+        </p>
+      </div>
     </div>
 
-    <div>
-      <span class="case-tag">Caso 04</span>
-      <h1>Security Engineer</h1>
-      <p>Diseña, implementa y verifica controles de seguridad en una infraestructura simulada.</p>
-    </div>
-
-    <button class="guide-button" type="button">
-      <span>▣</span>
-      Ver guía del caso
+    <button type="button" class="guide-button" (click)="openGuide()">
+      ▣ Ver guía del caso
     </button>
   </header>
 
-  <section class="status-grid">
-    <article class="status-card">
-      <div class="status-icon">♜</div>
+  <section class="stats-grid">
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M24 8h16l3 9 8 4 9-2 8 14-7 7v8l7 7-8 14-9-2-8 4-3 9H24l-3-9-8-4-9 2-8-14 7-7v-8l-7-7 8-14 9 2 8-4 3-9z"></path>
+          <rect x="25" y="30" width="14" height="13" rx="2"></rect>
+          <path d="M28 30v-5a4 4 0 018 0v5"></path>
+        </svg>
+      </div>
+
       <div>
-        <small>Dificultad</small>
-        <div class="difficulty">
-          <span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span>
+        <span>Dificultad</span>
+        <div class="difficulty-dots">
+          <i></i><i></i><i></i><i></i><i class="empty"></i>
         </div>
       </div>
-      <strong class="orange-text">Media</strong>
+
+      <strong>Media</strong>
     </article>
 
-    <article class="status-card">
-      <div class="status-icon">◷</div>
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="22"></circle>
+          <path d="M32 18v15l10 7"></path>
+        </svg>
+      </div>
+
       <div>
-        <small>Tiempo estimado</small>
+        <span>Tiempo estimado</span>
         <strong>90 - 120 min</strong>
       </div>
     </article>
 
-    <article class="status-card">
-      <div class="progress-circle">45%</div>
+    <article class="stat-card">
+      <div class="progress-circle" [style.--progress]="progressPercentage">
+        {{ progressPercentage }}%
+      </div>
+
       <div>
-        <small>Estado del caso</small>
-        <strong class="orange-text">En progreso</strong>
+        <span>Estado del caso</span>
+        <strong class="orange-text">{{ caseStatus }}</strong>
       </div>
     </article>
 
-    <article class="status-card">
-      <div class="status-icon">♜</div>
+    <article class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M22 9h20v10l-4 6 4 6v10H22V31l4-6-4-6V9z"></path>
+          <path d="M18 9h28M18 41h28M26 49h12"></path>
+        </svg>
+      </div>
+
       <div>
-        <small>Puntos posibles</small>
+        <span>Puntos posibles</span>
         <strong>300 pts</strong>
       </div>
     </article>
   </section>
 
-  <nav class="case-tabs" aria-label="Secciones del caso">
-    <button class="active" type="button">▣ <span>Resumen</span></button>
-    <button type="button">⌘ <span>Fase a fase</span></button>
-    <button type="button">ⓘ <span>Hallazgos</span></button>
-    <button type="button">▤ <span>Informe</span></button>
-    <button type="button">▱ <span>Notas</span></button>
+  <nav class="case-tabs" aria-label="Secciones del caso Security Engineer">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        [class.active]="selectedTab === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span>{{ tab.icon }}</span>
+        {{ tab.label }}
+      </button>
+    }
   </nav>
 
-  <section class="case-layout">
-    <main class="main-content">
-      <article class="panel summary-panel">
-        <h2>Resumen de la ingeniería de seguridad</h2>
+  <main class="tab-content">
+    @switch (selectedTab) {
+      @case ('summary') {
+        <section class="content-grid">
+          <main class="main-column">
+            <article class="panel engineering-summary">
+              <h2>Resumen de la ingeniería de seguridad</h2>
 
-        <div class="summary-content">
-          <div class="security-illustration">
-            <div class="grid-lines"></div>
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-                <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
-                <rect x="46" y="55" width="28" height="26" rx="4"></rect>
-                <path d="M51 55V45a9 9 0 0118 0v10"></path>
-            </svg>
-          </div>
+              <div class="summary-layout">
+                <div class="engineer-visual">
+                  <svg viewBox="0 0 120 120" aria-hidden="true">
+                    <path d="M47 12h26l4 15 13 7 15-4 13 23-11 11v14l11 11-13 23-15-4-13 7-4 15H47l-4-15-13-7-15 4L2 89l11-11V64L2 53l13-23 15 4 13-7 4-15z"></path>
+                    <rect x="46" y="55" width="28" height="26" rx="4"></rect>
+                    <path d="M51 55V45a9 9 0 0118 0v10"></path>
+                  </svg>
+                </div>
 
-          <article class="scenario-card">
-            <h3>Escenario</h3>
-            <p>
-              Tu misión es fortalecer la infraestructura de una empresa ficticia
-              implementando controles de seguridad y verificando su efectividad.
-            </p>
+                <div class="scenario-card">
+                  <h3>Escenario</h3>
 
-            <div class="scenario-details">
-              <div>
-                <span>▤</span>
-                <small>Entorno</small>
-                <strong>Empresa ficticia</strong>
+                  <p>
+                    Debes fortalecer la infraestructura de una empresa ficticia
+                    diseñando, implementando y validando controles de seguridad.
+                    El objetivo es reducir la superficie de ataque y elevar el nivel
+                    de madurez del entorno.
+                  </p>
+
+                  <div class="scenario-grid">
+                    <div>
+                      <span class="mini-icon">▣</span>
+                      <div>
+                        <small>Entorno</small>
+                        <strong>Empresa ficticia</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">♙</span>
+                      <div>
+                        <small>Rol</small>
+                        <strong>Security Engineer</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">▤</span>
+                      <div>
+                        <small>Infraestructura</small>
+                        <strong>Red interna + Cloud</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="mini-icon">◎</span>
+                      <div>
+                        <small>Objetivo principal</small>
+                        <strong>Diseñar, implementar y validar controles</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-card">
+                  <h4>Información clave</h4>
+                  <p><span>Activos a proteger</span><strong>12</strong></p>
+                  <p><span>Controles a implementar</span><strong>6</strong></p>
+                  <p><span>Vulnerabilidades iniciales</span><strong>15+</strong></p>
+                  <p><span>Nivel de madurez actual</span><strong>Bajo</strong></p>
+                  <p><span>Nivel de madurez objetivo</span><strong>Alto</strong></p>
+                  <p><span>Cobertura requerida</span><strong>100%</strong></p>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2>Controles del escenario</h2>
+
+              <div class="controls-grid">
+                @for (item of summaryControls; track item.label) {
+                  <article class="control-card" [class]="item.tone">
+                    <div class="control-icon">{{ item.icon }}</div>
+                    <div>
+                      <span>{{ item.label }}</span>
+                      <strong>{{ item.value }}</strong>
+                      <small>{{ item.detail }}</small>
+                    </div>
+                  </article>
+                }
+              </div>
+            </article>
+
+            <article class="panel activity-panel">
+              <h2>Actividad reciente</h2>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Actividad</th>
+                      <th>Herramienta / Recurso</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    @for (item of activities; track item.time) {
+                      <tr>
+                        <td>{{ item.time }}</td>
+                        <td>{{ item.activity }}</td>
+                        <td>{{ item.resource }}</td>
+                        <td>
+                          <span class="result-pill" [class]="item.statusTone">
+                            {{ item.status }}
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
               </div>
 
-              <div>
-                <span>♙</span>
-                <small>Rol</small>
-                <strong>Security Engineer</strong>
-              </div>
+              <button type="button" class="secondary-button" (click)="selectTab('phases')">
+                Ver toda la actividad →
+              </button>
+            </article>
+          </main>
 
-              <div>
-                <span>▦</span>
-                <small>Infraestructura</small>
-                <strong>Red interna + Cloud</strong>
-              </div>
-
-              <div>
-                <span>♜</span>
-                <small>Objetivo principal</small>
-                <strong>Diseñar e implementar<br />y validar su eficacia</strong>
-              </div>
-            </div>
-          </article>
-
-          <article class="info-card">
-            <h3>Información clave</h3>
-
-            @for (item of keyInfo; track item.label) {
-              <p>
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
+          <aside class="side-column">
+            <article class="panel">
+              <h2>Recursos y herramientas</h2>
+              <p class="side-subtitle">
+                Utiliza los recursos dentro del entorno simulado.
               </p>
-            }
-          </article>
-        </div>
-      </article>
 
-      <article class="panel controls-panel">
-        <h2>Controles a implementar</h2>
+              <div class="tools-list">
+                @for (tool of visibleTools; track tool.name) {
+                  <article class="tool-card">
+                    <div class="tool-icon" [class]="tool.tone">{{ tool.initial }}</div>
 
-        <div class="controls-grid">
-          @for (control of controls; track control.name) {
-            <article class="control-card">
-              <div class="control-icon">{{ control.icon }}</div>
+                    <div>
+                      <strong>{{ tool.name }}</strong>
+                      <span>{{ tool.description }}</span>
+                    </div>
 
-              <div>
-                <small>{{ control.name }}</small>
-                <strong>{{ control.value }}</strong>
-                <button type="button">Ver detalles →</button>
+                    <a
+                      class="tool-open"
+                      [href]="tool.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Abrir
+                    </a>
+                  </article>
+                }
               </div>
+
+              <button type="button" class="all-tools" (click)="toggleAllTools()">
+                {{ showAllTools ? 'Ver menos recursos ↑' : 'Ver todos los recursos →' }}
+              </button>
             </article>
-          }
-        </div>
-      </article>
 
-      <article class="panel activity-panel">
-        <h2>Actividad reciente</h2>
+            <article class="panel notes-panel">
+              <header>
+                <h2>Notas rápidas</h2>
+                <button type="button" (click)="selectTab('notes')">＋ Nueva nota</button>
+              </header>
 
-        <div class="activity-table">
-          <div class="activity-row activity-head">
-            <span>Hora</span>
-            <span>Actividad</span>
-            <span>Herramienta / Recurso</span>
-            <span>Estado</span>
+              @if (notes.length > 0) {
+                <div class="note-list">
+                  @for (note of notes.slice(0, 3); track note.id) {
+                    <article class="note-card">
+                      <span>{{ note.date }}</span>
+                      <strong [class]="note.type.toLowerCase()">{{ note.type }}</strong>
+                      <p>{{ note.content }}</p>
+                    </article>
+                  }
+                </div>
+              } @else {
+                <p class="empty-text">Todavía no has creado notas.</p>
+              }
+
+              <button type="button" class="all-tools" (click)="selectTab('notes')">
+                Ver todas las notas →
+              </button>
+            </article>
+
+            <article class="continue-card">
+              <div>
+                <h2>¿Listo para continuar?</h2>
+                <p>Avanza a la siguiente fase para diseñar y validar los controles.</p>
+              </div>
+
+              <button type="button" (click)="selectTab('phases')">
+                <span>⌘</span>
+                Ir a Fase a fase →
+              </button>
+            </article>
+          </aside>
+        </section>
+      }
+
+      @case ('phases') {
+        <section class="phases-layout">
+          <div class="phases-main">
+            <article class="panel phases-intro">
+              <span class="section-eyebrow">Proceso guiado</span>
+              <h2>Fases de ingeniería de seguridad</h2>
+              <p>
+                Evalúa, diseña, implementa y valida cada control antes de darlo por finalizado.
+              </p>
+            </article>
+
+            <div class="phase-list">
+              @for (phase of phases; track phase.id; let index = $index) {
+                <article
+                  class="phase-card"
+                  [class.completed]="phase.completed"
+                  [class.current]="!phase.completed && isCurrentPhase(index)"
+                >
+                  <div class="phase-number">{{ phase.completed ? '✓' : index + 1 }}</div>
+
+                  <div class="phase-content">
+                    <div class="phase-heading">
+                      <div>
+                        <span>Fase {{ index + 1 }}</span>
+                        <h3>{{ phase.title }}</h3>
+                      </div>
+
+                      <span class="phase-status" [class.completed]="phase.completed">
+                        {{ phase.completed ? 'Completada' : 'Pendiente' }}
+                      </span>
+                    </div>
+
+                    <p>{{ phase.description }}</p>
+
+                    <div class="phase-box">
+                      <strong>Objetivo</strong>
+                      <span>{{ phase.objective }}</span>
+                    </div>
+
+                    <div class="phase-box">
+                      <strong>Tareas</strong>
+                      <ul>
+                        @for (task of phase.tasks; track task) {
+                          <li>{{ task }}</li>
+                        }
+                      </ul>
+                    </div>
+
+                    <div class="phase-tools">
+                      <strong>Herramientas sugeridas:</strong>
+                      @for (tool of phase.tools; track tool) {
+                        <span>{{ tool }}</span>
+                      }
+                    </div>
+
+                    <div class="phase-actions">
+                      <button
+                        type="button"
+                        [class.completed]="phase.completed"
+                        (click)="togglePhase(phase.id)"
+                      >
+                        {{ phase.completed ? 'Marcar como pendiente' : 'Marcar fase como completada' }}
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
           </div>
 
-          @for (activity of activities; track activity.time) {
-            <div class="activity-row">
-              <span>{{ activity.time }}</span>
-              <strong>{{ activity.action }}</strong>
-              <span>{{ activity.tool }}</span>
-              <span [class]="activity.tone">{{ activity.status }} <b>●</b></span>
-            </div>
-          }
-        </div>
+          <aside class="phase-side">
+            <article class="panel sticky-panel">
+              <h2>Progreso general</h2>
 
-        <button class="view-activity" type="button">Ver toda la actividad →</button>
-      </article>
-    </main>
+              <div class="large-progress">
+                <div class="progress-circle large" [style.--progress]="progressPercentage">
+                  {{ progressPercentage }}%
+                </div>
 
-    <aside class="side-content">
-      <article class="panel tools-panel">
-        <h2>Recursos y herramientas</h2>
-        <p>Accede rápidamente a los recursos que necesitas.</p>
-
-        <div class="tools-list">
-          @for (tool of tools; track tool.name) {
-            <article class="tool-item">
-              <span class="tool-icon">{{ tool.icon }}</span>
-
-              <div>
-                <strong>{{ tool.name }}</strong>
-                <small>{{ tool.description }}</small>
+                <div>
+                  <strong>{{ completedPhases }} de {{ phases.length }}</strong>
+                  <span>fases completadas</span>
+                </div>
               </div>
 
-              <button type="button">Abrir</button>
-              <span class="external">↗</span>
+              <div class="progress-bar">
+                <span [style.width.%]="progressPercentage"></span>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2>Principios de diseño seguro</h2>
+              <ul class="best-practices">
+                <li>Aplica mínimo privilegio.</li>
+                <li>Reduce la superficie expuesta.</li>
+                <li>Segmenta los sistemas por función y riesgo.</li>
+                <li>Registra y valida cada cambio.</li>
+                <li>Evita controles que no puedas mantener.</li>
+              </ul>
+            </article>
+          </aside>
+        </section>
+      }
+
+      @case ('controls') {
+        <section class="controls-workspace">
+          <header class="workspace-header panel">
+            <div>
+              <span class="section-eyebrow">Trabajo de ingeniería</span>
+              <h2>Controles de seguridad</h2>
+              <p>
+                Registra los controles diseñados, su estado actual, el objetivo
+                esperado y la evidencia de validación.
+              </p>
+            </div>
+
+            <div class="workspace-actions">
+              <button type="button" class="secondary-button compact-button" (click)="resetLaboratory()">
+                Reiniciar sesión
+              </button>
+
+              <button type="button" class="primary-button compact-button" (click)="openNewControlForm()">
+                + Nuevo control
+              </button>
+            </div>
+          </header>
+
+          <section class="control-stats">
+            <article><strong>{{ controls.length }}</strong><span>Controles creados</span></article>
+            <article><strong>{{ criticalControlsCount }}</strong><span>Alta prioridad</span></article>
+            <article><strong>{{ validatedControlsCount }}</strong><span>Validados</span></article>
+          </section>
+
+          @if (showControlForm) {
+            <article class="panel control-form-panel">
+              <div class="form-heading">
+                <div>
+                  <span class="section-eyebrow">
+                    {{ editingControlId === null ? 'Nuevo registro' : 'Edición' }}
+                  </span>
+                  <h2>{{ editingControlId === null ? 'Crear control' : 'Editar control' }}</h2>
+                </div>
+
+                <button type="button" class="close-form-button" (click)="closeControlForm()">×</button>
+              </div>
+
+              <div class="control-form-grid">
+                <label class="full-field">
+                  <span>Título</span>
+                  <input
+                    type="text"
+                    maxlength="120"
+                    [value]="controlTitle"
+                    (input)="controlTitle = $any($event.target).value"
+                  />
+                </label>
+
+                <label>
+                  <span>Categoría</span>
+                  <select
+                    [value]="controlCategory"
+                    (change)="controlCategory = $any($event.target).value"
+                  >
+                    @for (category of controlCategories; track category) {
+                      <option [value]="category">{{ category }}</option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  <span>Prioridad</span>
+                  <select
+                    [value]="controlPriority"
+                    (change)="controlPriority = $any($event.target).value"
+                  >
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Crítica">Crítica</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Estado</span>
+                  <select
+                    [value]="controlStatus"
+                    (change)="controlStatus = $any($event.target).value"
+                  >
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En progreso">En progreso</option>
+                    <option value="Implementado">Implementado</option>
+                    <option value="Validado">Validado</option>
+                  </select>
+                </label>
+
+                <label class="full-field">
+                  <span>Estado actual</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="controlCurrentState"
+                    (input)="controlCurrentState = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Estado objetivo</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="controlTargetState"
+                    (input)="controlTargetState = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Validación / Evidencia</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="controlValidation"
+                    (input)="controlValidation = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Recomendación</span>
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    [value]="controlRecommendation"
+                    (input)="controlRecommendation = $any($event.target).value"
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="form-footer">
+                <small>No introduzcas configuraciones reales ni credenciales sensibles.</small>
+
+                <div>
+                  <button type="button" class="secondary-button compact-button" (click)="closeControlForm()">
+                    Cancelar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="primary-button compact-button"
+                    [disabled]="!canSaveControl"
+                    (click)="saveControl()"
+                  >
+                    {{ editingControlId === null ? 'Guardar control' : 'Guardar cambios' }}
+                  </button>
+                </div>
+              </div>
             </article>
           }
-        </div>
 
-        <button class="view-tools" type="button">Ver todos los recursos →</button>
-      </article>
+          @if (controls.length === 0 && !showControlForm) {
+            <section class="empty-controls-layout">
+              <article class="empty-state main-empty-state">
+                <div class="empty-state-icon">⚙</div>
+                <h3>Todavía no has registrado ningún control</h3>
+                <p>Completa las fases y documenta cada medida implementada y validada.</p>
+                <button type="button" class="primary-button compact-button" (click)="openNewControlForm()">
+                  Crear mi primer control
+                </button>
+              </article>
 
-      <article class="panel notes-panel">
+              <aside class="panel examples-panel">
+                <h2>Ejemplos para aprender</h2>
+                <p>No forman parte de tu trabajo hasta que los revises y completes.</p>
+
+                @for (example of controlExamples; track example.title) {
+                  <article class="example-card">
+                    <span>{{ example.category }}</span>
+                    <h3>{{ example.title }}</h3>
+                    <p>{{ example.explanation }}</p>
+                    <button type="button" (click)="useControlExample(example)">
+                      Usar como borrador →
+                    </button>
+                  </article>
+                }
+              </aside>
+            </section>
+          } @else {
+            <div class="control-filter-buttons">
+              @for (filter of controlFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedControlFilter === filter"
+                  (click)="selectedControlFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <section class="engineer-controls-grid">
+              @for (control of filteredControls; track control.id) {
+                <article
+                  class="engineer-control-card"
+                  [class.priority-critical]="control.priority === 'Crítica'"
+                  [class.priority-high]="control.priority === 'Alta'"
+                  [class.priority-medium]="control.priority === 'Media'"
+                  [class.priority-low]="control.priority === 'Baja'"
+                >
+                  <header>
+                    <div>
+                      <span>{{ control.code }}</span>
+                      <h3>{{ control.title }}</h3>
+                    </div>
+                    <span class="control-priority">{{ control.priority }}</span>
+                  </header>
+
+                  <div class="control-meta">
+                    <span>{{ control.category }}</span>
+                    <span>{{ control.status }}</span>
+                    <span>{{ control.createdAt }}</span>
+                  </div>
+
+                  <section><strong>Estado actual</strong><p>{{ control.currentState }}</p></section>
+                  <section><strong>Estado objetivo</strong><p>{{ control.targetState }}</p></section>
+                  <section><strong>Validación</strong><p>{{ control.validation }}</p></section>
+                  <section class="control-recommendation">
+                    <strong>Recomendación</strong><p>{{ control.recommendation }}</p>
+                  </section>
+
+                  <footer>
+                    <button type="button" class="edit-button" (click)="editControl(control)">Editar</button>
+                    <button type="button" class="delete-button" (click)="deleteControl(control.id)">Eliminar</button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay resultados para este filtro</h3>
+                </article>
+              }
+            </section>
+
+            <article class="generate-report-panel">
+              <div>
+                <h2>¿Has terminado de documentar?</h2>
+                <p>Los controles se incorporan automáticamente al informe.</p>
+              </div>
+
+              <button type="button" class="primary-button compact-button" (click)="selectTab('report')">
+                Generar borrador del informe →
+              </button>
+            </article>
+          }
+        </section>
+      }
+
+      @case ('report') {
+        <section class="editable-report-layout">
+          <article class="panel report-editor">
+            <header class="workspace-header">
+              <div>
+                <span class="section-eyebrow">Borrador editable</span>
+                <h2>Informe de ingeniería de seguridad</h2>
+                <p>El sistema añade los datos del caso y tú redactas la evaluación.</p>
+              </div>
+
+              <button type="button" class="secondary-button compact-button" (click)="resetLaboratory()">
+                Reiniciar sesión
+              </button>
+            </header>
+
+            <div class="report-editor-fields">
+              <label>
+                <span>Resumen ejecutivo</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.executiveSummary"
+                  (input)="updateExecutiveSummary($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Alcance</span>
+                <textarea
+                  rows="5"
+                  [value]="reportDraft.scope"
+                  (input)="updateScope($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Metodología</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.methodology"
+                  (input)="updateMethodology($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Evaluación de riesgos</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.riskAssessment"
+                  (input)="updateRiskAssessment($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Recomendaciones generales</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.recommendations"
+                  (input)="updateRecommendations($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Conclusión</span>
+                <textarea
+                  rows="6"
+                  [value]="reportDraft.conclusion"
+                  (input)="updateConclusion($any($event.target).value)"
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="security-notice">
+              <strong>Modo laboratorio:</strong>
+              <span>El contenido existe solo durante esta sesión y sobre una infraestructura simulada.</span>
+            </div>
+          </article>
+
+          <article class="report-document">
+            <header class="report-cover">
+              <div class="report-brand">
+                <div class="report-logo">S</div>
+                <div>
+                  <strong>SecureBoard</strong>
+                  <span>Security Operations Center</span>
+                </div>
+              </div>
+
+              <span>Informe Security Engineer</span>
+              <h1>Ingeniería y validación de controles</h1>
+              <p>Informe técnico sobre la infraestructura ficticia incluida en el laboratorio.</p>
+
+              <div class="report-meta">
+                <div><span>Ingeniera</span><strong>Sandra De Tena</strong></div>
+                <div><span>Fecha</span><strong>{{ reportDate }}</strong></div>
+                <div><span>Estado</span><strong>{{ caseStatus }}</strong></div>
+              </div>
+            </header>
+
+            <section class="report-section">
+              <h2>1. Resumen ejecutivo</h2>
+              <p>{{ reportDraft.executiveSummary }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>2. Alcance</h2>
+              <p>{{ reportDraft.scope }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>3. Metodología</h2>
+              <p>{{ reportDraft.methodology }}</p>
+              <ol>
+                @for (phase of phases; track phase.id) {
+                  <li>{{ phase.title }}: {{ phase.completed ? 'completada' : 'pendiente' }}</li>
+                }
+              </ol>
+            </section>
+
+            <section class="report-section">
+              <h2>4. Evaluación de riesgos</h2>
+              <p>{{ reportDraft.riskAssessment }}</p>
+            </section>
+
+            <section class="report-section">
+              <div class="report-section-heading">
+                <h2>5. Controles registrados</h2>
+                <span>{{ controlStatusSummary }}</span>
+              </div>
+
+              @if (controls.length > 0) {
+                <div class="report-controls">
+                  @for (control of controls; track control.id) {
+                    <article>
+                      <span>{{ control.code }}</span>
+                      <div>
+                        <strong>{{ control.title }}</strong>
+                        <p>{{ control.targetState }}</p>
+                      </div>
+                      <small>{{ control.status }}</small>
+                    </article>
+                  }
+                </div>
+              } @else {
+                <div class="report-empty-section">No hay controles registrados.</div>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>6. Recomendaciones</h2>
+              <p>{{ reportDraft.recommendations }}</p>
+
+              @if (controls.length > 0) {
+                <ul>
+                  @for (control of controls; track control.id) {
+                    <li><strong>{{ control.code }}:</strong> {{ control.recommendation }}</li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>7. Conclusión</h2>
+              <p>{{ reportDraft.conclusion }}</p>
+            </section>
+
+            <footer class="report-footer">Documento generado en modo laboratorio.</footer>
+          </article>
+
+          <aside class="report-session-actions">
+            <article class="panel">
+              <h2>Acciones del informe</h2>
+
+              <button type="button" class="primary-button" (click)="printReport()">
+                Imprimir / Guardar PDF
+              </button>
+
+              <button type="button" class="secondary-button" (click)="copyReportSummary()">
+                Copiar resumen
+              </button>
+
+              @if (reportCopied) {
+                <span class="copy-confirmation">Resumen copiado ✓</span>
+              }
+            </article>
+          </aside>
+        </section>
+      }
+
+      @case ('notes') {
+        <section class="notes-layout">
+          <article class="panel note-form-panel">
+            <span class="section-eyebrow">Bloc de ingeniería</span>
+            <h2>Nueva nota</h2>
+
+            <label>
+              <span>Título</span>
+              <input
+                type="text"
+                [value]="newNoteTitle"
+                (input)="newNoteTitle = $any($event.target).value"
+              />
+            </label>
+
+            <label>
+              <span>Tipo</span>
+              <select
+                [value]="newNoteType"
+                (change)="newNoteType = $any($event.target).value"
+              >
+                <option value="Idea">Idea</option>
+                <option value="Importante">Importante</option>
+                <option value="Recordatorio">Recordatorio</option>
+                <option value="Control">Control</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Contenido</span>
+              <textarea
+                rows="8"
+                [value]="newNoteContent"
+                (input)="newNoteContent = $any($event.target).value"
+              ></textarea>
+            </label>
+
+            <button
+              type="button"
+              class="primary-button"
+              [disabled]="!canCreateNote"
+              (click)="createNote()"
+            >
+              Guardar nota
+            </button>
+          </article>
+
+          <section class="notes-list-section">
+            <div class="notes-heading">
+              <div>
+                <span class="section-eyebrow">Ingeniería</span>
+                <h2>Mis notas</h2>
+              </div>
+              <strong>{{ notes.length }} notas</strong>
+            </div>
+
+            <div class="note-filter-buttons">
+              @for (filter of noteFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedNoteFilter === filter"
+                  (click)="selectedNoteFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <div class="notes-list">
+              @for (note of filteredNotes; track note.id) {
+                <article class="note-card-full">
+                  <header>
+                    <div>
+                      <span>{{ note.date }}</span>
+                      <h3>{{ note.title }}</h3>
+                    </div>
+                    <span class="note-type" [class]="note.type.toLowerCase()">{{ note.type }}</span>
+                  </header>
+
+                  <p>{{ note.content }}</p>
+
+                  <footer>
+                    <button type="button" (click)="deleteNote(note.id)">Eliminar</button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay notas en esta categoría</h3>
+                </article>
+              }
+            </div>
+          </section>
+        </section>
+      }
+    }
+  </main>
+
+  @if (guideOpen) {
+    <div class="modal-backdrop" (click)="closeGuide()">
+      <article class="guide-modal" (click)="$event.stopPropagation()">
         <header>
-          <h2>Notas rápidas</h2>
-          <button type="button">＋ Nueva nota</button>
+          <div>
+            <span class="section-eyebrow">Guía del caso</span>
+            <h2>Security Engineer</h2>
+          </div>
+
+          <button type="button" (click)="closeGuide()">×</button>
         </header>
 
-        <nav class="notes-tabs">
-          <button class="active" type="button">Todas</button>
-          <button type="button">Importantes</button>
-          <button type="button">Recordatorios</button>
-        </nav>
+        <section>
+          <h3>Objetivo</h3>
+          <p>
+            Diseñar, implementar y validar controles de seguridad sobre una
+            infraestructura ficticia, documentando su eficacia y los riesgos residuales.
+          </p>
+        </section>
 
-        <div class="notes-list">
-          @for (note of notes; track note.text) {
-            <article class="note-item">
-              <div>
-                <small>{{ note.time }}</small>
-                <span [class]="note.type">{{ note.tag }}</span>
-                <p>{{ note.text }}</p>
-              </div>
+        <section>
+          <h3>Qué debes hacer</h3>
+          <ul>
+            <li>Evaluar la situación inicial.</li>
+            <li>Diseñar controles proporcionados al riesgo.</li>
+            <li>Implementar cambios dentro del laboratorio.</li>
+            <li>Validar cada medida mediante evidencias.</li>
+            <li>Documentar controles y recomendaciones.</li>
+          </ul>
+        </section>
 
-              <div class="note-actions">♢　♧</div>
-            </article>
-          }
-        </div>
+        <section>
+          <h3>Qué debes entregar</h3>
+          <ul>
+            <li>Las cinco fases completadas.</li>
+            <li>Los controles documentados y priorizados.</li>
+            <li>La evidencia de validación.</li>
+            <li>El informe final de ingeniería.</li>
+          </ul>
+        </section>
 
-        <button class="view-notes" type="button">Ver todas las notas　→</button>
+        <footer>
+          <button type="button" class="primary-button" (click)="closeGuide(); selectTab('phases')">
+            Comenzar el caso
+          </button>
+        </footer>
       </article>
-
-      <article class="continue-panel">
-        <h2>¿Listo para continuar?</h2>
-        <p>
-          Continúa con la siguiente fase para validar los controles implementados
-          y medir su efectividad.
-        </p>
-
-        <button type="button">
-          <span>⌘</span>
-          Ir a Fase a fase
-          <b>→</b>
-        </button>
-      </article>
-    </aside>
-  </section>
+    </div>
+  }
 </section>
