@@ -1,344 +1,132 @@
 <section class="blue-page">
-  <!-- CABECERA DEL CASO -->
   <header class="case-top">
     <a routerLink="/cases" class="back-link">← Volver a casos</a>
-
     <div class="case-title-row">
       <div class="case-icon-main">
-        <!-- Icono Blue Team: escudo + candado -->
         <svg viewBox="0 0 120 120" aria-hidden="true">
-            <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
-            <rect x="47" y="54" width="26" height="26" rx="4"></rect>
-            <path d="M52 54V44a8 8 0 0116 0v10"></path>
+          <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
+          <rect x="47" y="54" width="26" height="26" rx="4"></rect>
+          <path d="M52 54V44a8 8 0 0116 0v10"></path>
         </svg>
       </div>
-
       <div>
         <span class="case-chip">Caso 02</span>
         <h1>Blue Team Analyst</h1>
-        <p>
-          Analiza alertas y logs para detectar, contener y responder a amenazas
-          en un entorno simulado.
-        </p>
+        <p>Analiza alertas y logs para detectar, contener y responder a amenazas en un entorno simulado.</p>
       </div>
     </div>
-
-    <button class="guide-button">▣ Ver guía del caso</button>
+    <button type="button" class="guide-button" (click)="openGuide()">▣ Ver guía del caso</button>
   </header>
 
-  <!-- MÉTRICAS SUPERIORES -->
   <section class="stats-grid">
     <article class="stat-card">
-      <div class="stat-icon">
-        <svg viewBox="0 0 64 64">
-          <path d="M32 6l22 9v17c0 15-9 25-22 31C19 57 10 47 10 32V15l22-9z"></path>
-          <path d="M32 22v18"></path>
-          <path d="M23 31h18"></path>
-        </svg>
-      </div>
-
-      <div>
-        <span>Dificultad</span>
-        <div class="difficulty-dots">
-          <i></i><i></i><i></i><i class="empty"></i><i class="empty"></i>
-        </div>
-      </div>
-
+      <div class="stat-icon">🛡</div>
+      <div><span>Dificultad</span><div class="difficulty-dots"><i></i><i></i><i></i><i class="empty"></i><i class="empty"></i></div></div>
       <strong>Media</strong>
     </article>
-
-    <article class="stat-card">
-      <div class="stat-icon">
-        <svg viewBox="0 0 64 64">
-          <circle cx="32" cy="32" r="22"></circle>
-          <path d="M32 18v15l10 7"></path>
-        </svg>
-      </div>
-
-      <div>
-        <span>Tiempo estimado</span>
-        <strong>90 - 120 min</strong>
-      </div>
-    </article>
-
-    <article class="stat-card">
-      <div class="progress-circle">40%</div>
-
-      <div>
-        <span>Estado del caso</span>
-        <strong class="blue-text">En progreso</strong>
-      </div>
-    </article>
-
-    <article class="stat-card">
-      <div class="stat-icon">
-        <svg viewBox="0 0 64 64">
-          <path d="M32 7l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 25l17-2 7-16z"></path>
-        </svg>
-      </div>
-
-      <div>
-        <span>Puntos posibles</span>
-        <strong>300 pts</strong>
-      </div>
-    </article>
+    <article class="stat-card"><div class="stat-icon">◷</div><div><span>Tiempo estimado</span><strong>90 - 120 min</strong></div></article>
+    <article class="stat-card"><div class="progress-circle" [style.--progress]="progressPercentage">{{ progressPercentage }}%</div><div><span>Estado del caso</span><strong class="blue-text">{{ caseStatus }}</strong></div></article>
+    <article class="stat-card"><div class="stat-icon">☆</div><div><span>Puntos posibles</span><strong>300 pts</strong></div></article>
   </section>
 
-  <!-- PESTAÑAS -->
   <nav class="case-tabs">
-    <button class="active">
-      <span>▣</span>
-      Resumen
-    </button>
-
-    <button>
-      <span>⌘</span>
-      Fase a fase
-    </button>
-
-    <button>
-      <span>ⓘ</span>
-      Hallazgos
-    </button>
-
-    <button>
-      <span>▤</span>
-      Informe
-    </button>
-
-    <button>
-      <span>□</span>
-      Notas
-    </button>
+    @for (tab of tabs; track tab.id) {
+      <button type="button" [class.active]="selectedTab === tab.id" (click)="selectTab(tab.id)"><span>{{ tab.icon }}</span>{{ tab.label }}</button>
+    }
   </nav>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <section class="content-grid">
-    <main class="main-column">
-      <!-- RESUMEN -->
-      <article class="panel investigation-summary">
-        <h2>Resumen de la investigación</h2>
-
-        <div class="summary-layout">
-          <div class="blue-visual">
-            <!-- Escudo + candado central -->
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-                <path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path>
-                <rect x="47" y="54" width="26" height="26" rx="4"></rect>
-                <path d="M52 54V44a8 8 0 0116 0v10"></path>
-            </svg>
-          </div>
-
-          <div class="scenario-card">
-            <h3>Escenario</h3>
-
-            <p>
-              Se ha detectado actividad sospechosa en los sistemas corporativos.
-              Tu misión es analizar las alertas y los logs para identificar el
-              origen del ataque, contener la amenaza y proponer medidas de
-              mitigación.
-            </p>
-
-            <div class="scenario-grid">
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <rect x="12" y="16" width="40" height="30" rx="4"></rect>
-                    <path d="M20 26h12M20 34h20"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Entorno</small>
-                  <strong>Empresa ficticia</strong>
+  <main class="tab-content">
+    @switch (selectedTab) {
+      @case ('summary') {
+        <section class="content-grid">
+          <main class="main-column">
+            <article class="panel">
+              <h2>Resumen de la investigación</h2>
+              <div class="summary-layout">
+                <div class="blue-visual">
+                  <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 14l38 16v28c0 28-17 46-38 56-21-10-38-28-38-56V30l38-16z"></path><rect x="47" y="54" width="26" height="26" rx="4"></rect><path d="M52 54V44a8 8 0 0116 0v10"></path></svg>
+                </div>
+                <div class="scenario-card">
+                  <h3>Escenario</h3>
+                  <p>Se ha detectado actividad sospechosa en los sistemas corporativos. Debes analizar alertas y logs, identificar el origen del ataque, contener la amenaza y proponer medidas de mitigación.</p>
+                  <div class="scenario-grid">
+                    <div><span class="mini-icon">▣</span><div><small>Entorno</small><strong>Empresa ficticia</strong></div></div>
+                    <div><span class="mini-icon">♙</span><div><small>Rol</small><strong>Analista Blue Team</strong></div></div>
+                    <div><span class="mini-icon">▤</span><div><small>Sistemas</small><strong>Windows Server, Linux, Firewall, SIEM</strong></div></div>
+                    <div><span class="mini-icon">✓</span><div><small>Objetivo</small><strong>Detectar, contener y responder</strong></div></div>
+                  </div>
+                </div>
+                <div class="info-card">
+                  <h4>Información clave</h4>
+                  <p><span>Alertas generadas</span><strong>15</strong></p><p><span>Logs disponibles</span><strong>8 fuentes</strong></p><p><span>Sistemas afectados</span><strong>3</strong></p><p><span>Usuarios implicados</span><strong>2</strong></p><p><span>IoCs esperados</span><strong>6</strong></p><p><span>Tiempo transcurrido</span><strong>00:36:24</strong></p>
                 </div>
               </div>
+            </article>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <circle cx="32" cy="22" r="10"></circle>
-                    <path d="M16 54c2-12 10-18 16-18s14 6 16 18"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Rol</small>
-                  <strong>Analista Blue Team</strong>
-                </div>
-              </div>
+            <article class="panel"><h2>Indicadores del escenario</h2><div class="findings-grid">@for (item of summaryFindings; track item.label) {<article class="finding-card" [class]="item.tone"><div class="finding-icon">{{ item.icon }}</div><div><span>{{ item.label }}</span><strong>{{ item.value }}</strong><small>{{ item.detail }}</small></div></article>}</div></article>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <path d="M12 16h40v32H12z"></path>
-                    <path d="M20 26h24M20 36h16"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Sistemas</small>
-                  <strong>Windows Server, Linux, Firewall, SIEM</strong>
-                </div>
-              </div>
+            <article class="panel activity-panel"><h2>Actividad reciente</h2><div class="table-wrap"><table><thead><tr><th>Hora</th><th>Actividad</th><th>Fuente</th><th>Severidad</th><th>Estado</th></tr></thead><tbody>@for (item of activities; track item.time) {<tr><td>{{ item.time }}</td><td>{{ item.activity }}</td><td>{{ item.source }}</td><td><span class="severity-pill" [class]="item.severityTone">{{ item.severity }}</span></td><td><span class="status-pill" [class]="item.statusTone">{{ item.status }}</span></td></tr>}</tbody></table></div><button type="button" class="secondary-button" (click)="selectTab('phases')">Ver toda la actividad →</button></article>
+          </main>
 
-              <div>
-                <span class="mini-icon">
-                  <svg viewBox="0 0 64 64">
-                    <path d="M32 6l22 9v17c0 15-9 25-22 31C19 57 10 47 10 32V15l22-9z"></path>
-                    <path d="M24 34l6 6 12-16"></path>
-                  </svg>
-                </span>
-                <div>
-                  <small>Objetivo principal</small>
-                  <strong>Detectar, contener y responder al incidente</strong>
-                </div>
-              </div>
+          <aside class="side-column">
+            <article class="panel"><h2>Herramientas recomendadas</h2><p class="side-subtitle">Accede a recursos útiles para el caso.</p><div class="tools-list">@for (tool of visibleTools; track tool.name) {<article class="tool-card"><div class="tool-icon" [class]="tool.tone">{{ tool.initial }}</div><div><strong>{{ tool.name }}</strong><span>{{ tool.description }}</span></div><a class="tool-open" [href]="tool.url" target="_blank" rel="noopener noreferrer">Abrir</a></article>}</div><button type="button" class="all-tools" (click)="toggleAllTools()">{{ showAllTools ? 'Ver menos herramientas ↑' : 'Ver todas las herramientas →' }}</button></article>
+            <article class="panel notes-panel"><header><h2>Notas de investigación</h2><button type="button" (click)="selectTab('notes')">＋ Nueva nota</button></header>@if (notes.length) {<div class="note-list">@for (note of notes.slice(0,3); track note.id) {<article class="note-card"><span>{{ note.date }}</span><strong [class]="note.type.toLowerCase()">{{ note.type }}</strong><p>{{ note.content }}</p></article>}</div>} @else {<p class="empty-text">Todavía no has creado notas.</p>}<button type="button" class="all-tools" (click)="selectTab('notes')">Ver todas las notas →</button></article>
+            <article class="continue-card"><div><h2>¿Listo para continuar?</h2><p>Continúa con la siguiente fase.</p></div><button type="button" (click)="selectTab('phases')">Ir a Fase a fase →</button></article>
+          </aside>
+        </section>
+      }
+
+      @case ('phases') {
+        <section class="phases-layout">
+          <div class="phases-main">
+            <article class="panel phases-intro"><span class="section-eyebrow">Proceso guiado</span><h2>Fases del análisis Blue Team</h2><p>Completa cada fase en orden y documenta únicamente evidencias verificadas.</p></article>
+            <div class="phase-list">
+              @for (phase of phases; track phase.id; let index = $index) {
+                <article class="phase-card" [class.completed]="phase.completed" [class.current]="!phase.completed && isCurrentPhase(index)">
+                  <div class="phase-number">{{ phase.completed ? '✓' : index + 1 }}</div>
+                  <div class="phase-content"><div class="phase-heading"><div><span>Fase {{ index + 1 }}</span><h3>{{ phase.title }}</h3></div><span class="phase-status" [class.completed]="phase.completed">{{ phase.completed ? 'Completada' : 'Pendiente' }}</span></div><p>{{ phase.description }}</p><div class="phase-box"><strong>Objetivo</strong><span>{{ phase.objective }}</span></div><div class="phase-box"><strong>Tareas</strong><ul>@for (task of phase.tasks; track task) {<li>{{ task }}</li>}</ul></div><div class="phase-tools"><strong>Herramientas:</strong>@for (tool of phase.tools; track tool) {<span>{{ tool }}</span>}</div><div class="phase-actions"><button type="button" [class.completed]="phase.completed" (click)="togglePhase(phase.id)">{{ phase.completed ? 'Marcar como pendiente' : 'Marcar como completada' }}</button></div></div>
+                </article>
+              }
             </div>
           </div>
+          <aside class="phase-side"><article class="panel sticky-panel"><h2>Progreso general</h2><div class="large-progress"><div class="progress-circle large" [style.--progress]="progressPercentage">{{ progressPercentage }}%</div><div><strong>{{ completedPhases }} de {{ phases.length }}</strong><span>fases completadas</span></div></div><div class="progress-bar"><span [style.width.%]="progressPercentage"></span></div></article><article class="panel"><h2>Buenas prácticas</h2><ul class="best-practices"><li>Correlaciona varias fuentes.</li><li>Preserva evidencias antes de contener.</li><li>No ejecutes muestras en tu equipo real.</li><li>Trabaja solo en el entorno autorizado.</li><li>Diferencia alerta, evidencia y hallazgo.</li></ul></article></aside>
+        </section>
+      }
 
-          <div class="info-card">
-            <h4>Información clave</h4>
+      @case ('findings') {
+        <section class="findings-workspace">
+          <header class="workspace-header panel"><div><span class="section-eyebrow">Trabajo del analista</span><h2>Hallazgos del análisis</h2><p>Los indicadores del resumen son pistas; aquí registras solo resultados confirmados.</p></div><div class="workspace-actions"><button type="button" class="secondary-button compact-button" (click)="resetLaboratory()">Reiniciar sesión</button><button type="button" class="primary-button compact-button" (click)="openNewFindingForm()">+ Nuevo hallazgo</button></div></header>
+          <section class="finding-stats"><article><strong>{{ findings.length }}</strong><span>Hallazgos creados</span></article><article><strong>{{ highFindingsCount }}</strong><span>Altos o críticos</span></article><article><strong>{{ mitigatedFindingsCount }}</strong><span>Mitigados</span></article></section>
 
-            <p><span>Alertas generadas</span><strong>15</strong></p>
-            <p><span>Logs disponibles</span><strong>8 fuentes</strong></p>
-            <p><span>Sistemas afectados</span><strong>3</strong></p>
-            <p><span>Usuarios implicados</span><strong>2</strong></p>
-            <p><span>IoCs identificados</span><strong>0 / 6</strong></p>
-            <p><span>Tiempo transcurrido</span><strong>00:36:24</strong></p>
-          </div>
-        </div>
-      </article>
-
-      <!-- HALLAZGOS -->
-      <article class="panel">
-        <h2>Hallazgos detectados</h2>
-
-        <div class="findings-grid">
-          @for (item of findings; track item.label) {
-            <article class="finding-card" [class]="item.tone">
-              <div class="finding-icon">{{ item.icon }}</div>
-
-              <div>
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
-                <small>{{ item.detail }}</small>
-              </div>
-            </article>
+          @if (showFindingForm) {
+            <article class="panel finding-form-panel"><div class="form-heading"><div><span class="section-eyebrow">{{ editingFindingId === null ? 'Nuevo registro' : 'Edición' }}</span><h2>{{ editingFindingId === null ? 'Crear hallazgo' : 'Editar hallazgo' }}</h2></div><button type="button" class="close-form-button" (click)="closeFindingForm()">×</button></div><div class="finding-form-grid"><label class="full-field"><span>Título</span><input [value]="findingTitle" (input)="findingTitle = $any($event.target).value"></label><label><span>Categoría</span><select [value]="findingCategory" (change)="findingCategory = $any($event.target).value">@for (category of findingCategories; track category) {<option [value]="category">{{ category }}</option>}</select></label><label><span>Severidad</span><select [value]="findingSeverity" (change)="findingSeverity = $any($event.target).value"><option>Baja</option><option>Media</option><option>Alta</option><option>Crítica</option></select></label><label><span>Estado</span><select [value]="findingStatus" (change)="findingStatus = $any($event.target).value"><option>Abierto</option><option>En revisión</option><option>Mitigado</option></select></label><label class="full-field"><span>Evidencia</span><textarea rows="4" [value]="findingEvidence" (input)="findingEvidence = $any($event.target).value"></textarea></label><label class="full-field"><span>Riesgo</span><textarea rows="4" [value]="findingRisk" (input)="findingRisk = $any($event.target).value"></textarea></label><label class="full-field"><span>Recomendación</span><textarea rows="4" [value]="findingRecommendation" (input)="findingRecommendation = $any($event.target).value"></textarea></label></div><div class="form-footer"><small>No introduzcas credenciales ni datos reales.</small><div><button type="button" class="secondary-button compact-button" (click)="closeFindingForm()">Cancelar</button><button type="button" class="primary-button compact-button" [disabled]="!canSaveFinding" (click)="saveFinding()">{{ editingFindingId === null ? 'Guardar hallazgo' : 'Guardar cambios' }}</button></div></div></article>
           }
-        </div>
-      </article>
 
-      <!-- ACTIVIDAD -->
-      <article class="panel activity-panel">
-        <h2>Actividad reciente</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Hora</th>
-              <th>Actividad</th>
-              <th>Fuente</th>
-              <th>Severidad</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (item of activities; track item.time) {
-              <tr>
-                <td>{{ item.time }}</td>
-                <td>{{ item.activity }}</td>
-                <td>{{ item.source }}</td>
-                <td>
-                  <span class="severity-pill" [class]="item.severityTone">
-                    {{ item.severity }}
-                  </span>
-                </td>
-                <td>
-                  <span class="status-pill" [class]="item.statusTone">
-                    {{ item.status }}
-                  </span>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-
-        <button class="secondary-button">Ver toda la actividad →</button>
-      </article>
-    </main>
-
-    <!-- COLUMNA DERECHA -->
-    <aside class="side-column">
-      <!-- HERRAMIENTAS -->
-      <article class="panel">
-        <h2>Herramientas recomendadas</h2>
-        <p class="side-subtitle">
-          Accede a las herramientas que necesitas para este caso.
-        </p>
-
-        <div class="tools-list">
-          @for (tool of tools; track tool.name) {
-            <article class="tool-card">
-              <div class="tool-icon" [class]="tool.tone">{{ tool.icon }}</div>
-
-              <div>
-                <strong>{{ tool.name }}</strong>
-                <span>{{ tool.text }}</span>
-              </div>
-
-              <button>Abrir</button>
-              <a>↗</a>
-            </article>
+          @if (findings.length === 0 && !showFindingForm) {
+            <section class="empty-findings-layout"><article class="empty-state main-empty-state"><div class="empty-state-icon">⌕</div><h3>Todavía no has registrado ningún hallazgo</h3><p>Completa las fases y registra solo resultados confirmados.</p><button type="button" class="primary-button compact-button" (click)="openNewFindingForm()">Crear mi primer hallazgo</button></article><aside class="panel examples-panel"><h2>Ejemplos para aprender</h2><p>No forman parte de tu investigación hasta que los revises.</p>@for (example of findingExamples; track example.title) {<article class="example-card"><span>{{ example.category }}</span><h3>{{ example.title }}</h3><p>{{ example.explanation }}</p><button type="button" (click)="useFindingExample(example)">Usar como borrador →</button></article>}</aside></section>
+          } @else {
+            <div class="finding-filter-buttons">@for (filter of findingFilters; track filter) {<button type="button" [class.active]="selectedFindingFilter === filter" (click)="selectedFindingFilter = filter">{{ filter }}</button>}</div>
+            <section class="analyst-findings-grid">@for (finding of filteredFindings; track finding.id) {<article class="analyst-finding-card" [class.severity-critical]="finding.severity === 'Crítica'" [class.severity-high]="finding.severity === 'Alta'" [class.severity-medium]="finding.severity === 'Media'" [class.severity-low]="finding.severity === 'Baja'"><header><div><span>{{ finding.code }}</span><h3>{{ finding.title }}</h3></div><span class="finding-severity">{{ finding.severity }}</span></header><div class="finding-meta"><span>{{ finding.category }}</span><span>{{ finding.status }}</span><span>{{ finding.createdAt }}</span></div><section><strong>Evidencia</strong><p>{{ finding.evidence }}</p></section><section><strong>Riesgo</strong><p>{{ finding.risk }}</p></section><section class="finding-recommendation"><strong>Recomendación</strong><p>{{ finding.recommendation }}</p></section><footer><button type="button" class="edit-button" (click)="editFinding(finding)">Editar</button><button type="button" class="delete-button" (click)="deleteFinding(finding.id)">Eliminar</button></footer></article>} @empty {<article class="empty-state"><h3>No hay resultados para este filtro</h3></article>}</section>
+            <article class="generate-report-panel"><div><h2>¿Has terminado de documentar?</h2><p>Los hallazgos se incorporan automáticamente al informe.</p></div><button type="button" class="primary-button compact-button" (click)="selectTab('report')">Generar borrador →</button></article>
           }
-        </div>
+        </section>
+      }
 
-        <a class="all-tools">Ver todas las herramientas →</a>
-      </article>
+      @case ('report') {
+        <section class="editable-report-layout">
+          <article class="panel report-editor"><header class="workspace-header"><div><span class="section-eyebrow">Borrador editable</span><h2>Informe Blue Team</h2><p>El sistema rellena datos; tú redactas el análisis.</p></div></header><div class="report-editor-fields"><label><span>Resumen ejecutivo</span><textarea rows="6" [value]="reportDraft.executiveSummary" (input)="updateExecutiveSummary($any($event.target).value)"></textarea></label><label><span>Alcance</span><textarea rows="5" [value]="reportDraft.scope" (input)="updateScope($any($event.target).value)"></textarea></label><label><span>Metodología</span><textarea rows="6" [value]="reportDraft.methodology" (input)="updateMethodology($any($event.target).value)"></textarea></label><label><span>Recomendaciones</span><textarea rows="6" [value]="reportDraft.recommendations" (input)="updateRecommendations($any($event.target).value)"></textarea></label><label><span>Conclusión</span><textarea rows="6" [value]="reportDraft.conclusion" (input)="updateConclusion($any($event.target).value)"></textarea></label></div><div class="security-notice"><strong>Modo laboratorio:</strong><span>El contenido existe solo durante esta sesión.</span></div></article>
+          <article class="report-document"><header class="report-cover"><div class="report-brand"><div class="report-logo">S</div><div><strong>SecureBoard</strong><span>Security Operations Center</span></div></div><span>Informe Blue Team</span><h1>Análisis de alertas e incidente</h1><p>Investigación defensiva sobre un entorno corporativo simulado.</p><div class="report-meta"><div><span>Analista</span><strong>Sandra De Tena</strong></div><div><span>Fecha</span><strong>{{ reportDate }}</strong></div><div><span>Estado</span><strong>{{ caseStatus }}</strong></div></div></header><section class="report-section"><h2>1. Resumen ejecutivo</h2><p>{{ reportDraft.executiveSummary }}</p></section><section class="report-section"><h2>2. Alcance</h2><p>{{ reportDraft.scope }}</p></section><section class="report-section"><h2>3. Metodología</h2><p>{{ reportDraft.methodology }}</p><ol>@for (phase of phases; track phase.id) {<li>{{ phase.title }}: {{ phase.completed ? 'completada' : 'pendiente' }}</li>}</ol></section><section class="report-section"><div class="report-section-heading"><h2>4. Hallazgos</h2><span>{{ reportSeveritySummary }}</span></div>@if (findings.length) {<div class="report-findings">@for (finding of findings; track finding.id) {<article><span>{{ finding.code }}</span><div><strong>{{ finding.title }}</strong><p>{{ finding.risk }}</p></div><small>{{ finding.severity }}</small></article>}</div>} @else {<div class="report-empty-section">No hay hallazgos registrados.</div>}</section><section class="report-section"><h2>5. Recomendaciones</h2><p>{{ reportDraft.recommendations }}</p></section><section class="report-section"><h2>6. Conclusión</h2><p>{{ reportDraft.conclusion }}</p></section><footer class="report-footer">Documento generado en modo laboratorio.</footer></article>
+          <aside class="report-session-actions"><article class="panel"><h2>Acciones del informe</h2><button type="button" class="primary-button" (click)="printReport()">Imprimir / Guardar PDF</button><button type="button" class="secondary-button" (click)="copyReportSummary()">Copiar resumen</button>@if (reportCopied) {<span class="copy-confirmation">Resumen copiado ✓</span>}</article></aside>
+        </section>
+      }
 
-      <!-- NOTAS -->
-      <article class="panel notes-panel">
-        <header>
-          <h2>Notas de investigación</h2>
-          <button>＋ Nueva nota</button>
-        </header>
+      @case ('notes') {
+        <section class="notes-layout"><article class="panel note-form-panel"><span class="section-eyebrow">Bloc del analista</span><h2>Nueva nota</h2><label><span>Título</span><input [value]="newNoteTitle" (input)="newNoteTitle = $any($event.target).value"></label><label><span>Tipo</span><select [value]="newNoteType" (change)="newNoteType = $any($event.target).value"><option>Idea</option><option>Importante</option><option>Recordatorio</option><option>Hallazgo</option></select></label><label><span>Contenido</span><textarea rows="8" [value]="newNoteContent" (input)="newNoteContent = $any($event.target).value"></textarea></label><button type="button" class="primary-button" [disabled]="!canCreateNote" (click)="createNote()">Guardar nota</button></article><section class="notes-list-section"><div class="notes-heading"><div><span class="section-eyebrow">Investigación</span><h2>Mis notas</h2></div><strong>{{ notes.length }} notas</strong></div><div class="note-filter-buttons">@for (filter of noteFilters; track filter) {<button type="button" [class.active]="selectedNoteFilter === filter" (click)="selectedNoteFilter = filter">{{ filter }}</button>}</div><div class="notes-list">@for (note of filteredNotes; track note.id) {<article class="note-card-full"><header><div><span>{{ note.date }}</span><h3>{{ note.title }}</h3></div><span class="note-type" [class]="note.type.toLowerCase()">{{ note.type }}</span></header><p>{{ note.content }}</p><footer><button type="button" (click)="deleteNote(note.id)">Eliminar</button></footer></article>} @empty {<article class="empty-state"><h3>No hay notas en esta categoría</h3></article>}</div></section></section>
+      }
+    }
+  </main>
 
-        <nav class="notes-tabs">
-          <button class="active">Todas</button>
-          <button>Importantes</button>
-          <button>Recordatorios</button>
-        </nav>
-
-        <div class="note-list">
-          @for (note of notes; track note.time) {
-            <article class="note-card">
-              <span>Hoy, {{ note.time }}</span>
-              <strong [class]="note.tone">{{ note.tag }}</strong>
-              <p>{{ note.text }}</p>
-
-              <div>
-                <button>✎</button>
-                <button>🗑</button>
-              </div>
-            </article>
-          }
-        </div>
-
-        <a class="all-tools">Ver todas las notas →</a>
-      </article>
-
-      <!-- CTA -->
-      <article class="continue-card">
-        <div>
-          <h2>¿Listo para continuar?</h2>
-          <p>
-            Continúa con la siguiente fase para profundizar en el análisis.
-          </p>
-        </div>
-
-        <button>
-          <span>⌘</span>
-          Ir a Fase a fase →
-        </button>
-      </article>
-    </aside>
-  </section>
+  @if (guideOpen) {
+    <div class="modal-backdrop" (click)="closeGuide()"><article class="guide-modal" (click)="$event.stopPropagation()"><header><div><span class="section-eyebrow">Guía del caso</span><h2>Blue Team Analyst</h2></div><button type="button" (click)="closeGuide()">×</button></header><section><h3>Objetivo</h3><p>Analizar alertas y logs, reconstruir la actividad, identificar IoCs y proponer contención.</p></section><section><h3>Reglas</h3><ul><li>Trabaja solo con los datos del laboratorio.</li><li>No ejecutes muestras fuera de un entorno aislado.</li><li>Preserva evidencias antes de contener.</li><li>No conviertas una sospecha en hallazgo sin validación.</li></ul></section><footer><button type="button" class="primary-button" (click)="closeGuide(); selectTab('phases')">Comenzar el caso</button></footer></article></div>
+  }
 </section>
