@@ -1,57 +1,104 @@
 <section class="osint-page">
-  <header class="case-top">
-    <a routerLink="/cases" class="back-link">← Volver a casos</a>
+  <!-- =====================================================
+       CABECERA
+       ===================================================== -->
 
-    <div class="case-title-row">
-      <div class="case-icon-main">
-        <svg viewBox="0 0 120 120">
-          <circle cx="54" cy="52" r="32"></circle>
-          <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
-          <circle cx="76" cy="74" r="18"></circle>
-          <path d="M89 87l17 17"></path>
-        </svg>
-      </div>
+  <header class="case-header">
+    <div class="case-heading">
+      <a routerLink="/cases" class="back-link">
+        ← Volver a casos
+      </a>
 
-      <div>
-        <span class="case-chip">Caso 01</span>
-        <h1>OSINT Investigation</h1>
-        <p>Investiga un dominio y recopila información pública para identificar posibles riesgos.</p>
+      <div class="case-title-row">
+        <div class="main-case-icon">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="54" cy="52" r="32"></circle>
+
+            <path
+              d="M23 52h62
+                 M54 20c-14 16-14 48 0 64
+                 M54 20c14 16 14 48 0 64"
+            ></path>
+
+            <circle cx="76" cy="74" r="18"></circle>
+            <path d="M89 87l17 17"></path>
+          </svg>
+        </div>
+
+        <div>
+          <span class="case-badge">Caso 01</span>
+
+          <h1>OSINT Investigation</h1>
+
+          <p>
+            Investiga un dominio y recopila información pública para identificar
+            posibles riesgos.
+          </p>
+        </div>
       </div>
     </div>
 
-    <button class="guide-button">▣ Ver guía del caso</button>
+    <button
+      type="button"
+      class="guide-button"
+      (click)="openGuide()"
+    >
+      ▣ Ver guía del caso
+    </button>
   </header>
 
-  <section class="stats-grid">
-    <article class="stat-card">
-      <div class="stat-icon">⌘</div>
+  <!-- =====================================================
+       MÉTRICAS SUPERIORES
+       ===================================================== -->
+
+  <section class="case-metrics">
+    <article class="metric-card">
+      <div class="metric-icon">⌘</div>
+
       <div>
         <span>Dificultad</span>
-        <div class="difficulty-dots">
-          <i></i><i></i><i></i><i></i><i class="empty"></i>
+
+        <div class="difficulty-content">
+          <div class="difficulty-dots">
+            @for (dot of [1, 2, 3, 4, 5]; track dot) {
+              <i [class.filled]="dot <= 4"></i>
+            }
+          </div>
+
+          <strong>Fácil</strong>
         </div>
       </div>
-      <strong>Fácil</strong>
     </article>
 
-    <article class="stat-card">
-      <div class="stat-icon">◷</div>
+    <article class="metric-card">
+      <div class="metric-icon">◷</div>
+
       <div>
         <span>Tiempo estimado</span>
         <strong>60 - 90 min</strong>
       </div>
     </article>
 
-    <article class="stat-card">
-      <div class="progress-circle">35%</div>
+    <article class="metric-card progress-metric">
+      <div
+        class="progress-circle"
+        [style.--progress]="progressPercentage"
+      >
+        <strong>{{ progressPercentage }}%</strong>
+      </div>
+
       <div>
         <span>Estado del caso</span>
-        <strong class="purple-text">En progreso</strong>
+
+        <strong class="purple-text">
+          {{ caseStatus }}
+        </strong>
       </div>
     </article>
 
-    <article class="stat-card">
-      <div class="stat-icon">☆</div>
+    <article class="metric-card">
+      <div class="metric-icon">☆</div>
+
       <div>
         <span>Puntos posibles</span>
         <strong>250 pts</strong>
@@ -59,150 +106,1173 @@
     </article>
   </section>
 
-  <nav class="case-tabs">
-    <button class="active">▣ Resumen</button>
-    <button>⌘ Fase a fase</button>
-    <button>ⓘ Hallazgos</button>
-    <button>▤ Informe</button>
-    <button>□ Notas</button>
+  <!-- =====================================================
+       PESTAÑAS
+       ===================================================== -->
+
+  <nav class="case-tabs" aria-label="Secciones del caso OSINT">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        [class.active]="selectedTab === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span>{{ tab.icon }}</span>
+        {{ tab.label }}
+      </button>
+    }
   </nav>
 
-  <section class="content-grid">
-    <main class="main-column">
-      <article class="panel investigation-summary">
-        <h2>Resumen de la investigación</h2>
+  <!-- =====================================================
+       CONTENIDO
+       ===================================================== -->
 
-        <div class="summary-layout">
-          <div class="osint-visual">
-            <svg viewBox="0 0 120 120">
-              <circle cx="54" cy="52" r="32"></circle>
-              <path d="M23 52h62M54 20c-14 16-14 48 0 64M54 20c14 16 14 48 0 64"></path>
-              <circle cx="76" cy="74" r="18"></circle>
-              <path d="M89 87l17 17"></path>
-            </svg>
+  <main class="tab-content">
+    @switch (selectedTab) {
+      <!-- =================================================
+           RESUMEN
+           ================================================= -->
+
+      @case ('summary') {
+        <section class="summary-layout">
+          <div class="summary-main-column">
+            <article class="panel investigation-summary">
+              <h2>Resumen de la investigación</h2>
+
+              <div class="investigation-grid">
+                <div class="osint-illustration">
+                  <svg viewBox="0 0 120 120" aria-hidden="true">
+                    <circle cx="54" cy="52" r="32"></circle>
+
+                    <path
+                      d="M23 52h62
+                         M54 20c-14 16-14 48 0 64
+                         M54 20c14 16 14 48 0 64"
+                    ></path>
+
+                    <circle cx="76" cy="74" r="18"></circle>
+                    <path d="M89 87l17 17"></path>
+                  </svg>
+                </div>
+
+                <div class="domain-card">
+                  <div class="domain-title">
+                    <h3>neolandsecure.com</h3>
+                    <span>↗</span>
+                  </div>
+
+                  <span class="active-domain">
+                    • Dominio activo
+                  </span>
+
+                  <div class="domain-data">
+                    @for (item of domainData; track item.label) {
+                      <div>
+                        <span>{{ item.label }}</span>
+                        <strong>{{ item.value }}</strong>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <div class="found-information">
+                  <h3>Información encontrada</h3>
+
+                  @for (item of foundInformation; track item.label) {
+                    <div>
+                      <span>{{ item.label }}</span>
+                      <strong>{{ item.value }}</strong>
+                    </div>
+                  }
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2>Hallazgos principales</h2>
+
+              <div class="finding-summary-grid">
+                @for (item of summaryFindings; track item.label) {
+                  <article class="finding-summary-card" [class]="item.tone">
+                    <div class="finding-summary-icon">
+                      {{ item.icon }}
+                    </div>
+
+                    <div>
+                      <span>{{ item.label }}</span>
+                      <strong>{{ item.value }}</strong>
+                      <small>{{ item.detail }}</small>
+                    </div>
+                  </article>
+                }
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Actividad reciente</h2>
+                  <p>Últimas acciones registradas en el caso.</p>
+                </div>
+
+                <button
+                  type="button"
+                  class="text-button"
+                  (click)="selectTab('phases')"
+                >
+                  Ver toda la actividad →
+                </button>
+              </div>
+
+              <div class="activity-table-wrapper">
+                <table class="activity-table">
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Actividad</th>
+                      <th>Fuente</th>
+                      <th>Herramienta</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    @for (activity of recentActivity; track activity.time) {
+                      <tr>
+                        <td>{{ activity.time }}</td>
+                        <td>{{ activity.activity }}</td>
+                        <td>{{ activity.source }}</td>
+
+                        <td>
+                          <span class="tool-chip">
+                            {{ activity.tool }}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span class="completed-status">
+                            Completado ✓
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </article>
           </div>
 
-          <div class="domain-card">
-            <h3>neolandsecure.com ↗</h3>
-            <span class="active-domain">● Dominio activo</span>
+          <aside class="summary-side-column">
+            <article class="panel">
+              <h2>Herramientas OSINT</h2>
 
-            <div class="domain-grid">
-              <div><small>IP Dirección</small><strong>104.21.16.1</strong></div>
-              <div><small>Servidor</small><strong>cloudflare</strong></div>
-              <div><small>País</small><strong>🇺🇸 Estados Unidos</strong></div>
-              <div><small>Fecha de registro</small><strong>2021-05-18</strong></div>
-              <div><small>Fecha de expiración</small><strong>2026-05-18</strong></div>
-              <div><small>Registrador</small><strong>GoDaddy.com, LLC</strong></div>
+              <p class="panel-description">
+                Accede a las herramientas necesarias para realizar el caso.
+              </p>
+
+              <div class="tools-list">
+                @for (tool of visibleTools; track tool.name) {
+                  <article class="tool-row">
+                    <div
+                      class="tool-logo"
+                      [class]="tool.tone"
+                    >
+                      {{ tool.initial }}
+                    </div>
+
+                    <div>
+                      <strong>{{ tool.name }}</strong>
+                      <span>{{ tool.description }}</span>
+                    </div>
+
+                    <a
+                      [href]="tool.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Abrir
+                    </a>
+                  </article>
+                }
+              </div>
+
+              <button
+                type="button"
+                class="text-button tools-toggle"
+                (click)="toggleAllTools()"
+              >
+                @if (showAllTools) {
+                  Ver menos herramientas ↑
+                } @else {
+                  Ver todas las herramientas →
+                }
+              </button>
+            </article>
+
+            <article class="panel quick-notes-panel">
+              <div class="panel-heading">
+                <h2>Notas rápidas</h2>
+
+                <button
+                  type="button"
+                  class="outline-button"
+                  (click)="selectTab('notes')"
+                >
+                  + Nueva nota
+                </button>
+              </div>
+
+              @if (notes.length > 0) {
+                <article class="quick-note">
+                  <span>{{ notes[0].date }}</span>
+                  <p>{{ notes[0].content }}</p>
+                </article>
+              } @else {
+                <p class="empty-text">
+                  Todavía no has creado ninguna nota.
+                </p>
+              }
+            </article>
+
+            <article class="continue-panel">
+              <div>
+                <h2>¿Listo para continuar?</h2>
+
+                <p>
+                  Continúa con la siguiente fase para avanzar en tu investigación.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                (click)="selectTab('phases')"
+              >
+                Ir a Fase a fase →
+              </button>
+            </article>
+          </aside>
+        </section>
+      }
+
+      <!-- =================================================
+           FASE A FASE
+           ================================================= -->
+
+      @case ('phases') {
+        <section class="phases-layout">
+          <div class="phases-main">
+            <article class="panel phases-intro">
+              <span class="section-eyebrow">Proceso guiado</span>
+
+              <h2>Fases de la investigación OSINT</h2>
+
+              <p>
+                Completa cada fase en orden. Revisa el objetivo, consulta las
+                herramientas recomendadas y registra las evidencias obtenidas.
+              </p>
+            </article>
+
+            <div class="phase-list">
+              @for (phase of phases; track phase.id; let index = $index) {
+                <article
+                  class="phase-card"
+                  [class.completed]="phase.completed"
+                  [class.current]="!phase.completed && isCurrentPhase(index)"
+                >
+                  <div class="phase-number">
+                    @if (phase.completed) {
+                      ✓
+                    } @else {
+                      {{ index + 1 }}
+                    }
+                  </div>
+
+                  <div class="phase-content">
+                    <div class="phase-heading">
+                      <div>
+                        <span>Fase {{ index + 1 }}</span>
+                        <h3>{{ phase.title }}</h3>
+                      </div>
+
+                      <span
+                        class="phase-status"
+                        [class.completed]="phase.completed"
+                      >
+                        {{ phase.completed ? 'Completada' : 'Pendiente' }}
+                      </span>
+                    </div>
+
+                    <p>{{ phase.description }}</p>
+
+                    <div class="phase-objective">
+                      <strong>Objetivo</strong>
+                      <span>{{ phase.objective }}</span>
+                    </div>
+
+                    <div class="phase-tasks">
+                      <strong>Tareas</strong>
+
+                      <ul>
+                        @for (task of phase.tasks; track task) {
+                          <li>{{ task }}</li>
+                        }
+                      </ul>
+                    </div>
+
+                    <div class="phase-tools">
+                      <strong>Herramientas sugeridas:</strong>
+
+                      @for (tool of phase.tools; track tool) {
+                        <span>{{ tool }}</span>
+                      }
+                    </div>
+
+                    <div class="phase-actions">
+                      <button
+                        type="button"
+                        class="complete-phase-button"
+                        [class.completed]="phase.completed"
+                        (click)="togglePhase(phase.id)"
+                      >
+                        @if (phase.completed) {
+                          Marcar como pendiente
+                        } @else {
+                          Marcar fase como completada
+                        }
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              }
             </div>
           </div>
 
-          <div class="info-card">
-            <h4>Información encontrada</h4>
-            <p><span>Subdominios</span><strong>12</strong></p>
-            <p><span>Registros DNS</span><strong>28</strong></p>
-            <p><span>Puertos abiertos</span><strong>7</strong></p>
-            <p><span>Tecnologías</span><strong>9</strong></p>
-            <p><span>Emails encontrados</span><strong>3</strong></p>
-            <p><span>Filtros de Google</span><strong>15</strong></p>
-          </div>
-        </div>
-      </article>
+          <aside class="phase-side">
+            <article class="panel sticky-panel">
+              <h2>Progreso general</h2>
 
-      <article class="panel">
-        <h2>Hallazgos principales</h2>
+              <div class="large-progress">
+                <div
+                  class="progress-circle large"
+                  [style.--progress]="progressPercentage"
+                >
+                  <strong>{{ progressPercentage }}%</strong>
+                </div>
 
-        <div class="findings-grid">
-          @for (item of findings; track item.label) {
-            <article class="finding-card" [class]="item.tone">
-              <div class="finding-icon">{{ item.icon }}</div>
-              <div>
-                <span>{{ item.label }}</span>
-                <strong>{{ item.value }}</strong>
-                <small>{{ item.detail }}</small>
+                <div>
+                  <strong>
+                    {{ completedPhases }} de {{ phases.length }}
+                  </strong>
+
+                  <span>fases completadas</span>
+                </div>
+              </div>
+
+              <div class="progress-bar">
+                <span [style.width.%]="progressPercentage"></span>
+              </div>
+
+              <p>
+                Completa todas las fases para desbloquear el informe final.
+              </p>
+            </article>
+
+            <article class="panel">
+              <h2>Buenas prácticas</h2>
+
+              <ul class="best-practices">
+                <li>Trabaja únicamente sobre objetivos autorizados.</li>
+                <li>Documenta las fuentes consultadas.</li>
+                <li>No recopiles datos personales innecesarios.</li>
+                <li>Diferencia hechos, hipótesis y conclusiones.</li>
+                <li>Incluye una recomendación para cada riesgo.</li>
+              </ul>
+            </article>
+          </aside>
+        </section>
+      }
+
+      <!-- =================================================
+           HALLAZGOS
+           ================================================= -->
+
+      @case ('findings') {
+        <section class="findings-workspace">
+          <header class="workspace-header panel">
+            <div>
+              <span class="section-eyebrow">Trabajo del analista</span>
+              <h2>Hallazgos de la investigación</h2>
+
+              <p>
+                Registra únicamente evidencias que hayas comprobado durante el
+                ejercicio. SecureBoard no crea los resultados por ti.
+              </p>
+            </div>
+
+            <div class="workspace-actions">
+              <button
+                type="button"
+                class="secondary-button compact-button"
+                (click)="resetLaboratory()"
+              >
+                Reiniciar sesión
+              </button>
+
+              <button
+                type="button"
+                class="primary-button compact-button"
+                (click)="openNewFindingForm()"
+              >
+                + Nuevo hallazgo
+              </button>
+            </div>
+          </header>
+
+          <section class="finding-stats">
+            <article>
+              <strong>{{ findings.length }}</strong>
+              <span>Hallazgos creados</span>
+            </article>
+
+            <article>
+              <strong>{{ highFindingsCount }}</strong>
+              <span>Altos o críticos</span>
+            </article>
+
+            <article>
+              <strong>{{ mitigatedFindingsCount }}</strong>
+              <span>Mitigados</span>
+            </article>
+          </section>
+
+          @if (showFindingForm) {
+            <article class="panel finding-form-panel">
+              <div class="form-heading">
+                <div>
+                  <span class="section-eyebrow">
+                    {{ editingFindingId === null ? 'Nuevo registro' : 'Edición' }}
+                  </span>
+
+                  <h2>
+                    {{
+                      editingFindingId === null
+                        ? 'Crear hallazgo'
+                        : 'Editar hallazgo'
+                    }}
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  class="close-form-button"
+                  (click)="closeFindingForm()"
+                  aria-label="Cerrar formulario"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div class="finding-form-grid">
+                <label class="full-field">
+                  <span>Título del hallazgo</span>
+
+                  <input
+                    type="text"
+                    maxlength="120"
+                    placeholder="Ej.: Panel de administración expuesto"
+                    [value]="findingTitle"
+                    (input)="findingTitle = $any($event.target).value"
+                  />
+                </label>
+
+                <label>
+                  <span>Categoría</span>
+
+                  <select
+                    [value]="findingCategory"
+                    (change)="findingCategory = $any($event.target).value"
+                  >
+                    @for (category of findingCategories; track category) {
+                      <option [value]="category">{{ category }}</option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  <span>Severidad</span>
+
+                  <select
+                    [value]="findingSeverity"
+                    (change)="findingSeverity = $any($event.target).value"
+                  >
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Crítica">Crítica</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Estado</span>
+
+                  <select
+                    [value]="findingStatus"
+                    (change)="findingStatus = $any($event.target).value"
+                  >
+                    <option value="Abierto">Abierto</option>
+                    <option value="En revisión">En revisión</option>
+                    <option value="Mitigado">Mitigado</option>
+                  </select>
+                </label>
+
+                <label class="full-field">
+                  <span>Evidencia observada</span>
+
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    placeholder="Describe qué has visto, dónde y con qué herramienta."
+                    [value]="findingEvidence"
+                    (input)="findingEvidence = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Riesgo asociado</span>
+
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    placeholder="Explica qué impacto podría tener."
+                    [value]="findingRisk"
+                    (input)="findingRisk = $any($event.target).value"
+                  ></textarea>
+                </label>
+
+                <label class="full-field">
+                  <span>Recomendación</span>
+
+                  <textarea
+                    rows="4"
+                    maxlength="3000"
+                    placeholder="Propón una medida concreta y proporcionada."
+                    [value]="findingRecommendation"
+                    (input)="findingRecommendation = $any($event.target).value"
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="form-footer">
+                <small>
+                  No introduzcas contraseñas, tokens, datos personales ni
+                  información confidencial.
+                </small>
+
+                <div>
+                  <button
+                    type="button"
+                    class="secondary-button compact-button"
+                    (click)="closeFindingForm()"
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="primary-button compact-button"
+                    [disabled]="!canSaveFinding"
+                    (click)="saveFinding()"
+                  >
+                    {{
+                      editingFindingId === null
+                        ? 'Guardar hallazgo'
+                        : 'Guardar cambios'
+                    }}
+                  </button>
+                </div>
               </div>
             </article>
           }
-        </div>
-      </article>
 
-      <article class="panel activity-panel">
-        <h2>Actividad reciente</h2>
+          @if (findings.length === 0 && !showFindingForm) {
+            <section class="empty-findings-layout">
+              <article class="empty-state main-empty-state">
+                <div class="empty-state-icon">⌕</div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Hora</th>
-              <th>Actividad</th>
-              <th>Fuente</th>
-              <th>Herramienta</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (item of activities; track item.time) {
-              <tr>
-                <td>{{ item.time }}</td>
-                <td>{{ item.action }}</td>
-                <td>{{ item.source }}</td>
-                <td><span class="tool-pill">{{ item.tool }}</span></td>
-                <td><span class="completed">Completado ✓</span></td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                <h3>Todavía no has registrado ningún hallazgo</h3>
 
-        <button class="secondary-button">Ver toda la actividad →</button>
-      </article>
-    </main>
+                <p>
+                  Realiza las fases de investigación y añade únicamente los
+                  resultados que hayas podido comprobar.
+                </p>
 
-    <aside class="side-column">
-      <article class="panel">
-        <h2>Herramientas OSINT</h2>
-        <p class="side-subtitle">Accede a las herramientas que necesitas.</p>
+                <button
+                  type="button"
+                  class="primary-button compact-button"
+                  (click)="openNewFindingForm()"
+                >
+                  Crear mi primer hallazgo
+                </button>
+              </article>
 
-        <div class="tools-list">
-          @for (tool of tools; track tool.name) {
-            <article class="tool-card">
-              <div class="tool-icon" [class]="tool.tone">{{ tool.icon }}</div>
+              <aside class="panel examples-panel">
+                <h2>Ejemplos para aprender</h2>
+
+                <p>
+                  Son modelos de redacción. No forman parte de tu investigación
+                  hasta que los revises y completes.
+                </p>
+
+                @for (example of findingExamples; track example.title) {
+                  <article class="example-card">
+                    <span>{{ example.category }}</span>
+                    <h3>{{ example.title }}</h3>
+                    <p>{{ example.explanation }}</p>
+
+                    <button
+                      type="button"
+                      (click)="useFindingExample(example)"
+                    >
+                      Usar como borrador →
+                    </button>
+                  </article>
+                }
+              </aside>
+            </section>
+          } @else {
+            <div class="finding-filter-buttons">
+              @for (filter of findingFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedFindingFilter === filter"
+                  (click)="selectedFindingFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <section class="analyst-findings-grid">
+              @for (finding of filteredFindings; track finding.id) {
+                <article
+                  class="analyst-finding-card"
+                  [class.severity-critical]="finding.severity === 'Crítica'"
+                  [class.severity-high]="finding.severity === 'Alta'"
+                  [class.severity-medium]="finding.severity === 'Media'"
+                  [class.severity-low]="finding.severity === 'Baja'"
+                >
+                  <header>
+                    <div>
+                      <span>{{ finding.code }}</span>
+                      <h3>{{ finding.title }}</h3>
+                    </div>
+
+                    <span class="finding-severity">
+                      {{ finding.severity }}
+                    </span>
+                  </header>
+
+                  <div class="finding-meta">
+                    <span>{{ finding.category }}</span>
+                    <span>{{ finding.status }}</span>
+                    <span>{{ finding.createdAt }}</span>
+                  </div>
+
+                  <section>
+                    <strong>Evidencia</strong>
+                    <p>{{ finding.evidence }}</p>
+                  </section>
+
+                  <section>
+                    <strong>Riesgo</strong>
+                    <p>{{ finding.risk }}</p>
+                  </section>
+
+                  <section class="finding-recommendation">
+                    <strong>Recomendación</strong>
+                    <p>{{ finding.recommendation }}</p>
+                  </section>
+
+                  <footer>
+                    <button
+                      type="button"
+                      class="edit-button"
+                      (click)="editFinding(finding)"
+                    >
+                      Editar
+                    </button>
+
+                    <button
+                      type="button"
+                      class="delete-button"
+                      (click)="deleteFinding(finding.id)"
+                    >
+                      Eliminar
+                    </button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay resultados para este filtro</h3>
+                  <p>Selecciona otra severidad o estado.</p>
+                </article>
+              }
+            </section>
+
+            <article class="generate-report-panel">
               <div>
-                <strong>{{ tool.name }}</strong>
-                <span>{{ tool.text }}</span>
+                <h2>¿Has terminado de documentar?</h2>
+
+                <p>
+                  SecureBoard llevará tus hallazgos al borrador del informe.
+                </p>
               </div>
-              <button>Abrir</button>
+
+              <button
+                type="button"
+                class="primary-button compact-button"
+                (click)="generateReport()"
+              >
+                Generar borrador del informe →
+              </button>
             </article>
           }
-        </div>
+        </section>
+      }
 
-        <a class="all-tools">Ver todas las herramientas →</a>
-      </article>
+      <!-- =================================================
+           INFORME
+           ================================================= -->
 
-      <article class="panel notes-panel">
+      @case ('report') {
+        <section class="editable-report-layout">
+          <article class="panel report-editor">
+            <header class="workspace-header">
+              <div>
+                <span class="section-eyebrow">Borrador editable</span>
+                <h2>Informe de investigación OSINT</h2>
+
+                <p>
+                  SecureBoard rellena los datos del caso y los hallazgos. El
+                  análisis y las conclusiones los redacta la persona que realiza
+                  el ejercicio.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="secondary-button compact-button"
+                (click)="resetLaboratory()"
+              >
+                Reiniciar sesión
+              </button>
+            </header>
+
+            <div class="report-editor-fields">
+              <label>
+                <span>Resumen ejecutivo</span>
+
+                <textarea
+                  rows="6"
+                  maxlength="3000"
+                  [value]="reportDraft.executiveSummary"
+                  (input)="updateExecutiveSummary($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Alcance</span>
+
+                <textarea
+                  rows="5"
+                  maxlength="3000"
+                  [value]="reportDraft.scope"
+                  (input)="updateScope($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Metodología</span>
+
+                <textarea
+                  rows="6"
+                  maxlength="3000"
+                  [value]="reportDraft.methodology"
+                  (input)="updateMethodology($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Recomendaciones generales</span>
+
+                <textarea
+                  rows="6"
+                  maxlength="3000"
+                  [value]="reportDraft.generalRecommendations"
+                  (input)="updateGeneralRecommendations($any($event.target).value)"
+                ></textarea>
+              </label>
+
+              <label>
+                <span>Conclusión</span>
+
+                <textarea
+                  rows="6"
+                  maxlength="3000"
+                  [value]="reportDraft.conclusion"
+                  (input)="updateConclusion($any($event.target).value)"
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="security-notice">
+              <strong>Modo laboratorio:</strong>
+
+              <span>
+                El borrador solo existe durante esta sesión. No introduzcas
+                datos reales, credenciales ni información confidencial.
+              </span>
+            </div>
+          </article>
+
+          <article class="report-document">
+            <header class="report-cover">
+              <div class="report-brand">
+                <div class="report-logo">S</div>
+
+                <div>
+                  <strong>SecureBoard</strong>
+                  <span>Security Operations Center</span>
+                </div>
+              </div>
+
+              <span>Informe OSINT</span>
+              <h1>neolandsecure.com</h1>
+
+              <p>
+                Informe de exposición pública y análisis de superficie digital.
+              </p>
+
+              <div class="report-meta">
+                <div>
+                  <span>Analista</span>
+                  <strong>Sandra De Tena</strong>
+                </div>
+
+                <div>
+                  <span>Fecha</span>
+                  <strong>{{ reportDate }}</strong>
+                </div>
+
+                <div>
+                  <span>Estado</span>
+                  <strong>{{ caseStatus }}</strong>
+                </div>
+              </div>
+            </header>
+
+            <section class="report-section">
+              <h2>1. Resumen ejecutivo</h2>
+              <p>{{ reportDraft.executiveSummary }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>2. Alcance</h2>
+              <p>{{ reportDraft.scope }}</p>
+            </section>
+
+            <section class="report-section">
+              <h2>3. Metodología</h2>
+              <p>{{ reportDraft.methodology }}</p>
+
+              <ol>
+                @for (phase of phases; track phase.id) {
+                  <li>
+                    {{ phase.title }}:
+                    {{ phase.completed ? 'completada' : 'pendiente' }}
+                  </li>
+                }
+              </ol>
+            </section>
+
+            <section class="report-section">
+              <div class="report-section-heading">
+                <h2>4. Hallazgos registrados</h2>
+                <span>{{ reportSeveritySummary }}</span>
+              </div>
+
+              @if (findings.length > 0) {
+                <div class="report-findings">
+                  @for (finding of findings; track finding.id) {
+                    <article>
+                      <span>{{ finding.code }}</span>
+
+                      <div>
+                        <strong>{{ finding.title }}</strong>
+                        <p>{{ finding.risk }}</p>
+                      </div>
+
+                      <small>{{ finding.severity }}</small>
+                    </article>
+                  }
+                </div>
+              } @else {
+                <div class="report-empty-section">
+                  No se han registrado hallazgos durante esta sesión.
+                </div>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>5. Recomendaciones generales</h2>
+              <p>{{ reportDraft.generalRecommendations }}</p>
+
+              @if (findings.length > 0) {
+                <ul>
+                  @for (finding of findings; track finding.id) {
+                    <li>
+                      <strong>{{ finding.code }}:</strong>
+                      {{ finding.recommendation }}
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <section class="report-section">
+              <h2>6. Conclusión</h2>
+              <p>{{ reportDraft.conclusion }}</p>
+            </section>
+
+            <footer class="report-footer">
+              Documento generado en modo laboratorio.
+            </footer>
+          </article>
+
+          <aside class="report-session-actions">
+            <article class="panel">
+              <h2>Acciones del informe</h2>
+
+              <p>Revisa el borrador antes de exportarlo.</p>
+
+              <button
+                type="button"
+                class="primary-button"
+                (click)="printReport()"
+              >
+                Imprimir / Guardar PDF
+              </button>
+
+              <button
+                type="button"
+                class="secondary-button"
+                (click)="copyReportSummary()"
+              >
+                Copiar resumen
+              </button>
+
+              @if (reportCopied) {
+                <span class="copy-confirmation">
+                  Resumen copiado ✓
+                </span>
+              }
+            </article>
+          </aside>
+        </section>
+      }
+
+      <!-- =================================================
+           NOTAS
+           ================================================= -->
+
+      @case ('notes') {
+        <section class="notes-layout">
+          <article class="panel note-form-panel">
+            <span class="section-eyebrow">Bloc del analista</span>
+            <h2>Nueva nota de investigación</h2>
+
+            <label>
+              <span>Título</span>
+
+              <input
+                type="text"
+                placeholder="Ej.: Revisión de subdominios"
+                [value]="newNoteTitle"
+                (input)="newNoteTitle = $any($event.target).value"
+              />
+            </label>
+
+            <label>
+              <span>Tipo de nota</span>
+
+              <select
+                [value]="newNoteType"
+                (change)="newNoteType = $any($event.target).value"
+              >
+                <option value="Idea">Idea</option>
+                <option value="Importante">Importante</option>
+                <option value="Recordatorio">Recordatorio</option>
+                <option value="Hallazgo">Hallazgo</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Contenido</span>
+
+              <textarea
+                rows="8"
+                placeholder="Escribe aquí tus observaciones..."
+                [value]="newNoteContent"
+                (input)="newNoteContent = $any($event.target).value"
+              ></textarea>
+            </label>
+
+            <button
+              type="button"
+              class="primary-button"
+              [disabled]="!canCreateNote"
+              (click)="createNote()"
+            >
+              Guardar nota
+            </button>
+          </article>
+
+          <section class="notes-list-section">
+            <div class="notes-heading">
+              <div>
+                <span class="section-eyebrow">Investigación</span>
+                <h2>Mis notas</h2>
+              </div>
+
+              <strong>{{ notes.length }} notas</strong>
+            </div>
+
+            <div class="note-filter-buttons">
+              @for (filter of noteFilters; track filter) {
+                <button
+                  type="button"
+                  [class.active]="selectedNoteFilter === filter"
+                  (click)="selectedNoteFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <div class="notes-list">
+              @for (note of filteredNotes; track note.id) {
+                <article class="note-card">
+                  <header>
+                    <div>
+                      <span>{{ note.date }}</span>
+                      <h3>{{ note.title }}</h3>
+                    </div>
+
+                    <span class="note-type" [class]="note.type.toLowerCase()">
+                      {{ note.type }}
+                    </span>
+                  </header>
+
+                  <p>{{ note.content }}</p>
+
+                  <footer>
+                    <button
+                      type="button"
+                      (click)="deleteNote(note.id)"
+                    >
+                      Eliminar
+                    </button>
+                  </footer>
+                </article>
+              } @empty {
+                <article class="empty-state">
+                  <h3>No hay notas en esta categoría</h3>
+
+                  <p>
+                    Crea una nueva nota o selecciona otro filtro.
+                  </p>
+                </article>
+              }
+            </div>
+          </section>
+        </section>
+      }
+    }
+  </main>
+
+  <!-- =====================================================
+       MODAL GUÍA
+       ===================================================== -->
+
+  @if (guideOpen) {
+    <div
+      class="modal-backdrop"
+      (click)="closeGuide()"
+    >
+      <article
+        class="guide-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="guide-title"
+        (click)="$event.stopPropagation()"
+      >
         <header>
-          <h2>Notas rápidas</h2>
-          <button>＋ Nueva nota</button>
+          <div>
+            <span class="section-eyebrow">Guía del caso</span>
+            <h2 id="guide-title">OSINT Investigation</h2>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Cerrar guía"
+            (click)="closeGuide()"
+          >
+            ×
+          </button>
         </header>
 
-        <div class="note-box">
-          <span>Hoy, 10:25</span>
+        <section>
+          <h3>Objetivo</h3>
+
+          <p>
+            Identificar información pública asociada a un dominio ficticio,
+            documentar los posibles riesgos y proponer medidas de mejora.
+          </p>
+        </section>
+
+        <section>
+          <h3>Reglas del laboratorio</h3>
+
           <ul>
-            <li>Dominio protegido por Cloudflare</li>
-            <li>Se detectaron 12 subdominios activos</li>
-            <li>Puerto 443 y 80 abiertos</li>
-            <li>Tecnología: WordPress, Google Analytics</li>
-            <li>Posible panel de administración en /wp-admin</li>
+            <li>Utiliza exclusivamente fuentes abiertas.</li>
+            <li>No intentes acceder a sistemas ni cuentas.</li>
+            <li>No realices escaneos agresivos.</li>
+            <li>Trabaja únicamente con objetivos autorizados o simulados.</li>
+            <li>Registra las evidencias y las fuentes utilizadas.</li>
           </ul>
-          <button class="edit-note">✎</button>
-        </div>
-      </article>
+        </section>
 
-      <article class="continue-card">
-        <div>
-          <h2>¿Listo para continuar?</h2>
-          <p>Continúa con la siguiente fase para avanzar en tu investigación.</p>
-        </div>
+        <section>
+          <h3>Qué debes entregar</h3>
 
-        <button>Ir a Fase a fase →</button>
+          <ul>
+            <li>Las cinco fases completadas.</li>
+            <li>Los hallazgos revisados.</li>
+            <li>Notas con las observaciones relevantes.</li>
+            <li>El informe final de la investigación.</li>
+          </ul>
+        </section>
+
+        <footer>
+          <button
+            type="button"
+            class="primary-button"
+            (click)="closeGuide(); selectTab('phases')"
+          >
+            Comenzar el caso
+          </button>
+        </footer>
       </article>
-    </aside>
-  </section>
+    </div>
+  }
 </section>
