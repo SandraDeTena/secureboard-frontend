@@ -1,359 +1,702 @@
 <section class="incident-page">
-  <a
-    class="back-link"
-    routerLink="/cases"
-    >← Volver a casos</a
-  >
-
   <header class="case-header">
-    <div
-      class="case-icon-large"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 120 120">
-        <rect
-          x="24"
-          y="26"
-          width="72"
-          height="52"
-          rx="5"
-        ></rect>
-        <path d="M24 68h72"></path>
-        <path d="M50 92h20M42 102h36"></path>
-        <path d="M54 78l-5 14M66 78l5 14"></path>
-        <circle
-          cx="60"
-          cy="48"
-          r="14"
-        ></circle>
-        <circle
-          cx="54"
-          cy="46"
-          r="2.5"
-        ></circle>
-        <circle
-          cx="66"
-          cy="46"
-          r="2.5"
-        ></circle>
-        <path d="M60 52l-3 5h6l-3-5z"></path>
-        <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
-      </svg>
+    <a routerLink="/cases" class="back-link">← Volver a casos</a>
+
+    <div class="header-main">
+      <div class="case-icon">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="24" y="26" width="72" height="52" rx="5"></rect>
+          <path d="M24 68h72M50 92h20M42 102h36M54 78l-5 14M66 78l5 14"></path>
+          <circle cx="60" cy="48" r="14"></circle>
+          <circle cx="54" cy="46" r="2.5"></circle>
+          <circle cx="66" cy="46" r="2.5"></circle>
+          <path d="M60 52l-3 5h6l-3-5zM51 62v8M57 63v9M63 63v9M69 62v8"></path>
+        </svg>
+      </div>
+
+      <div>
+        <span class="case-badge">Caso 05</span>
+        <h1>Incident Response</h1>
+        <p>Gestiona un incidente simulado desde la detección hasta la recuperación.</p>
+      </div>
     </div>
 
-    <div>
-      <span class="case-tag">Caso 05</span>
-      <h1>Incident Response</h1>
-      <p>
-        Responde a un incidente de seguridad y lleva a cabo todo el proceso de respuesta y
-        recuperación.
-      </p>
-    </div>
-
-    <button
-      class="guide-button"
-      type="button"
-    >
-      <span>▣</span>
-      Ver guía del caso
+    <button type="button" class="guide-button" (click)="guideOpen = true">
+      ▣ Ver guía del caso
     </button>
   </header>
 
-  <section class="status-grid">
-    <article class="status-card">
-      <div class="status-icon">⌾</div>
-      <div>
-        <small>Dificultad</small>
-        <div class="difficulty">
-          <span class="active"></span><span class="active"></span><span class="active"></span
-          ><span class="active"></span><span></span>
-        </div>
-      </div>
-      <strong class="green-text">Difícil</strong>
+  <section class="stats-grid">
+    <article class="stat-card">
+      <span>Dificultad</span>
+      <strong>Difícil</strong>
+      <div class="dots"><i></i><i></i><i></i><i></i><i class="empty"></i></div>
     </article>
 
-    <article class="status-card">
-      <div class="status-icon">◷</div>
-      <div>
-        <small>Tiempo estimado</small>
-        <strong>120 - 180 min</strong>
-      </div>
+    <article class="stat-card">
+      <span>Tiempo estimado</span>
+      <strong>120 - 180 min</strong>
     </article>
 
-    <article class="status-card">
-      <div class="progress-circle">30%</div>
+    <article class="stat-card progress-card">
+      <div class="progress-ring" [style.--value]="progressPercentage">{{ progressPercentage }}%</div>
       <div>
-        <small>Estado del caso</small>
-        <strong class="green-text">En progreso</strong>
+        <span>Estado del caso</span>
+        <strong>{{ caseStatus }}</strong>
       </div>
     </article>
 
-    <article class="status-card">
-      <div class="status-icon">☆</div>
-      <div>
-        <small>Puntos posibles</small>
-        <strong>400 pts</strong>
-      </div>
+    <article class="stat-card">
+      <span>Puntos posibles</span>
+      <strong>400 pts</strong>
     </article>
   </section>
 
-  <nav class="case-tabs">
-    <button
-      class="active"
-      type="button"
-    >
-      ▣ <span>Resumen</span>
-    </button>
-    <button type="button">⌘ <span>Fase a fase</span></button>
-    <button type="button">ⓘ <span>Hallazgos</span></button>
-    <button type="button">▤ <span>Informe</span></button>
-    <button type="button">▱ <span>Notas</span></button>
+  <nav class="tabs">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        [class.active]="selectedTab === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span>{{ tab.icon }}</span>
+        {{ tab.label }}
+      </button>
+    }
   </nav>
 
-  <section class="case-layout">
-    <main class="main-content">
-      <article class="panel summary-panel">
-        <h2>Resumen del incidente</h2>
+  @switch (selectedTab) {
+    @case ('summary') {
+      <section class="layout-two-columns">
+        <div class="main-column">
+          <article class="panel">
+            <h2>Resumen del incidente</h2>
 
-        <div class="summary-content">
-          <div class="incident-illustration">
-            <div class="grid-lines"></div>
-            <svg viewBox="0 0 120 120">
-              <rect
-                x="24"
-                y="26"
-                width="72"
-                height="52"
-                rx="5"
-              ></rect>
-              <path d="M24 68h72"></path>
-              <path d="M50 92h20M42 102h36"></path>
-              <path d="M54 78l-5 14M66 78l5 14"></path>
-              <circle
-                cx="60"
-                cy="48"
-                r="14"
-              ></circle>
-              <circle
-                cx="54"
-                cy="46"
-                r="2.5"
-              ></circle>
-              <circle
-                cx="66"
-                cy="46"
-                r="2.5"
-              ></circle>
-              <path d="M60 52l-3 5h6l-3-5z"></path>
-              <path d="M51 62v8M57 63v9M63 63v9M69 62v8"></path>
-            </svg>
-          </div>
-
-          <article class="scenario-card">
-            <h3>Escenario</h3>
-            <p>
-              Se ha detectado actividad sospechosa en varios sistemas corporativos. Tu equipo debe
-              investigar, contener la amenaza, erradicarla y recuperar los servicios afectados.
-            </p>
-
-            <div class="scenario-details">
-              <div>
-                <span>▤</span>
-                <small>Entorno</small>
-                <strong>Empresa ficticia</strong>
+            <div class="summary-grid">
+              <div class="incident-visual">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <rect x="24" y="26" width="72" height="52" rx="5"></rect>
+                  <path d="M24 68h72M50 92h20M42 102h36M54 78l-5 14M66 78l5 14"></path>
+                  <circle cx="60" cy="48" r="14"></circle>
+                  <circle cx="54" cy="46" r="2.5"></circle>
+                  <circle cx="66" cy="46" r="2.5"></circle>
+                  <path d="M60 52l-3 5h6l-3-5zM51 62v8M57 63v9M63 63v9M69 62v8"></path>
+                </svg>
               </div>
 
-              <div>
-                <span>♙</span>
-                <small>Rol</small>
-                <strong>Analista de Respuesta</strong>
+              <div class="summary-card">
+                <h3>Escenario</h3>
+                <p>
+                  Se ha detectado actividad compatible con ransomware en varios sistemas.
+                  Debes confirmar el incidente, contener la propagación y coordinar la recuperación.
+                </p>
+
+                <div class="summary-details">
+                  <div><span>Entorno</span><strong>Empresa ficticia</strong></div>
+                  <div><span>Rol</span><strong>Incident Response Analyst</strong></div>
+                  <div><span>Sistemas</span><strong>Windows Server y endpoints</strong></div>
+                  <div><span>Objetivo</span><strong>Contener y recuperar</strong></div>
+                </div>
               </div>
 
-              <div>
-                <span>▦</span>
-                <small>Sistemas afectados</small>
-                <strong>Servidores Windows y endpoints</strong>
-              </div>
-
-              <div>
-                <span>♜</span>
-                <small>Objetivo principal</small>
-                <strong>Contener el incidente y restaurar la operación</strong>
+              <div class="summary-card">
+                <h3>Información clave</h3>
+                <div class="key-list">
+                  <p><span>Alerta inicial</span><strong>SIEM - Alta</strong></p>
+                  <p><span>Hora</span><strong>09:42</strong></p>
+                  <p><span>Sistemas afectados</span><strong>3</strong></p>
+                  <p><span>Usuarios</span><strong>7</strong></p>
+                  <p><span>Indicador</span><strong>Ransomware</strong></p>
+                </div>
               </div>
             </div>
           </article>
 
-          <article class="info-card">
-            <h3>Información clave</h3>
-            @for (item of keyInfo; track item.label) {
-            <p>
-              <span>{{ item.label }}</span>
-              <strong>{{ item.value }}</strong>
-            </p>
-            }
-          </article>
-        </div>
-      </article>
+          <article class="panel">
+            <h2>Actividad reciente</h2>
 
-      <article class="panel phase-panel">
-        <h2>Fase actual</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Hora</th>
+                    <th>Actividad</th>
+                    <th>Herramienta</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
 
-        <div class="phase-line">
-          @for (phase of phases; track phase.title) {
-          <article
-            class="phase-item"
-            [class.active]="phase.active"
-          >
-            <div>{{ phase.icon }}</div>
-            <strong>{{ phase.title }}</strong>
-            <p>{{ phase.text }}</p>
-          </article>
-          }
-        </div>
-      </article>
-
-      <section class="triple-grid">
-        <article class="panel">
-          <h2>Indicadores del incidente</h2>
-          @for (item of indicators; track item.label) {
-          <p class="info-line">
-            <span>{{ item.label }}</span>
-            <strong [class]="item.tone">{{ item.value }}</strong>
-          </p>
-          }
-        </article>
-
-        <article class="panel systems-panel">
-          <h2>Sistemas afectados</h2>
-          <div class="systems-grid">
-            <div><span>▤</span><strong>2</strong><small>Servidores</small></div>
-            <div><span>▱</span><strong>5</strong><small>Endpoints</small></div>
-            <div><span>☁</span><strong>3</strong><small>Servicios</small></div>
-          </div>
-          <button type="button">Ver detalle de sistemas →</button>
-        </article>
-
-        <article class="panel progress-panel">
-          <h2>Progreso del caso</h2>
-          <div class="progress-layout">
-            <div class="big-progress">30%</div>
-            <div>
-              <p><span>Fases completadas</span><strong>1 / 5</strong></p>
-              <p><span>Tareas completadas</span><strong>6 / 20</strong></p>
-              <p><span>Tiempo transcurrido</span><strong>00:45:32</strong></p>
-              <button type="button">Ver plan de trabajo →</button>
+                <tbody>
+                  @for (item of activities; track item.time) {
+                    <tr>
+                      <td>{{ item.time }}</td>
+                      <td>{{ item.activity }}</td>
+                      <td>{{ item.tool }}</td>
+                      <td><span class="status-pill">{{ item.status }}</span></td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <article class="panel">
+            <h2>Herramientas de respuesta</h2>
+
+            <div class="tools-list">
+              @for (tool of visibleTools; track tool.name) {
+                <article class="tool-row">
+                  <span class="tool-initial">{{ tool.initial }}</span>
+                  <div>
+                    <strong>{{ tool.name }}</strong>
+                    <small>{{ tool.description }}</small>
+                  </div>
+                  <a [href]="tool.url" target="_blank" rel="noopener noreferrer">Abrir</a>
+                </article>
+              }
+            </div>
+
+            <button type="button" class="text-button" (click)="showAllTools = !showAllTools">
+              {{ showAllTools ? 'Ver menos ↑' : 'Ver todas las herramientas →' }}
+            </button>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <h2>Notas rápidas</h2>
+              <button type="button" class="small-button" (click)="selectTab('notes')">+ Nueva nota</button>
+            </div>
+
+            <div class="quick-notes">
+              @for (note of notes.slice(0, 3); track note.id) {
+                <article>
+                  <span>{{ note.date }}</span>
+                  <strong>{{ note.type }}</strong>
+                  <p>{{ note.content }}</p>
+                </article>
+              }
+            </div>
+          </article>
+
+          <article class="continue-card">
+            <h2>¿Lista para continuar?</h2>
+            <p>Avanza a las fases de respuesta para gestionar el incidente.</p>
+            <button type="button" (click)="selectTab('phases')">Ir a Fase a fase →</button>
+          </article>
+        </aside>
       </section>
+    }
 
-      <article class="panel activity-panel">
-        <h2>Actividad reciente</h2>
-
-        <div class="activity-table">
-          <div class="activity-row activity-head">
-            <span>Hora</span>
-            <span>Actividad</span>
-            <span>Herramienta</span>
-            <span>Responsable</span>
-            <span>Estado</span>
-          </div>
-
-          @for (activity of activities; track activity.time) {
-          <div class="activity-row">
-            <span>{{ activity.time }}</span>
-            <strong>{{ activity.action }}</strong>
-            <span>{{ activity.tool }}</span>
-            <span class="owner">{{ activity.owner }}</span>
-            <span [class]="activity.tone">{{ activity.status }} <b>●</b></span>
-          </div>
+    @case ('phases') {
+      <section class="phases-layout">
+        <div class="phase-list">
+          @for (phase of phases; track phase.id; let i = $index) {
+            <article class="phase-card" [class.completed]="phase.completed">
+              <div class="phase-number">{{ phase.completed ? '✓' : i + 1 }}</div>
+              <div>
+                <span>Fase {{ i + 1 }}</span>
+                <h3>{{ phase.title }}</h3>
+                <p>{{ phase.description }}</p>
+                <button type="button" (click)="togglePhase(phase.id)">
+                  {{ phase.completed ? 'Marcar pendiente' : 'Marcar completada' }}
+                </button>
+              </div>
+            </article>
           }
         </div>
 
-        <button
-          class="view-activity"
-          type="button"
-        >
-          Ver toda la actividad →
-        </button>
-      </article>
-    </main>
+        <aside class="panel progress-panel">
+          <h2>Progreso general</h2>
+          <div class="progress-ring large" [style.--value]="progressPercentage">
+            {{ progressPercentage }}%
+          </div>
+          <strong>{{ completedPhases }} de {{ phases.length }} fases</strong>
+        </aside>
+      </section>
+    }
 
-    <aside class="side-content">
-      <article class="panel tools-panel">
-        <h2>Herramientas de respuesta</h2>
-        <p>Accede rápidamente a las herramientas que necesitarás.</p>
+    @case ('evidence') {
+      <section class="workspace">
+        <header class="panel workspace-header">
+          <div>
+            <span class="eyebrow">Trabajo del analista</span>
+            <h2>Evidencias del incidente</h2>
+            <p>Registra únicamente evidencias comprobadas dentro del entorno simulado.</p>
+          </div>
 
-        <div class="tools-list">
-          @for (tool of tools; track tool.name) {
-          <article class="tool-item">
-            <span class="tool-icon">{{ tool.icon }}</span>
-            <div>
-              <strong>{{ tool.name }}</strong>
-              <small>{{ tool.description }}</small>
-            </div>
-            <button type="button">Abrir</button>
-            <span class="external">↗</span>
-          </article>
-          }
-        </div>
-
-        <button
-          class="view-tools"
-          type="button"
-        >
-          Ver todas las herramientas →
-        </button>
-      </article>
-
-      <article class="panel notes-panel">
-        <header>
-          <h2>Notas rápidas</h2>
-          <button type="button">＋ Nueva nota</button>
+          <button type="button" class="primary-button" (click)="openNewEvidenceForm()">+ Nueva evidencia</button>
         </header>
 
-        <nav class="notes-tabs">
-          <button
-            class="active"
-            type="button"
-          >
-            Todas
-          </button>
-          <button type="button">Importantes</button>
-          <button type="button">Recordatorios</button>
-        </nav>
-
-        <div class="notes-list">
-          @for (note of notes; track note.text) {
-          <article class="note-item">
-            <div>
-              <small>{{ note.time }}</small>
-              <span [class]="note.type">{{ note.tag }}</span>
-              <p>{{ note.text }}</p>
+        @if (showEvidenceForm) {
+          <article class="panel form-panel">
+            <div class="panel-heading">
+              <h2>{{ editingEvidenceId === null ? 'Crear evidencia' : 'Editar evidencia' }}</h2>
+              <button type="button" class="close-button" (click)="closeEvidenceForm()">×</button>
             </div>
-            <div class="note-actions">♢　♧</div>
+
+            <div class="form-grid">
+              <label class="full">
+                <span>Título</span>
+                <input [value]="evidenceTitle" (input)="evidenceTitle = $any($event.target).value" />
+              </label>
+
+              <label>
+                <span>Categoría</span>
+                <select [value]="evidenceCategory" (change)="evidenceCategory = $any($event.target).value">
+                  @for (category of evidenceCategories; track category) {
+                    <option [value]="category">{{ category }}</option>
+                  }
+                </select>
+              </label>
+
+              <label>
+                <span>Severidad</span>
+                <select [value]="evidenceSeverity" (change)="evidenceSeverity = $any($event.target).value">
+                  <option value="Baja">Baja</option>
+                  <option value="Media">Media</option>
+                  <option value="Alta">Alta</option>
+                  <option value="Crítica">Crítica</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Estado</span>
+                <select [value]="evidenceStatus" (change)="evidenceStatus = $any($event.target).value">
+                  <option value="Pendiente">Pendiente</option>
+                  <option value="En análisis">En análisis</option>
+                  <option value="Validada">Validada</option>
+                  <option value="Descartada">Descartada</option>
+                </select>
+              </label>
+
+              <label class="full">
+                <span>Fuente</span>
+                <input [value]="evidenceSource" (input)="evidenceSource = $any($event.target).value" />
+              </label>
+
+              <label class="full">
+                <span>Evidencia</span>
+                <textarea rows="4" [value]="evidenceDescription" (input)="evidenceDescription = $any($event.target).value"></textarea>
+              </label>
+
+              <label class="full">
+                <span>Impacto</span>
+                <textarea rows="4" [value]="evidenceImpact" (input)="evidenceImpact = $any($event.target).value"></textarea>
+              </label>
+
+              <label class="full">
+                <span>Acción de respuesta</span>
+                <textarea rows="4" [value]="evidenceAction" (input)="evidenceAction = $any($event.target).value"></textarea>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="secondary-button" (click)="closeEvidenceForm()">Cancelar</button>
+              <button type="button" class="primary-button" [disabled]="!canSaveEvidence" (click)="saveEvidence()">
+                Guardar evidencia
+              </button>
+            </div>
           </article>
+        }
+
+        <div class="filter-bar">
+          @for (filter of evidenceFilters; track filter) {
+            <button type="button" [class.active]="selectedEvidenceFilter === filter" (click)="selectedEvidenceFilter = filter">
+              {{ filter }}
+            </button>
           }
         </div>
 
+        @if (evidences.length === 0 && !showEvidenceForm) {
+          <article class="empty-state">
+            <h3>Todavía no hay evidencias</h3>
+            <p>Completa las fases y registra únicamente resultados que hayas validado.</p>
+            <button type="button" class="primary-button" (click)="openNewEvidenceForm()">Crear mi primera evidencia</button>
+          </article>
+        } @else {
+          <section class="evidence-grid">
+            @for (evidence of filteredEvidences; track evidence.id) {
+              <article class="evidence-card">
+                <header>
+                  <div>
+                    <span>{{ evidence.code }}</span>
+                    <h3>{{ evidence.title }}</h3>
+                  </div>
+                  <strong>{{ evidence.severity }}</strong>
+                </header>
+
+                <div class="meta-row">
+                  <span>{{ evidence.category }}</span>
+                  <span>{{ evidence.status }}</span>
+                  <span>{{ evidence.createdAt }}</span>
+                </div>
+
+                <p><b>Fuente:</b> {{ evidence.source }}</p>
+                <p><b>Evidencia:</b> {{ evidence.evidence }}</p>
+                <p><b>Impacto:</b> {{ evidence.impact }}</p>
+                <p><b>Acción:</b> {{ evidence.action }}</p>
+
+                <footer>
+                  <button type="button" (click)="editEvidence(evidence)">Editar</button>
+                  <button type="button" class="danger" (click)="deleteEvidence(evidence.id)">Eliminar</button>
+                </footer>
+              </article>
+            }
+          </section>
+        }
+      </section>
+    }
+
+    @case ('report') {
+  <section class="editable-report-layout">
+    <article class="panel report-editor">
+      <header class="workspace-header">
+        <div>
+          <span class="section-eyebrow">Borrador editable</span>
+
+          <h2>Informe de respuesta a incidentes</h2>
+
+          <p>
+            SecureBoard incorpora los datos generales del caso y las evidencias
+            registradas. El análisis y las conclusiones los redacta la persona
+            que realiza el ejercicio.
+          </p>
+        </div>
+
         <button
-          class="view-notes"
           type="button"
+          class="secondary-button compact-button"
+          (click)="resetLaboratory()"
         >
-          Ver todas las notas →
+          Reiniciar sesión
         </button>
-      </article>
+      </header>
 
-      <article class="continue-panel">
-        <h2>¿Listo para continuar?</h2>
-        <p>Continúa con la siguiente fase para contener la amenaza y minimizar el impacto.</p>
+      <div class="report-editor-fields">
+        <label>
+          <span>Resumen ejecutivo</span>
 
-        <button type="button">
-          <span>⌘</span>
-          Ir a Fase a fase
-          <b>→</b>
+          <textarea
+            rows="6"
+            [value]="reportDraft.executiveSummary"
+            (input)="updateExecutiveSummary($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Alcance</span>
+
+          <textarea
+            rows="5"
+            [value]="reportDraft.scope"
+            (input)="updateScope($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Metodología</span>
+
+          <textarea
+            rows="6"
+            [value]="reportDraft.methodology"
+            (input)="updateMethodology($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Línea temporal</span>
+
+          <textarea
+            rows="6"
+            [value]="reportDraft.incidentTimeline"
+            (input)="updateIncidentTimeline($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Acciones de contención</span>
+
+          <textarea
+            rows="6"
+            [value]="reportDraft.containmentActions"
+            (input)="updateContainmentActions($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Recomendaciones</span>
+
+          <textarea
+            rows="6"
+            [value]="reportDraft.recommendations"
+            (input)="updateRecommendations($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <label>
+          <span>Conclusión</span>
+
+          <textarea
+            rows="6"
+            [value]="reportDraft.conclusion"
+            (input)="updateConclusion($any($event.target).value)"
+          ></textarea>
+        </label>
+      </div>
+
+      <div class="security-notice">
+        <strong>Modo laboratorio:</strong>
+
+        <span>
+          El borrador solo existe durante esta sesión. No introduzcas datos
+          reales, credenciales ni información confidencial.
+        </span>
+      </div>
+    </article>
+
+    <article class="report-document">
+      <header class="report-cover">
+        <div class="report-brand">
+          <div class="report-logo">S</div>
+
+          <div>
+            <strong>SecureBoard</strong>
+            <span>Security Operations Center</span>
+          </div>
+        </div>
+
+        <span>Informe Incident Response</span>
+
+        <h1>Respuesta y recuperación del incidente</h1>
+
+        <p>
+          Informe técnico del incidente simulado incluido en el laboratorio.
+        </p>
+
+        <div class="report-meta">
+          <div>
+            <span>Analista</span>
+            <strong>Sandra De Tena</strong>
+          </div>
+
+          <div>
+            <span>Fecha</span>
+            <strong>{{ reportDate }}</strong>
+          </div>
+
+          <div>
+            <span>Estado</span>
+            <strong>{{ caseStatus }}</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="report-section">
+        <h2>1. Resumen ejecutivo</h2>
+
+        <p>{{ reportDraft.executiveSummary }}</p>
+      </section>
+
+      <section class="report-section">
+        <h2>2. Alcance</h2>
+
+        <p>{{ reportDraft.scope }}</p>
+      </section>
+
+      <section class="report-section">
+        <h2>3. Metodología</h2>
+
+        <p>{{ reportDraft.methodology }}</p>
+
+        <ol>
+          @for (phase of phases; track phase.id) {
+            <li>
+              {{ phase.title }}:
+              {{ phase.completed ? 'completada' : 'pendiente' }}
+            </li>
+          }
+        </ol>
+      </section>
+
+      <section class="report-section">
+        <h2>4. Línea temporal</h2>
+
+        <p>{{ reportDraft.incidentTimeline }}</p>
+      </section>
+
+      <section class="report-section">
+        <h2>5. Acciones de contención</h2>
+
+        <p>{{ reportDraft.containmentActions }}</p>
+      </section>
+
+      <section class="report-section">
+        <div class="report-section-heading">
+          <h2>6. Evidencias registradas</h2>
+
+          <span>{{ evidenceStatusSummary }}</span>
+        </div>
+
+        @if (evidences.length > 0) {
+          <div class="report-evidences">
+            @for (evidence of evidences; track evidence.id) {
+              <article>
+                <span>{{ evidence.code }}</span>
+
+                <div>
+                  <strong>{{ evidence.title }}</strong>
+
+                  <p>{{ evidence.impact }}</p>
+                </div>
+
+                <small>{{ evidence.status }}</small>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="report-empty-section">
+            No hay evidencias registradas.
+          </div>
+        }
+      </section>
+
+      <section class="report-section">
+        <h2>7. Recomendaciones</h2>
+
+        <p>{{ reportDraft.recommendations }}</p>
+
+        @if (evidences.length > 0) {
+          <ul>
+            @for (evidence of evidences; track evidence.id) {
+              <li>
+                <strong>{{ evidence.code }}:</strong>
+                {{ evidence.action }}
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="report-section">
+        <h2>8. Conclusión</h2>
+
+        <p>{{ reportDraft.conclusion }}</p>
+      </section>
+
+      <footer class="report-footer">
+        Documento generado en modo laboratorio.
+      </footer>
+    </article>
+
+    <aside class="report-session-actions">
+      <article class="panel">
+        <h2>Acciones del informe</h2>
+
+        <button
+          type="button"
+          class="primary-button"
+          (click)="printReport()"
+        >
+          Imprimir / Guardar PDF
         </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="copyReportSummary()"
+        >
+          Copiar resumen
+        </button>
+
+        @if (reportCopied) {
+          <span class="copy-confirmation">
+            Resumen copiado ✓
+          </span>
+        }
       </article>
     </aside>
   </section>
+}
+
+    @case ('notes') {
+      <section class="notes-layout">
+        <article class="panel note-form">
+          <h2>Nueva nota</h2>
+
+          <label><span>Título</span><input [value]="newNoteTitle" (input)="newNoteTitle = $any($event.target).value" /></label>
+
+          <label>
+            <span>Tipo</span>
+            <select [value]="newNoteType" (change)="newNoteType = $any($event.target).value">
+              <option value="Idea">Idea</option>
+              <option value="Importante">Importante</option>
+              <option value="Recordatorio">Recordatorio</option>
+              <option value="Incidente">Incidente</option>
+            </select>
+          </label>
+
+          <label><span>Contenido</span><textarea rows="8" [value]="newNoteContent" (input)="newNoteContent = $any($event.target).value"></textarea></label>
+          <button type="button" class="primary-button" (click)="createNote()">Guardar nota</button>
+        </article>
+
+        <section class="notes-content">
+          <div class="filter-bar">
+            @for (filter of noteFilters; track filter) {
+              <button type="button" [class.active]="selectedNoteFilter === filter" (click)="selectedNoteFilter = filter">
+                {{ filter }}
+              </button>
+            }
+          </div>
+
+          <div class="notes-list">
+            @for (note of filteredNotes; track note.id) {
+              <article class="note-card-full">
+                <header>
+                  <div>
+                    <span>{{ note.date }}</span>
+                    <h3>{{ note.title }}</h3>
+                  </div>
+                  <strong>{{ note.type }}</strong>
+                </header>
+
+                <p>{{ note.content }}</p>
+                <button type="button" class="danger" (click)="deleteNote(note.id)">Eliminar</button>
+              </article>
+            }
+          </div>
+        </section>
+      </section>
+    }
+  }
+
+  @if (guideOpen) {
+    <div class="modal-backdrop" (click)="guideOpen = false">
+      <article class="guide-modal" (click)="$event.stopPropagation()">
+        <div class="panel-heading">
+          <div>
+            <span class="eyebrow">Guía del caso</span>
+            <h2>Incident Response</h2>
+          </div>
+          <button type="button" class="close-button" (click)="guideOpen = false">×</button>
+        </div>
+
+        <h3>Objetivo</h3>
+        <p>Gestionar un incidente simulado preservando evidencias y documentando cada acción.</p>
+
+        <h3>Entregables</h3>
+        <ul>
+          <li>Las cinco fases completadas.</li>
+          <li>Las evidencias registradas.</li>
+          <li>La línea temporal del incidente.</li>
+          <li>El informe final.</li>
+        </ul>
+
+        <button type="button" class="primary-button" (click)="guideOpen = false; selectTab('phases')">
+          Comenzar el caso
+        </button>
+      </article>
+    </div>
+  }
 </section>
