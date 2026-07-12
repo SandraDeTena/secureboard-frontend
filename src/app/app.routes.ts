@@ -78,6 +78,12 @@ export const routes: Routes = [
         component: Certifications,
         title: 'SecureBoard · Certificaciones',
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile')
+            .then((m) => m.Profile),
+      },
     ],
   },
   {
