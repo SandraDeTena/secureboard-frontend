@@ -668,3 +668,232 @@ button {
     width: 100%;
   }
 }
+
+/* MODALES DE PROGRESO, ESPECIALIZACIÓN Y ACTIVIDAD */
+.detail-modal {
+  width: min(58rem, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  border: 1px solid rgba(167, 139, 250, 0.46);
+  border-radius: 1rem;
+  padding: 1.3rem;
+  background: #0f172a;
+}
+.detail-modal > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.detail-modal > header h2 {
+  margin: 0.3rem 0 0;
+}
+.progress-overview {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.85rem;
+  background: rgba(139, 92, 246, 0.08);
+}
+.large-progress-ring {
+  --value: 0;
+  display: grid;
+  place-items: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #0f172a 58%, transparent 60%),
+    conic-gradient(#8b5cf6 calc(var(--value) * 1%), rgba(255, 255, 255, 0.08) 0);
+}
+.large-progress-ring span {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.large-progress-ring small {
+  margin-top: -1.7rem;
+  color: #a78bfa;
+}
+.progress-overview h3 {
+  margin: 0;
+}
+.progress-overview p {
+  color: #aab7c9;
+}
+.modal-track {
+  margin-top: 0.8rem;
+}
+.modal-case-list {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+.modal-case-row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) minmax(13rem, 0.8fr);
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 0.7rem;
+  background: rgba(12, 23, 42, 0.66);
+}
+.case-number {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.65rem;
+  font-weight: 700;
+}
+.case-number.purple {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.14);
+}
+.case-number.blue {
+  color: #60a5fa;
+  background: rgba(47, 157, 255, 0.14);
+}
+.case-number.red {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.14);
+}
+.case-number.orange {
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.14);
+}
+.case-number.green {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.14);
+}
+.case-copy {
+  display: grid;
+  gap: 0.2rem;
+}
+.case-copy span {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+.case-progress-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3rem;
+  gap: 0.7rem;
+  align-items: center;
+}
+.case-track {
+  height: 0.48rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.case-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+.case-track.purple span {
+  background: #8b5cf6;
+}
+.case-track.blue span {
+  background: #2f9dff;
+}
+.case-track.red span {
+  background: #ef4444;
+}
+.case-track.orange span {
+  background: #f97316;
+}
+.case-track.green span {
+  background: #22c55e;
+}
+.skills-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+.skill-detail-card {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 0.8rem;
+  background: rgba(12, 23, 42, 0.65);
+}
+.skill-detail-card h3,
+.skill-detail-card p {
+  margin: 0;
+}
+.skill-detail-card p {
+  margin-top: 0.3rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+.skill-detail-card > .skill-track {
+  grid-column: 1/-1;
+}
+.skill-score {
+  display: grid;
+  place-items: center;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  font-weight: 700;
+  background: rgba(139, 92, 246, 0.12);
+}
+.skill-detail-card.blue .skill-score {
+  color: #60a5fa;
+  background: rgba(47, 157, 255, 0.12);
+}
+.skill-detail-card.red .skill-score {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+}
+.skill-detail-card.orange .skill-score {
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.12);
+}
+.skill-detail-card.green .skill-score {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+}
+.recommendation-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 0.8rem;
+  background: rgba(139, 92, 246, 0.08);
+}
+.recommendation-box p {
+  margin: 0.4rem 0 0;
+  color: #cbd5e1;
+}
+.activity-modal {
+  width: min(52rem, 100%);
+}
+.full-activity-list {
+  margin-top: 0;
+}
+.panel-heading .text-button {
+  padding: 0;
+}
+.secondary-button {
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .progress-overview,
+  .modal-case-row,
+  .skills-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .large-progress-ring {
+    margin: auto;
+  }
+  .case-progress-wrap {
+    grid-template-columns: 1fr 3rem;
+  }
+  .detail-modal {
+    padding: 1rem;
+  }
+}

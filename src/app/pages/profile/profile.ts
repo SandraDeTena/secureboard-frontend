@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 type PlayerRole = 'SOC Analyst' | 'Blue Team Analyst' | 'Red Team Operator' | 'Security Engineer' | 'Incident Responder';
+type ProfileModal = 'edit' | 'progress' | 'skills' | 'activity' | null;
 type Tone = 'purple' | 'blue' | 'red' | 'orange' | 'green' | 'gold';
 
 interface Skill { name: string; value: number; tone: Tone; }
@@ -10,12 +10,12 @@ interface Activity { title: string; description: string; date: string; points: n
 
 @Component({
   selector: 'app-profile',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class Profile {
-  editOpen = false;
+  activeModal: ProfileModal = null;
 
   playerName = 'Sandra De Tena';
   username = '@sandra.soc';
@@ -59,11 +59,23 @@ export class Profile {
     { name: 'Respuesta eficaz', description: 'Completa un caso de Incident Response.', icon: '⚠', unlocked: false, progress: 25, tone: 'green' },
   ];
 
+  caseProgress = [
+    { number: '01', name: 'OSINT Investigation', progress: 100, status: 'Completado', tone: 'purple' },
+    { number: '02', name: 'Blue Team Analyst', progress: 100, status: 'Completado', tone: 'blue' },
+    { number: '03', name: 'Red Team Assessment', progress: 65, status: 'En progreso', tone: 'red' },
+    { number: '04', name: 'Security Engineer', progress: 40, status: 'En progreso', tone: 'orange' },
+    { number: '05', name: 'Incident Response', progress: 25, status: 'En progreso', tone: 'green' },
+  ];
+
   activities: Activity[] = [
     { title: 'Caso Blue Team completado', description: 'Has finalizado el análisis de alertas y evidencias.', date: 'Hoy, 12:45', points: 850, icon: '▣', tone: 'blue' },
     { title: 'Nueva insignia desbloqueada', description: 'Has conseguido la insignia “Defensa activa”.', date: 'Hoy, 12:46', points: 150, icon: '★', tone: 'gold' },
     { title: 'Fase Red Team completada', description: 'Reconocimiento y enumeración finalizados.', date: 'Ayer, 18:20', points: 220, icon: '◎', tone: 'red' },
     { title: 'Racha de aprendizaje', description: 'Has practicado durante 8 días consecutivos.', date: 'Ayer, 09:10', points: 100, icon: '↗', tone: 'green' },
+    { title: 'Informe OSINT guardado', description: 'Has completado el resumen ejecutivo y las recomendaciones.', date: '10 jul, 17:05', points: 180, icon: '▤', tone: 'purple' },
+    { title: 'Control de seguridad validado', description: 'Has validado un control de hardening del sistema.', date: '9 jul, 20:30', points: 140, icon: '⚙', tone: 'orange' },
+    { title: 'Evidencia registrada', description: 'Has añadido una evidencia al caso Incident Response.', date: '8 jul, 11:15', points: 90, icon: '⚠', tone: 'green' },
+    { title: 'Perfil SOC creado', description: 'Has configurado tu identidad y rol dentro de SecureBoard.', date: '7 jul, 18:00', points: 50, icon: '◆', tone: 'purple' },
   ];
 
   openEdit(): void {
@@ -72,10 +84,14 @@ export class Profile {
     this.editRole = this.role;
     this.editBiography = this.biography;
     this.editLocation = this.location;
-    this.editOpen = true;
+    this.activeModal = 'edit';
   }
 
-  closeEdit(): void { this.editOpen = false; }
+  closeModal(): void { this.activeModal = null; }
+
+  openProgress(): void { this.activeModal = 'progress'; }
+  openSkills(): void { this.activeModal = 'skills'; }
+  openActivity(): void { this.activeModal = 'activity'; }
 
   saveProfile(): void {
     if (!this.canSaveProfile) return;
@@ -84,7 +100,7 @@ export class Profile {
     this.role = this.editRole;
     this.biography = this.clean(this.editBiography);
     this.location = this.clean(this.editLocation);
-    this.closeEdit();
+    this.closeModal();
   }
 
   get levelProgress(): number { return Math.round((this.currentXp / this.nextLevelXp) * 100); }

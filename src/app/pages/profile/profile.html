@@ -7,7 +7,7 @@
     </div>
 
     <div class="header-actions">
-      <a routerLink="/progress" class="secondary-button">Ver progreso</a>
+      <button type="button" class="secondary-button" (click)="openProgress()">Ver progreso</button>
       <button type="button" class="primary-button" (click)="openEdit()">Editar perfil</button>
     </div>
   </header>
@@ -62,7 +62,7 @@
 
       <section class="dashboard-grid">
         <article class="panel skills-panel">
-          <div class="panel-heading"><div><span class="eyebrow">Especialización</span><h2>Rendimiento por área</h2></div><a routerLink="/progress">Ver detalle →</a></div>
+          <div class="panel-heading"><div><span class="eyebrow">Especialización</span><h2>Rendimiento por área</h2></div><button type="button" class="text-button" (click)="openSkills()">Ver detalle →</button></div>
           <div class="skills-list">
             @for (skill of skills; track skill.name) {
               <article class="skill-row">
@@ -97,7 +97,7 @@
       </section>
 
       <section class="panel activity-panel">
-        <div class="panel-heading"><div><span class="eyebrow">Historial</span><h2>Actividad reciente</h2></div><button type="button" class="text-button">Ver toda la actividad →</button></div>
+        <div class="panel-heading"><div><span class="eyebrow">Historial</span><h2>Actividad reciente</h2></div><button type="button" class="text-button" (click)="openActivity()">Ver toda la actividad →</button></div>
         <div class="activity-list">
           @for (item of activities; track item.title) {
             <article class="activity-row">
@@ -111,10 +111,10 @@
     </main>
   </section>
 
-  @if (editOpen) {
-    <div class="modal-backdrop" (click)="closeEdit()">
+  @if (activeModal === 'edit') {
+    <div class="modal-backdrop" (click)="closeModal()">
       <article class="edit-modal" (click)="$event.stopPropagation()">
-        <header><div><span class="eyebrow">Editar jugador</span><h2>Información del perfil</h2></div><button type="button" class="close-button" (click)="closeEdit()">×</button></header>
+        <header><div><span class="eyebrow">Editar jugador</span><h2>Información del perfil</h2></div><button type="button" class="close-button" (click)="closeModal()">×</button></header>
         <div class="edit-avatar"><div class="avatar small">{{ initials }}</div><div><strong>Avatar del jugador</strong><p>La carga de imagen se conectará con el backend.</p></div></div>
         <div class="edit-form">
           <label><span>Nombre visible</span><input [value]="editName" (input)="editName = $any($event.target).value" /></label>
@@ -123,8 +123,86 @@
           <label><span>Ubicación</span><input [value]="editLocation" (input)="editLocation = $any($event.target).value" /></label>
           <label class="full-field"><span>Biografía</span><textarea rows="5" maxlength="300" [value]="editBiography" (input)="editBiography = $any($event.target).value"></textarea><small>{{ editBiography.length }}/300 caracteres</small></label>
         </div>
-        <footer><button type="button" class="secondary-button" (click)="closeEdit()">Cancelar</button><button type="button" class="primary-button" [disabled]="!canSaveProfile" (click)="saveProfile()">Guardar cambios</button></footer>
+        <footer><button type="button" class="secondary-button" (click)="closeModal()">Cancelar</button><button type="button" class="primary-button" [disabled]="!canSaveProfile" (click)="saveProfile()">Guardar cambios</button></footer>
       </article>
     </div>
   }
+
+  @if (activeModal === 'progress') {
+    <div class="modal-backdrop" (click)="closeModal()">
+      <article class="detail-modal progress-modal" (click)="$event.stopPropagation()">
+        <header>
+          <div><span class="eyebrow">Progreso general</span><h2>Evolución del jugador</h2></div>
+          <button type="button" class="close-button" (click)="closeModal()">×</button>
+        </header>
+
+        <section class="progress-overview">
+          <div class="large-progress-ring" [style.--value]="levelProgress"><span>{{ levelProgress }}%</span><small>Nivel {{ level }}</small></div>
+          <div>
+            <h3>{{ currentXp }} de {{ nextLevelXp }} XP</h3>
+            <p>Has completado {{ completedCases }} casos y mantienes {{ activeCases }} casos en progreso.</p>
+            <div class="progress-track modal-track"><span [style.width.%]="levelProgress"></span></div>
+          </div>
+        </section>
+
+        <section class="modal-case-list">
+          @for (caseItem of caseProgress; track caseItem.number) {
+            <article class="modal-case-row">
+              <div class="case-number" [class]="caseItem.tone">{{ caseItem.number }}</div>
+              <div class="case-copy"><strong>{{ caseItem.name }}</strong><span>{{ caseItem.status }}</span></div>
+              <div class="case-progress-wrap"><div class="case-track" [class]="caseItem.tone"><span [style.width.%]="caseItem.progress"></span></div><strong>{{ caseItem.progress }}%</strong></div>
+            </article>
+          }
+        </section>
+      </article>
+    </div>
+  }
+
+  @if (activeModal === 'skills') {
+    <div class="modal-backdrop" (click)="closeModal()">
+      <article class="detail-modal" (click)="$event.stopPropagation()">
+        <header>
+          <div><span class="eyebrow">Especialización</span><h2>Detalle de competencias</h2></div>
+          <button type="button" class="close-button" (click)="closeModal()">×</button>
+        </header>
+
+        <div class="skills-detail-grid">
+          @for (skill of skills; track skill.name) {
+            <article class="skill-detail-card" [class]="skill.tone">
+              <div class="skill-score">{{ skill.value }}%</div>
+              <div><h3>{{ skill.name }}</h3><p>Nivel calculado según fases, evidencias, informes y casos completados.</p></div>
+              <div class="skill-track" [class]="skill.tone"><span [style.width.%]="skill.value"></span></div>
+            </article>
+          }
+        </div>
+
+        <aside class="recommendation-box">
+          <strong>Recomendación del sistema</strong>
+          <p>Tu mejor área es Blue Team. Para equilibrar tu perfil, continúa con Red Team y completa las fases pendientes de Incident Response.</p>
+        </aside>
+      </article>
+    </div>
+  }
+
+  @if (activeModal === 'activity') {
+    <div class="modal-backdrop" (click)="closeModal()">
+      <article class="detail-modal activity-modal" (click)="$event.stopPropagation()">
+        <header>
+          <div><span class="eyebrow">Historial completo</span><h2>Toda la actividad</h2></div>
+          <button type="button" class="close-button" (click)="closeModal()">×</button>
+        </header>
+
+        <div class="activity-list full-activity-list">
+          @for (item of activities; track item.title) {
+            <article class="activity-row">
+              <div class="activity-icon" [class]="item.tone">{{ item.icon }}</div>
+              <div class="activity-copy"><strong>{{ item.title }}</strong><p>{{ item.description }}</p><span>{{ item.date }}</span></div>
+              <div class="activity-points">+{{ item.points }} pts</div>
+            </article>
+          }
+        </div>
+      </article>
+    </div>
+  }
+
 </section>
