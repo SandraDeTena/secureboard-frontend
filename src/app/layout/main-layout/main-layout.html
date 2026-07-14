@@ -1,8 +1,28 @@
-<div class="app-shell">
-  <app-sidebar />
+<div
+  class="app-shell"
+  [class.sidebar-collapsed]="sidebarCollapsed"
+  [class.mobile-sidebar-open]="mobileSidebarOpen"
+>
+  <app-sidebar
+    [collapsed]="sidebarCollapsed"
+    [mobileOpen]="mobileSidebarOpen"
+    (navigate)="closeMobileSidebar()"
+  />
+
+  @if (mobileSidebarOpen) {
+    <button
+      type="button"
+      class="sidebar-backdrop"
+      aria-label="Cerrar menú lateral"
+      (click)="closeMobileSidebar()"
+    ></button>
+  }
 
   <main class="app-main">
-    <app-topbar />
+    <app-topbar
+      [sidebarCollapsed]="sidebarCollapsed"
+      (toggleSidebar)="toggleSidebar()"
+    />
 
     <section class="app-content">
       <router-outlet />

@@ -1,6 +1,15 @@
 <header class="topbar">
   <div class="topbar-title">
-    <button class="menu-button">☰</button>
+    <button
+      type="button"
+      class="menu-button"
+      [attr.aria-label]="sidebarCollapsed ? 'Abrir menú lateral' : 'Contraer menú lateral'"
+      (click)="emitSidebarToggle()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
     <div>
       <h1>Dashboard SOC</h1>
@@ -9,28 +18,236 @@
   </div>
 
   <div class="topbar-actions">
-    <label class="search">
-      <span>⌕</span>
-      <input
-        type="text"
-        placeholder="Buscar..."
-      />
-      <kbd>⌘K</kbd>
-    </label>
+    <div class="search-wrapper" (click)="$event.stopPropagation()">
+      <label class="search">
+        <span class="search-icon">⌕</span>
 
-    <button class="icon-button">♢<small>3</small></button>
-    <button class="icon-button">♧</button>
+        <input
+          id="global-search-input"
+          type="search"
+          autocomplete="off"
+          placeholder="Buscar en SecureBoard..."
+          [value]="searchQuery"
+          (input)="updateSearch($any($event.target).value)"
+          (focus)="openSearch()"
+          (keydown.enter)="submitSearch()"
+        />
 
-    <div class="user-card">
-      <img
-        src="https://i.pravatar.cc/80?img=47"
-        alt="Sandra De Tena"
-      />
-      <div>
-        <strong>Sandra De Tena</strong>
-        <span>Analista SOC</span>
-      </div>
-      <span>⌄</span>
+        <kbd>Ctrl K</kbd>
+      </label>
+
+      @if (searchOpen) {
+        <section class="dropdown search-dropdown">
+          @if (filteredSearchItems.length > 0) {
+            <header class="dropdown-heading">
+              <span>Resultados</span>
+              <small>{{ filteredSearchItems.length }}</small>
+            </header>
+
+            <div class="search-results">
+              @for (item of filteredSearchItems; track item.route) {
+                <button type="button" (click)="chooseSearchResult(item)">
+                  <span class="result-icon">⌕</span>
+
+                  <span class="result-copy">
+                    <strong>{{ item.title }}</strong>
+                    <small>{{ item.category }} · {{ item.description }}</small>
+                  </span>
+
+                  <span class="result-arrow">→</span>
+                </button>
+              }
+            </div>
+          } @else {
+            <div class="empty-search">
+              <span>⌕</span>
+              <strong>No se han encontrado resultados</strong>
+              <small>Prueba con “OSINT”, “perfil” o “ajustes”.</small>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <div class="action-wrapper" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="icon-button"
+        aria-label="Abrir actividad y logros"
+        [attr.aria-expanded]="notificationsOpen"
+        (click)="toggleNotifications($event)"
+      >
+        <span class="diamond-icon">◇</span>
+
+        @if (unreadNotifications > 0) {
+          <small>{{ unreadNotifications }}</small>
+        }
+      </button>
+
+      @if (notificationsOpen) {
+        <section class="dropdown notifications-dropdown">
+          <header class="dropdown-heading">
+            <div>
+              <strong>Actividad y logros</strong>
+              <small>{{ unreadNotifications }} novedades</small>
+            </div>
+
+            <button type="button" (click)="markAllNotificationsAsRead()">
+              Marcar leídas
+            </button>
+          </header>
+
+          <div class="notification-list">
+            @for (notification of notifications; track notification.id) {
+              <button
+                type="button"
+                class="notification-item"
+                [class.unread]="notification.unread"
+                (click)="openNotification(notification)"
+              >
+                <span
+                  class="notification-dot"
+                  [class]="notification.tone"
+                ></span>
+
+                <span>
+                  <strong>{{ notification.title }}</strong>
+                  <small>{{ notification.text }}</small>
+                  <em>{{ notification.time }}</em>
+                </span>
+              </button>
+            }
+          </div>
+
+          <footer>
+            <button type="button" (click)="navigateTo('/progress')">
+              Ver todo el progreso →
+            </button>
+          </footer>
+        </section>
+      }
+    </div>
+
+    <div class="action-wrapper" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="icon-button"
+        aria-label="Abrir centro de ayuda"
+        [attr.aria-expanded]="helpOpen"
+        (click)="toggleHelp($event)"
+      >
+        ?
+      </button>
+
+      @if (helpOpen) {
+        <section class="dropdown help-dropdown">
+          <header class="dropdown-heading">
+            <div>
+              <strong>Centro de ayuda</strong>
+              <small>Accesos rápidos</small>
+            </div>
+          </header>
+
+          <nav>
+            <button
+              type="button"
+              (click)="navigateTo('/about-secureboard')"
+            >
+              <span>◎</span>
+              <span>
+                <strong>¿Qué es SecureBoard?</strong>
+                <small>Objetivo y funcionamiento del proyecto.</small>
+              </span>
+            </button>
+
+            <button type="button" (click)="navigateTo('/cases')">
+              <span>▱</span>
+              <span>
+                <strong>Casos prácticos</strong>
+                <small>Consulta todos los escenarios disponibles.</small>
+              </span>
+            </button>
+
+            <button type="button" (click)="navigateTo('/settings')">
+              <span>⚙</span>
+              <span>
+                <strong>Ajustes y seguridad</strong>
+                <small>Configura la cuenta y la privacidad.</small>
+              </span>
+            </button>
+          </nav>
+
+          <div class="shortcut-tip">
+            <kbd>Ctrl K</kbd>
+            <span>Abre el buscador global desde cualquier página.</span>
+          </div>
+        </section>
+      }
+    </div>
+
+    <div class="user-wrapper" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="user-card"
+        aria-label="Abrir menú de usuario"
+        [attr.aria-expanded]="userMenuOpen"
+        (click)="toggleUserMenu($event)"
+      >
+        <span class="avatar-wrapper">
+          <img
+            src="https://i.pravatar.cc/80?img=47"
+            alt="Sandra De Tena"
+          />
+          <i></i>
+        </span>
+
+        <span class="user-copy">
+          <strong>Sandra De Tena</strong>
+          <small>Analista SOC</small>
+        </span>
+
+        <span class="chevron" [class.open]="userMenuOpen">⌄</span>
+      </button>
+
+      @if (userMenuOpen) {
+        <section class="dropdown user-dropdown">
+          <header class="user-summary">
+            <img
+              src="https://i.pravatar.cc/80?img=47"
+              alt=""
+            />
+
+            <div>
+              <strong>Sandra De Tena</strong>
+              <small>sandra.soc · Nivel 5</small>
+            </div>
+          </header>
+
+          <nav>
+            <button type="button" (click)="navigateTo('/profile')">
+              <span>♙</span>
+              Mi perfil
+            </button>
+
+            <button type="button" (click)="navigateTo('/progress')">
+              <span>⌁</span>
+              Mi progreso
+            </button>
+
+            <button type="button" (click)="navigateTo('/settings')">
+              <span>⚙</span>
+              Ajustes
+            </button>
+          </nav>
+
+          <footer>
+            <button type="button" class="logout-button" (click)="logout()">
+              <span>↪</span>
+              Cerrar sesión
+            </button>
+          </footer>
+        </section>
+      }
     </div>
   </div>
 </header>

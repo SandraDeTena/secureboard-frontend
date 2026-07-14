@@ -9,4 +9,20 @@ import { Topbar } from '../topbar/topbar';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })
-export class MainLayout {}
+export class MainLayout {
+  sidebarCollapsed = false;
+  mobileSidebarOpen = false;
+
+  toggleSidebar(): void {
+    if (window.innerWidth <= 900) {
+      this.mobileSidebarOpen = !this.mobileSidebarOpen;
+      return;
+    }
+
+    this.sidebarCollapsed = !this.sidebarCollapsed;
+  }
+
+  closeMobileSidebar(): void {
+    this.mobileSidebarOpen = false;
+  }
+}

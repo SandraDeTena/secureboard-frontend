@@ -1,19 +1,31 @@
-<aside class="sidebar">
-  <div class="sidebar-brand">
+<aside
+  class="sidebar"
+  [class.collapsed]="collapsed"
+  [class.mobile-open]="mobileOpen"
+>
+  <a
+    routerLink="/dashboard"
+    class="sidebar-brand"
+    aria-label="Ir al dashboard"
+    (click)="notifyNavigation()"
+  >
     <img
       src="/images/logos/Sublogo_SecureBoard.svg"
       alt="SecureBoard"
     />
-  </div>
+  </a>
 
-  <nav class="sidebar-nav">
+  <nav class="sidebar-nav" aria-label="Navegación principal">
     <a
       routerLink="/dashboard"
       routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="nav-item"
+      title="Dashboard"
+      (click)="notifyNavigation()"
     >
       <span class="nav-icon">⌂</span>
-      <span>Dashboard</span>
+      <span class="nav-label">Dashboard</span>
     </a>
 
     <p class="nav-section">CASOS PRÁCTICOS</p>
@@ -21,59 +33,70 @@
     <a
       routerLink="/cases"
       routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="nav-item"
+      title="Casos Prácticos"
+      (click)="notifyNavigation()"
     >
       <span class="nav-icon">▱</span>
-      <span>Casos Prácticos</span>
+      <span class="nav-label">Casos Prácticos</span>
     </a>
 
-    @for (item of caseItems; track item.label) {
-    <a
-      [routerLink]="item.route"
-      routerLinkActive="active"
-      class="nav-item"
-    >
-      <span class="nav-icon">{{ item.icon }}</span>
-      <span>{{ item.label }}</span>
-    </a>
+    @for (item of caseItems; track item.route) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item"
+        [title]="item.label"
+        (click)="notifyNavigation()"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
     }
 
     <p class="nav-section">PORTFOLIO</p>
 
-    @for (item of portfolioItems; track item.label) {
-    <a
-      [routerLink]="item.route"
-      routerLinkActive="active"
-      class="nav-item"
-    >
-      <span class="nav-icon">{{ item.icon }}</span>
-      <span>{{ item.label }}</span>
-    </a>
+    @for (item of portfolioItems; track item.route) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item"
+        [title]="item.label"
+        (click)="notifyNavigation()"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
     }
 
     <p class="nav-section">MI PERFIL</p>
 
-    @for (item of profileItems; track item.label) {
-    <a
-      [routerLink]="item.route"
-      routerLinkActive="active"
-      class="nav-item"
-    >
-      <span class="nav-icon">{{ item.icon }}</span>
-      <span>{{ item.label }}</span>
-    </a>
+    @for (item of profileItems; track item.route) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item"
+        [title]="item.label"
+        (click)="notifyNavigation()"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
     }
   </nav>
 
   <article class="info-card">
     <h3>¿Qué es SecureBoard?</h3>
     <p>
-      Plataforma interactiva para aprender, demostrar y practicar ciberseguridad con casos reales en
-      un entorno controlado.
+      Plataforma interactiva para aprender, demostrar y practicar
+      ciberseguridad con casos reales en un entorno controlado.
     </p>
+
     <a
       routerLink="/about-secureboard"
       class="learn-more-link"
+      (click)="notifyNavigation()"
     >
       Saber más →
     </a>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface SidebarItem {
@@ -14,6 +14,10 @@ interface SidebarItem {
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+  @Input() collapsed = false;
+  @Input() mobileOpen = false;
+  @Output() navigate = new EventEmitter<void>();
+
   caseItems: SidebarItem[] = [
     { label: 'OSINT Investigation', icon: '◎', route: '/cases/osint' },
     { label: 'Blue Team Analyst', icon: '⬡', route: '/cases/blue-team' },
@@ -32,4 +36,8 @@ export class Sidebar {
     { label: 'Progreso', icon: '⌁', route: '/progress' },
     { label: 'Ajustes', icon: '⚙', route: '/settings' },
   ];
+
+  notifyNavigation(): void {
+    this.navigate.emit();
+  }
 }
