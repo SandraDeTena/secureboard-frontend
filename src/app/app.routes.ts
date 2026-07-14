@@ -1,81 +1,94 @@
 import { Routes } from '@angular/router';
-import { Welcome } from './pages/welcome/welcome';
-import { MainLayout } from './layout/main-layout/main-layout';
-import { Dashboard } from './pages/dashboard/dashboard';
-import { Cases } from './pages/cases/cases';
-import { BlueTeamAnalyst } from './pages/blue-team-analyst/blue-team-analyst';
-import { RedTeamAssessment } from './pages/red-team-assessment/red-team-assessment';
-import { SecurityEngineer } from './pages/security-engineer/security-engineer';
-import { IncidentResponse } from './pages/incident-response/incident-response';
-import { Portfolio } from './pages/portfolio/portfolio';
-import { ProjectDetail } from './pages/project-detail/project-detail';
-import { AboutSecureboard } from './pages/about-secureboard/about-secureboard';
-import { Certifications } from './pages/certifications/certifications';
-import { Osint } from './pages/osint-investigation/osint-investigation';
-
+/* Mejor con loadComponent para reducir la carga inicial*/
 export const routes: Routes = [
   {
     path: '',
-    component: Welcome,
+    loadComponent: () =>
+      import('./pages/welcome/welcome')
+        .then((m) => m.Welcome),
     title: 'SecureBoard · Welcome',
   },
   {
     path: '',
-    component: MainLayout,
+    loadComponent: () =>
+      import('./layout/main-layout/main-layout')
+        .then((m) => m.MainLayout),
     children: [
       {
         path: 'dashboard',
-        component: Dashboard,
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard')
+            .then((m) => m.Dashboard),
         title: 'SecureBoard · Dashboard SOC',
       },
       {
         path: 'cases',
-        component: Cases,
+        loadComponent: () =>
+          import('./pages/cases/cases')
+            .then((m) => m.Cases),
         title: 'SecureBoard · Casos Prácticos',
       },
       {
         path: 'cases/osint',
-        component: Osint,
+        loadComponent: () =>
+          import('./pages/osint-investigation/osint-investigation')
+            .then((m) => m.Osint),
         title: 'SecureBoard · OSINT Investigation',
       },
       {
         path: 'cases/blue-team',
-        component: BlueTeamAnalyst,
+        loadComponent: () =>
+          import('./pages/blue-team-analyst/blue-team-analyst')
+            .then((m) => m.BlueTeamAnalyst),
         title: 'SecureBoard · Blue Team Analyst',
       },
       {
         path: 'cases/red-team',
-        component: RedTeamAssessment,
+        loadComponent: () =>
+          import('./pages/red-team-assessment/red-team-assessment')
+            .then((m) => m.RedTeamAssessment),
         title: 'SecureBoard · Red Team Assessment',
       },
       {
         path: 'cases/security-engineer',
-        component: SecurityEngineer,
+        loadComponent: () =>
+          import('./pages/security-engineer/security-engineer')
+            .then((m) => m.SecurityEngineer),
         title: 'SecureBoard · Security Engineer',
       },
       {
         path: 'cases/incident-response',
-        component: IncidentResponse,
+        loadComponent: () =>
+          import('./pages/incident-response/incident-response')
+            .then((m) => m.IncidentResponse),
         title: 'SecureBoard · Incident Response',
       },
       {
         path: 'portfolio',
-        component: Portfolio,
+        loadComponent: () =>
+          import('./pages/portfolio/portfolio')
+            .then((m) => m.Portfolio),
         title: 'SecureBoard · Mi Portfolio',
       },
       {
         path: 'portfolio/:slug',
-        component: ProjectDetail,
+        loadComponent: () =>
+          import('./pages/project-detail/project-detail')
+            .then((m) => m.ProjectDetail),
         title: 'SecureBoard · Proyecto',
       },
       {
         path: 'about-secureboard',
-        component: AboutSecureboard,
+        loadComponent: () =>
+          import('./pages/about-secureboard/about-secureboard')
+            .then((m) => m.AboutSecureboard),
         title: 'SecureBoard · Qué es',
       },
       {
         path: 'certifications',
-        component: Certifications,
+        loadComponent: () =>
+          import('./pages/certifications/certifications')
+            .then((m) => m.Certifications),
         title: 'SecureBoard · Certificaciones',
       },
       {
@@ -83,12 +96,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/profile/profile')
             .then((m) => m.Profile),
+        title: 'SecureBoard · Perfil',
       },
       {
         path: 'progress',
         loadComponent: () =>
           import('./pages/progress/progress')
             .then((m) => m.Progress),
+        title: 'SecureBoard · Progreso',
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/setting/setting')
+            .then((m) => m.Settings),
+        title: 'SecureBoard · Ajustes',
       },
     ],
   },
