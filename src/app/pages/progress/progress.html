@@ -1,0 +1,784 @@
+<section class="progress-page">
+  <header class="progress-header">
+    <div>
+      <span class="eyebrow">Seguimiento del jugador</span>
+      <h1>Mi progreso</h1>
+      <p>
+        Consulta tus casos, habilidades, actividad y objetivos dentro del laboratorio SecureBoard.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="secondary-button" (click)="printProgress()">
+        Imprimir progreso
+      </button>
+
+      <button type="button" class="danger-button" (click)="confirmReset()">
+        Reiniciar progreso
+      </button>
+    </div>
+  </header>
+
+  <section class="hero-progress panel">
+    <div class="hero-copy">
+      <span class="eyebrow">Progreso global</span>
+
+      <div class="hero-title">
+        <div class="global-ring" [style.--value]="globalProgress">
+          <strong>{{ globalProgress }}%</strong>
+          <span>completado</span>
+        </div>
+
+        <div>
+          <h2>Tu evolución en SecureBoard</h2>
+          <p>
+            Has completado {{ completedCases }} casos, mantienes {{ activeCases }}
+            en progreso y has conseguido {{ totalPoints }} puntos.
+          </p>
+
+          <div class="global-track">
+            <span [style.width.%]="globalProgress"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <article>
+        <span>Casos completados</span>
+        <strong>{{ completedCases }}/{{ cases.length }}</strong>
+      </article>
+
+      <article>
+        <span>Puntos</span>
+        <strong>{{ totalPoints }}/{{ totalPossiblePoints }}</strong>
+      </article>
+
+      <article>
+        <span>Tiempo de práctica</span>
+        <strong>{{ formattedTotalTime }}</strong>
+      </article>
+
+      <article>
+        <span>Evidencias</span>
+        <strong>{{ totalEvidences }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <nav class="progress-tabs">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        [class.active]="selectedTab === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span>{{ tab.icon }}</span>
+        {{ tab.label }}
+      </button>
+    }
+  </nav>
+
+  @switch (selectedTab) {
+    @case ('overview') {
+      <section class="overview-layout">
+        <main class="overview-main">
+          <section class="summary-grid">
+            <article class="summary-card">
+              <div class="summary-icon purple">▣</div>
+              <div>
+                <span>Progreso global</span>
+                <strong>{{ globalProgress }}%</strong>
+                <small>Media de todos los casos</small>
+              </div>
+            </article>
+
+            <article class="summary-card">
+              <div class="summary-icon blue">↗</div>
+              <div>
+                <span>Media de habilidades</span>
+                <strong>{{ averageSkill }}%</strong>
+                <small>{{ bestSkill?.name }} es tu mejor área</small>
+              </div>
+            </article>
+
+            <article class="summary-card">
+              <div class="summary-icon green">▤</div>
+              <div>
+                <span>Informes completados</span>
+                <strong>{{ completedReports }}</strong>
+                <small>de {{ cases.length }} casos</small>
+              </div>
+            </article>
+
+            <article class="summary-card">
+              <div class="summary-icon orange">◎</div>
+              <div>
+                <span>Objetivos activos</span>
+                <strong>{{ activeGoals }}</strong>
+                <small>{{ completedGoals }} completados</small>
+              </div>
+            </article>
+          </section>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Casos prácticos</span>
+                <h2>Estado de los casos</h2>
+              </div>
+
+              <button type="button" class="text-button" (click)="selectTab('cases')">
+                Ver todos los casos →
+              </button>
+            </div>
+
+            <div class="overview-case-list">
+              @for (caseItem of cases; track caseItem.id) {
+                <article class="overview-case-row">
+                  <div class="case-number" [class]="caseItem.tone">
+                    {{ caseItem.number }}
+                  </div>
+
+                  <div class="overview-case-copy">
+                    <div>
+                      <strong>{{ caseItem.title }}</strong>
+                      <span [class]="caseItem.status.toLowerCase().replace(' ', '-')">
+                        {{ caseItem.status }}
+                      </span>
+                    </div>
+
+                    <div class="case-track" [class]="caseItem.tone">
+                      <span [style.width.%]="caseItem.progress"></span>
+                    </div>
+                  </div>
+
+                  <strong>{{ caseItem.progress }}%</strong>
+                </article>
+              }
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Actividad semanal</span>
+                <h2>Puntos conseguidos</h2>
+              </div>
+
+              <strong class="weekly-total">
+                +{{ weeklyPoints[0].value + weeklyPoints[1].value + weeklyPoints[2].value + weeklyPoints[3].value + weeklyPoints[4].value + weeklyPoints[5].value + weeklyPoints[6].value }} pts
+              </strong>
+            </div>
+
+            <div class="weekly-chart">
+              @for (point of weeklyPoints; track point.day) {
+                <article>
+                  <div class="bar-wrap">
+                    <span
+                      [style.height.%]="(point.value / maxWeeklyPoints) * 100"
+                      [title]="point.value + ' puntos'"
+                    ></span>
+                  </div>
+
+                  <strong>{{ point.value }}</strong>
+                  <small>{{ point.day }}</small>
+                </article>
+              }
+            </div>
+          </article>
+        </main>
+
+        <aside class="overview-side">
+          <article class="panel next-step-card">
+            <span class="eyebrow">Siguiente paso</span>
+            <h2>Continúa Red Team</h2>
+            <p>
+              Has completado 3 de 5 fases. Continúa con la validación y el informe técnico.
+            </p>
+
+            <div class="next-step-progress">
+              <div>
+                <span>Progreso</span>
+                <strong>65%</strong>
+              </div>
+
+              <div class="case-track red">
+                <span style="width: 65%"></span>
+              </div>
+            </div>
+
+            <a routerLink="/cases/red-team" class="primary-button">
+              Continuar caso →
+            </a>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Especialización</span>
+                <h2>Mejor habilidad</h2>
+              </div>
+            </div>
+
+            @if (bestSkill) {
+              <div class="best-skill">
+                <div class="best-skill-score">{{ bestSkill.value }}%</div>
+                <div>
+                  <h3>{{ bestSkill.name }}</h3>
+                  <p>{{ bestSkill.description }}</p>
+                </div>
+              </div>
+
+              <div class="skill-track" [class]="bestSkill.tone">
+                <span [style.width.%]="bestSkill.value"></span>
+              </div>
+
+              <button type="button" class="full-button" (click)="selectTab('skills')">
+                Ver todas las habilidades
+              </button>
+            }
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Objetivos</span>
+                <h2>Metas activas</h2>
+              </div>
+
+              <button type="button" class="icon-button" (click)="openNewGoal()">+</button>
+            </div>
+
+            <div class="mini-goals">
+              @for (goal of goals.slice(0, 3); track goal.id) {
+                <article>
+                  <div>
+                    <strong>{{ goal.title }}</strong>
+                    <span>{{ goal.current }}/{{ goal.target }} {{ goal.unit }}</span>
+                  </div>
+
+                  <div class="goal-track">
+                    <span [style.width.%]="goalProgress(goal)"></span>
+                  </div>
+                </article>
+              }
+            </div>
+
+            <button type="button" class="full-button" (click)="selectTab('goals')">
+              Gestionar objetivos
+            </button>
+          </article>
+        </aside>
+      </section>
+    }
+
+    @case ('cases') {
+      <section class="cases-section">
+        <header class="panel section-toolbar">
+          <div>
+            <span class="eyebrow">Casos prácticos</span>
+            <h2>Progreso por caso</h2>
+          </div>
+
+          <div class="toolbar-controls">
+            <label class="search-box">
+              <span>⌕</span>
+              <input
+                type="search"
+                placeholder="Buscar caso..."
+                [value]="caseSearch"
+                (input)="updateCaseSearch($any($event.target).value)"
+              />
+            </label>
+
+            <select
+              [value]="selectedCaseStatus"
+              (change)="selectedCaseStatus = $any($event.target).value"
+            >
+              <option value="Todos">Todos los estados</option>
+              <option value="No iniciado">No iniciados</option>
+              <option value="En progreso">En progreso</option>
+              <option value="Completado">Completados</option>
+            </select>
+          </div>
+        </header>
+
+        <section class="case-cards-grid">
+          @for (caseItem of filteredCases; track caseItem.id) {
+            <article class="case-card" [class]="caseItem.tone">
+              <header>
+                <div class="case-number large" [class]="caseItem.tone">
+                  {{ caseItem.number }}
+                </div>
+
+                <span class="case-status" [class]="caseItem.status.toLowerCase().replace(' ', '-')">
+                  {{ caseItem.status }}
+                </span>
+              </header>
+
+              <h3>{{ caseItem.title }}</h3>
+              <p>{{ caseItem.description }}</p>
+
+              <div class="case-progress-copy">
+                <span>Progreso</span>
+                <strong>{{ caseItem.progress }}%</strong>
+              </div>
+
+              <div class="case-track" [class]="caseItem.tone">
+                <span [style.width.%]="caseItem.progress"></span>
+              </div>
+
+              <div class="case-meta-grid">
+                <div>
+                  <span>Fases</span>
+                  <strong>{{ caseItem.completedPhases }}/{{ caseItem.totalPhases }}</strong>
+                </div>
+
+                <div>
+                  <span>Puntos</span>
+                  <strong>{{ caseItem.points }}/{{ caseItem.maxPoints }}</strong>
+                </div>
+
+                <div>
+                  <span>Evidencias</span>
+                  <strong>{{ caseItem.evidenceCount }}</strong>
+                </div>
+
+                <div>
+                  <span>Informe</span>
+                  <strong>{{ caseItem.reportCompleted ? 'Sí' : 'Pendiente' }}</strong>
+                </div>
+              </div>
+
+              <footer>
+                <button type="button" class="secondary-button" (click)="openCaseDetails(caseItem)">
+                  Ver detalle
+                </button>
+
+                <a [routerLink]="caseItem.route" class="primary-button">
+                  {{ caseItem.status === 'Completado' ? 'Revisar caso' : 'Continuar' }}
+                </a>
+              </footer>
+            </article>
+          } @empty {
+            <article class="empty-state">
+              <h3>No hay casos que coincidan</h3>
+              <p>Prueba con otro texto o estado.</p>
+            </article>
+          }
+        </section>
+      </section>
+    }
+
+    @case ('skills') {
+      <section class="skills-section">
+        <header class="panel section-intro">
+          <div>
+            <span class="eyebrow">Competencias</span>
+            <h2>Habilidades del jugador</h2>
+            <p>
+              El nivel se calcula según fases completadas, evidencias, informes y precisión.
+            </p>
+          </div>
+
+          <div class="average-skill-ring" [style.--value]="averageSkill">
+            <strong>{{ averageSkill }}%</strong>
+            <span>media</span>
+          </div>
+        </header>
+
+        <section class="skills-grid">
+          @for (skill of skills; track skill.id) {
+            <article class="skill-card" [class]="skill.tone">
+              <header>
+                <div>
+                  <span class="skill-tone-dot"></span>
+                  <h3>{{ skill.name }}</h3>
+                </div>
+
+                <strong>{{ skill.value }}%</strong>
+              </header>
+
+              <p>{{ skill.description }}</p>
+
+              <div class="skill-track" [class]="skill.tone">
+                <span [style.width.%]="skill.value"></span>
+              </div>
+
+              <div class="skill-data">
+                <p>
+                  <span>Tareas</span>
+                  <strong>{{ skill.completedTasks }}/{{ skill.totalTasks }}</strong>
+                </p>
+
+                <p>
+                  <span>Mejora</span>
+                  <strong>+{{ skill.value - skill.previousValue }}%</strong>
+                </p>
+              </div>
+            </article>
+          }
+        </section>
+
+        <article class="panel recommendation-card">
+          <div class="recommendation-icon">↗</div>
+          <div>
+            <span class="eyebrow">Recomendación</span>
+            <h2>Equilibra tu perfil técnico</h2>
+            <p>
+              Tu mejor área es {{ bestSkill?.name }}. Para mejorar el perfil global,
+              continúa Security Engineering e Incident Response.
+            </p>
+          </div>
+
+          <a routerLink="/cases/security-engineer" class="primary-button">
+            Continuar formación
+          </a>
+        </article>
+      </section>
+    }
+
+    @case ('activity') {
+      <section class="activity-section">
+        <header class="panel section-toolbar">
+          <div>
+            <span class="eyebrow">Historial</span>
+            <h2>Actividad completa</h2>
+          </div>
+
+          <div class="toolbar-controls">
+            <label class="search-box">
+              <span>⌕</span>
+              <input
+                type="search"
+                placeholder="Buscar actividad..."
+                [value]="activitySearch"
+                (input)="updateActivitySearch($any($event.target).value)"
+              />
+            </label>
+
+            <select
+              [value]="selectedActivityFilter"
+              (change)="selectedActivityFilter = $any($event.target).value"
+            >
+              <option value="Todas">Todas las actividades</option>
+              <option value="case">Casos</option>
+              <option value="badge">Insignias</option>
+              <option value="report">Informes</option>
+              <option value="evidence">Evidencias</option>
+              <option value="streak">Rachas</option>
+            </select>
+          </div>
+        </header>
+
+        <div class="activity-timeline">
+          @for (activity of filteredActivities; track activity.id) {
+            <article class="timeline-item">
+              <div class="timeline-icon" [class]="activity.tone">
+                {{ activity.icon }}
+              </div>
+
+              <div class="timeline-card panel">
+                <header>
+                  <div>
+                    <h3>{{ activity.title }}</h3>
+                    <span>{{ activity.date }}</span>
+                  </div>
+
+                  <strong>+{{ activity.points }} pts</strong>
+                </header>
+
+                <p>{{ activity.description }}</p>
+              </div>
+            </article>
+          } @empty {
+            <article class="empty-state">
+              <h3>No hay actividad para este filtro</h3>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    @case ('goals') {
+      <section class="goals-section">
+        <header class="panel section-toolbar">
+          <div>
+            <span class="eyebrow">Plan personal</span>
+            <h2>Objetivos de aprendizaje</h2>
+          </div>
+
+          <button type="button" class="primary-button" (click)="openNewGoal()">
+            + Nuevo objetivo
+          </button>
+        </header>
+
+        <section class="goal-summary-grid">
+          <article>
+            <span>Objetivos activos</span>
+            <strong>{{ activeGoals }}</strong>
+          </article>
+
+          <article>
+            <span>Completados</span>
+            <strong>{{ completedGoals }}</strong>
+          </article>
+
+          <article>
+            <span>Total</span>
+            <strong>{{ goals.length }}</strong>
+          </article>
+        </section>
+
+        <section class="goals-grid">
+          @for (goal of goals; track goal.id) {
+            <article class="goal-card" [class.completed]="goal.status === 'Completada'">
+              <header>
+                <div>
+                  <span>{{ goal.status }}</span>
+                  <h3>{{ goal.title }}</h3>
+                </div>
+
+                <strong>{{ goalProgress(goal) }}%</strong>
+              </header>
+
+              <p>{{ goal.description }}</p>
+
+              <div class="goal-track">
+                <span [style.width.%]="goalProgress(goal)"></span>
+              </div>
+
+              <div class="goal-meta">
+                <span>{{ goal.current }}/{{ goal.target }} {{ goal.unit }}</span>
+                <span>Fecha límite: {{ goal.deadline }}</span>
+              </div>
+
+              <footer>
+                <button
+                  type="button"
+                  class="secondary-button"
+                  [disabled]="goal.status === 'Completada'"
+                  (click)="incrementGoal(goal.id)"
+                >
+                  +1 progreso
+                </button>
+
+                <button type="button" class="text-button" (click)="editGoal(goal)">
+                  Editar
+                </button>
+
+                <button type="button" class="delete-button" (click)="deleteGoal(goal.id)">
+                  Eliminar
+                </button>
+              </footer>
+            </article>
+          } @empty {
+            <article class="empty-state">
+              <h3>No tienes objetivos todavía</h3>
+              <button type="button" class="primary-button" (click)="openNewGoal()">
+                Crear objetivo
+              </button>
+            </article>
+          }
+        </section>
+      </section>
+    }
+  }
+
+  @if (selectedCase) {
+    <div class="modal-backdrop" (click)="closeCaseDetails()">
+      <article class="detail-modal" (click)="$event.stopPropagation()">
+        <header>
+          <div>
+            <span class="eyebrow">Detalle del caso</span>
+            <h2>{{ selectedCase.title }}</h2>
+          </div>
+
+          <button type="button" class="close-button" (click)="closeCaseDetails()">×</button>
+        </header>
+
+        <div class="detail-progress">
+          <div class="global-ring small" [style.--value]="selectedCase.progress">
+            <strong>{{ selectedCase.progress }}%</strong>
+            <span>{{ selectedCase.status }}</span>
+          </div>
+
+          <div>
+            <p>{{ selectedCase.description }}</p>
+
+            <div class="case-track" [class]="selectedCase.tone">
+              <span [style.width.%]="selectedCase.progress"></span>
+            </div>
+          </div>
+        </div>
+
+        <section class="detail-stats">
+          <article>
+            <span>Fases</span>
+            <strong>{{ selectedCase.completedPhases }}/{{ selectedCase.totalPhases }}</strong>
+          </article>
+
+          <article>
+            <span>Puntos</span>
+            <strong>{{ selectedCase.points }}/{{ selectedCase.maxPoints }}</strong>
+          </article>
+
+          <article>
+            <span>Tiempo</span>
+            <strong>{{ selectedCase.timeSpentMinutes }} min</strong>
+          </article>
+
+          <article>
+            <span>Evidencias</span>
+            <strong>{{ selectedCase.evidenceCount }}</strong>
+          </article>
+
+          <article>
+            <span>Informe</span>
+            <strong>{{ selectedCase.reportCompleted ? 'Completado' : 'Pendiente' }}</strong>
+          </article>
+
+          <article>
+            <span>Última actividad</span>
+            <strong>{{ selectedCase.lastActivity }}</strong>
+          </article>
+        </section>
+
+        <footer>
+          <button type="button" class="secondary-button" (click)="closeCaseDetails()">
+            Cerrar
+          </button>
+
+          <a [routerLink]="selectedCase.route" class="primary-button">
+            Abrir caso
+          </a>
+        </footer>
+      </article>
+    </div>
+  }
+
+  @if (showGoalForm) {
+    <div class="modal-backdrop" (click)="closeGoalForm()">
+      <article class="goal-modal" (click)="$event.stopPropagation()">
+        <header>
+          <div>
+            <span class="eyebrow">Objetivo personal</span>
+            <h2>{{ editingGoalId === null ? 'Nuevo objetivo' : 'Editar objetivo' }}</h2>
+          </div>
+
+          <button type="button" class="close-button" (click)="closeGoalForm()">×</button>
+        </header>
+
+        <div class="goal-form">
+          <label class="full-field">
+            <span>Título</span>
+            <input
+              type="text"
+              maxlength="100"
+              [value]="goalTitle"
+              (input)="goalTitle = $any($event.target).value"
+            />
+          </label>
+
+          <label class="full-field">
+            <span>Descripción</span>
+            <textarea
+              rows="4"
+              maxlength="300"
+              [value]="goalDescription"
+              (input)="goalDescription = $any($event.target).value"
+            ></textarea>
+          </label>
+
+          <label>
+            <span>Objetivo total</span>
+            <input
+              type="number"
+              min="1"
+              [value]="goalTarget"
+              (input)="goalTarget = +$any($event.target).value"
+            />
+          </label>
+
+          <label>
+            <span>Progreso actual</span>
+            <input
+              type="number"
+              min="0"
+              [value]="goalCurrent"
+              (input)="goalCurrent = +$any($event.target).value"
+            />
+          </label>
+
+          <label>
+            <span>Unidad</span>
+            <input
+              type="text"
+              maxlength="40"
+              [value]="goalUnit"
+              (input)="goalUnit = $any($event.target).value"
+            />
+          </label>
+
+          <label>
+                <span>Fecha límite</span>
+
+                <input
+                    type="date"
+                    [min]="todayIso"
+                    [value]="goalDeadline"
+                    (input)="goalDeadline = $any($event.target).value"
+                />
+
+                @if (
+                    goalDeadline &&
+                    goalDeadline < todayIso
+                ) {
+                    <small class="field-error">
+                    La fecha límite no puede ser anterior a hoy.
+                    </small>
+                }
+          </label>
+        </div>
+
+        <footer>
+          <button type="button" class="secondary-button" (click)="closeGoalForm()">
+            Cancelar
+          </button>
+
+          <button
+            type="button"
+            class="primary-button"
+            [disabled]="!canSaveGoal"
+            (click)="saveGoal()"
+          >
+            Guardar objetivo
+          </button>
+        </footer>
+      </article>
+    </div>
+  }
+
+  @if (showResetModal) {
+    <div class="modal-backdrop" (click)="cancelReset()">
+      <article class="confirm-modal" (click)="$event.stopPropagation()">
+        <div class="warning-icon">!</div>
+        <h2>¿Reiniciar todo el progreso?</h2>
+        <p>
+          Esta acción dejará los casos, habilidades, actividad y objetivos en su estado inicial.
+        </p>
+
+        <div>
+          <button type="button" class="secondary-button" (click)="cancelReset()">
+            Cancelar
+          </button>
+
+          <button type="button" class="danger-button" (click)="resetProgress()">
+            Reiniciar
+          </button>
+        </div>
+      </article>
+    </div>
+  }
+</section>

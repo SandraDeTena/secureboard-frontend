@@ -84,6 +84,12 @@ export const routes: Routes = [
           import('./pages/profile/profile')
             .then((m) => m.Profile),
       },
+      {
+        path: 'progress',
+        loadComponent: () =>
+          import('./pages/progress/progress')
+            .then((m) => m.Progress),
+      },
     ],
   },
   {
