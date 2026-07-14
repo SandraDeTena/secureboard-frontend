@@ -1,0 +1,148 @@
+<section class="settings-page">
+  <header class="settings-header">
+    <div>
+      <span class="eyebrow">Configuración del jugador</span>
+      <h1>Ajustes</h1>
+      <p>Personaliza tu cuenta, seguridad, apariencia, notificaciones y privacidad.</p>
+    </div>
+    <button type="button" class="secondary-button" (click)="resetSection()">Restablecer sección</button>
+  </header>
+
+  <section class="settings-layout">
+    <aside class="settings-menu panel">
+      <div class="menu-title"><span>SecureBoard</span><strong>Preferencias</strong></div>
+      <nav>
+        @for (tab of tabs; track tab.id) {
+          <button type="button" [class.active]="selectedTab === tab.id" (click)="selectTab(tab.id)">
+            <span class="menu-icon">{{ tab.icon }}</span>
+            <span><strong>{{ tab.label }}</strong><small>{{ tab.description }}</small></span>
+          </button>
+        }
+      </nav>
+    </aside>
+
+    <main class="settings-content">
+      <header class="content-header panel">
+        <div class="content-icon">{{ selectedTabInfo.icon }}</div>
+        <div><span class="eyebrow">Ajustes</span><h2>{{ selectedTabInfo.label }}</h2><p>{{ selectedTabInfo.description }}</p></div>
+      </header>
+
+      @switch (selectedTab) {
+        @case ('account') {
+          <article class="panel">
+            <div class="panel-heading"><div><span class="eyebrow">Identidad</span><h2>Información de la cuenta</h2></div><span class="status-badge active">Cuenta activa</span></div>
+            <div class="avatar-row">
+              <div class="settings-avatar">SD</div>
+              <div><strong>Avatar del jugador</strong><p>La carga de imágenes se conectará cuando añadamos el backend.</p><button type="button" class="secondary-button" disabled>Cambiar avatar</button></div>
+            </div>
+            <div class="form-grid">
+              <label><span>Nombre visible</span><input type="text" maxlength="80" [value]="displayName" (input)="displayName = $any($event.target).value" /></label>
+              <label><span>Nombre de usuario</span><div class="input-prefix"><span>@</span><input type="text" maxlength="40" [value]="username" (input)="username = $any($event.target).value" /></div></label>
+              <label><span>Correo electrónico</span><input type="email" maxlength="120" [value]="email" (input)="email = $any($event.target).value" /></label>
+              <label><span>Rol principal</span><select [value]="role" (change)="role = $any($event.target).value"><option>SOC Analyst</option><option>Blue Team Analyst</option><option>Red Team Operator</option><option>Security Engineer</option><option>Incident Responder</option></select></label>
+              <label><span>Idioma</span><select [value]="language" (change)="language = $any($event.target).value"><option>Español</option><option>English</option></select></label>
+              <label><span>Zona horaria</span><select [value]="timezone" (change)="timezone = $any($event.target).value"><option>Europe/Madrid</option><option>Europe/London</option><option>America/New_York</option></select></label>
+              <label class="full-field"><span>Biografía</span><textarea rows="5" maxlength="300" [value]="bio" (input)="bio = $any($event.target).value"></textarea><small>{{ bio.length }}/300 caracteres</small></label>
+            </div>
+            @if (savedAccountMessage) { <p class="form-message">{{ savedAccountMessage }}</p> }
+            <footer class="section-actions"><button type="button" class="primary-button" [disabled]="!canSaveAccount" (click)="saveAccount()">Guardar cambios</button></footer>
+          </article>
+        }
+
+        @case ('security') {
+          <section class="settings-section">
+            <article class="panel">
+              <div class="panel-heading"><div><span class="eyebrow">Credenciales</span><h2>Cambiar contraseña</h2></div><button type="button" class="text-button" (click)="togglePasswords()">{{ showPasswords ? 'Ocultar' : 'Mostrar' }}</button></div>
+              <div class="form-grid">
+                <label class="full-field"><span>Contraseña actual</span><input [type]="showPasswords ? 'text' : 'password'" [value]="currentPassword" (input)="currentPassword = $any($event.target).value" /></label>
+                <label><span>Nueva contraseña</span><input [type]="showPasswords ? 'text' : 'password'" [value]="newPassword" (input)="newPassword = $any($event.target).value" /></label>
+                <label><span>Confirmar contraseña</span><input [type]="showPasswords ? 'text' : 'password'" [value]="confirmPassword" (input)="confirmPassword = $any($event.target).value" /></label>
+              </div>
+              <div class="password-strength"><div><span>Seguridad</span><strong>{{ passwordStrengthLabel }}</strong></div><div class="strength-track"><span [style.width.%]="passwordStrength"></span></div></div>
+              @if (passwordMessage) { <p class="form-message">{{ passwordMessage }}</p> }
+              <footer class="section-actions"><button type="button" class="primary-button" [disabled]="!canSavePassword" (click)="savePassword()">Actualizar contraseña</button></footer>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading"><div><span class="eyebrow">Protección</span><h2>Opciones de seguridad</h2></div></div>
+              <div class="setting-list">
+                <article><div><strong>Autenticación en dos pasos</strong><p>Añade una segunda capa de protección.</p></div><button type="button" class="toggle" [class.active]="twoFactorEnabled" (click)="toggleTwoFactor()"><span></span></button></article>
+                <article><div><strong>Alertas de inicio de sesión</strong><p>Recibe un aviso cuando se detecte un acceso nuevo.</p></div><button type="button" class="toggle" [class.active]="loginAlerts" (click)="loginAlerts = !loginAlerts"><span></span></button></article>
+                <article><div><strong>Cierre automático</strong><p>Cierra la sesión tras un periodo de inactividad.</p></div><div class="inline-control"><select [disabled]="!autoLogout" [value]="autoLogoutMinutes" (change)="autoLogoutMinutes = +$any($event.target).value"><option [value]="15">15 min</option><option [value]="30">30 min</option><option [value]="60">60 min</option></select><button type="button" class="toggle" [class.active]="autoLogout" (click)="autoLogout = !autoLogout"><span></span></button></div></article>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading"><div><span class="eyebrow">Dispositivos</span><h2>Sesiones activas</h2></div><button type="button" class="danger-link" (click)="closeAllOtherSessions()">Cerrar las demás</button></div>
+              <div class="session-list">
+                @for (session of sessions; track session.id) {
+                  <article class="session-row"><div class="session-icon">▣</div><div><strong>{{ session.device }}</strong><p>{{ session.browser }} · {{ session.location }}</p><span>{{ session.lastActivity }}</span></div><div class="session-actions"><span class="status-badge" [class.active]="session.current">{{ session.status }}</span>@if (!session.current) { <button type="button" class="danger-link" (click)="closeSession(session.id)">Cerrar</button> }</div></article>
+                }
+              </div>
+            </article>
+          </section>
+        }
+
+        @case ('appearance') {
+          <section class="settings-section">
+            <article class="panel">
+              <div class="panel-heading"><div><span class="eyebrow">Interfaz</span><h2>Tema de SecureBoard</h2></div></div>
+              <div class="option-grid">
+                @for (themeOption of ['Oscuro', 'Claro', 'Sistema']; track themeOption) {
+                  <button type="button" class="theme-card" [class.active]="theme === themeOption" (click)="theme = $any(themeOption)"><div class="theme-preview" [class]="themeOption.toLowerCase()"><span></span><span></span><span></span></div><strong>{{ themeOption }}</strong></button>
+                }
+              </div>
+            </article>
+            <article class="panel"><div class="panel-heading"><div><span class="eyebrow">Personalización</span><h2>Color principal</h2></div></div><div class="accent-grid">@for (accent of accentOptions; track accent.name) { <button type="button" [class.active]="accentColor === accent.name" (click)="accentColor = accent.name"><span [style.background]="accent.value"></span>{{ accent.name }}</button> }</div></article>
+            <article class="panel">
+              <div class="setting-list">
+                <article><div><strong>Densidad</strong><p>Ajusta el espacio entre elementos.</p></div><select [value]="density" (change)="density = $any($event.target).value"><option>Cómoda</option><option>Compacta</option></select></article>
+                <article><div><strong>Reducir animaciones</strong><p>Disminuye transiciones y movimientos.</p></div><button type="button" class="toggle" [class.active]="reduceAnimations" (click)="reduceAnimations = !reduceAnimations"><span></span></button></article>
+                <article><div><strong>Contraste alto</strong><p>Mejora la separación visual.</p></div><button type="button" class="toggle" [class.active]="highContrast" (click)="highContrast = !highContrast"><span></span></button></article>
+                <article><div><strong>Sidebar contraído</strong><p>Muestra solo los iconos del menú.</p></div><button type="button" class="toggle" [class.active]="sidebarCollapsed" (click)="sidebarCollapsed = !sidebarCollapsed"><span></span></button></article>
+              </div>
+              @if (appearanceMessage) { <p class="form-message">{{ appearanceMessage }}</p> }
+              <footer class="section-actions"><button type="button" class="primary-button" (click)="saveAppearance()">Aplicar apariencia</button></footer>
+            </article>
+          </section>
+        }
+
+        @case ('notifications') {
+          <section class="settings-section">
+            <article class="panel"><div class="panel-heading"><div><span class="eyebrow">Preferencias</span><h2>Notificaciones</h2></div></div><div class="setting-list">
+              <article><div><strong>Progreso de los casos</strong><p>Avisos al completar fases.</p></div><button type="button" class="toggle" [class.active]="notifyCaseProgress" (click)="notifyCaseProgress = !notifyCaseProgress"><span></span></button></article>
+              <article><div><strong>Nuevas insignias</strong><p>Avisa al desbloquear un reconocimiento.</p></div><button type="button" class="toggle" [class.active]="notifyNewBadges" (click)="notifyNewBadges = !notifyNewBadges"><span></span></button></article>
+              <article><div><strong>Objetivos</strong><p>Recordatorios de fechas límite.</p></div><button type="button" class="toggle" [class.active]="notifyGoals" (click)="notifyGoals = !notifyGoals"><span></span></button></article>
+              <article><div><strong>Alertas de seguridad</strong><p>Avisos sobre accesos y cambios.</p></div><button type="button" class="toggle" [class.active]="notifySecurity" (click)="notifySecurity = !notifySecurity"><span></span></button></article>
+              <article><div><strong>Informes pendientes</strong><p>Recuerda borradores incompletos.</p></div><button type="button" class="toggle" [class.active]="notifyReports" (click)="notifyReports = !notifyReports"><span></span></button></article>
+              <article><div><strong>Correo electrónico</strong><p>Recibe avisos importantes por email.</p></div><button type="button" class="toggle" [class.active]="emailNotifications" (click)="emailNotifications = !emailNotifications"><span></span></button></article>
+              <article><div><strong>Resumen semanal</strong><p>Resumen de puntos, casos y objetivos.</p></div><button type="button" class="toggle" [class.active]="weeklySummary" (click)="weeklySummary = !weeklySummary"><span></span></button></article>
+            </div>@if (notificationMessage) { <p class="form-message">{{ notificationMessage }}</p> }<footer class="section-actions"><button type="button" class="primary-button" (click)="saveNotifications()">Guardar notificaciones</button></footer></article>
+          </section>
+        }
+
+        @case ('privacy') {
+          <section class="settings-section">
+            <article class="panel"><div class="panel-heading"><div><span class="eyebrow">Visibilidad</span><h2>Privacidad del perfil</h2></div></div><div class="setting-list">
+              <article><div><strong>Perfil visible</strong><p>Permite que otros jugadores vean tu perfil.</p></div><button type="button" class="toggle" [class.active]="profileVisible" (click)="profileVisible = !profileVisible"><span></span></button></article>
+              <article><div><strong>Mostrar ranking</strong><p>Publica tu posición relativa.</p></div><button type="button" class="toggle" [class.active]="showRanking" (click)="showRanking = !showRanking"><span></span></button></article>
+              <article><div><strong>Compartir actividad</strong><p>Muestra casos, insignias y puntos.</p></div><button type="button" class="toggle" [class.active]="shareActivity" (click)="shareActivity = !shareActivity"><span></span></button></article>
+              <article><div><strong>Analítica de uso</strong><p>Autoriza métricas anónimas.</p></div><button type="button" class="toggle" [class.active]="analyticsConsent" (click)="analyticsConsent = !analyticsConsent"><span></span></button></article>
+              <article><div><strong>Conservación de datos</strong><p>Tiempo de conservación del historial.</p></div><select [value]="dataRetention" (change)="dataRetention = $any($event.target).value"><option>6 meses</option><option>12 meses</option><option>24 meses</option></select></article>
+            </div>@if (privacyMessage) { <p class="form-message">{{ privacyMessage }}</p> }<footer class="section-actions"><button type="button" class="primary-button" (click)="savePrivacy()">Guardar privacidad</button></footer></article>
+            <article class="panel data-panel"><div><span class="eyebrow">Tus datos</span><h2>Exportar información</h2><p>Prepara una copia de tu perfil, progreso, objetivos, evidencias e informes.</p></div><button type="button" class="secondary-button" (click)="openExportModal()">Exportar mis datos</button></article>
+            <article class="panel danger-zone"><div><span class="eyebrow danger">Zona peligrosa</span><h2>Eliminar cuenta</h2><p>Esta acción se conectará al backend más adelante.</p></div><button type="button" class="danger-button" (click)="openDeleteModal()">Eliminar cuenta</button></article>
+          </section>
+        }
+      }
+    </main>
+  </section>
+
+  @if (showExportModal) {
+    <div class="modal-backdrop" (click)="closeExportModal()"><article class="settings-modal" (click)="$event.stopPropagation()"><header><div><span class="eyebrow">Exportación</span><h2>Exportar mis datos</h2></div><button type="button" class="close-button" (click)="closeExportModal()">×</button></header>@if (!exportReady) { <div class="export-summary"><p>La exportación incluirá perfil, progreso, objetivos, evidencias e informes.</p></div><footer><button type="button" class="secondary-button" (click)="closeExportModal()">Cancelar</button><button type="button" class="primary-button" (click)="prepareExport()">Preparar exportación</button></footer> } @else { <div class="success-state"><div>✓</div><h3>Exportación preparada</h3><p>La descarga real se conectará al backend.</p></div><footer><button type="button" class="primary-button" (click)="closeExportModal()">Entendido</button></footer> }</article></div>
+  }
+
+  @if (showDeleteModal) {
+    <div class="modal-backdrop" (click)="closeDeleteModal()"><article class="settings-modal delete-modal" (click)="$event.stopPropagation()"><div class="warning-icon">!</div><h2>¿Eliminar tu cuenta?</h2><p>Escribe <strong>ELIMINAR</strong> para confirmar. Esta maqueta no borra datos reales.</p><input type="text" placeholder="Escribe ELIMINAR" [value]="deleteConfirmation" (input)="deleteConfirmation = $any($event.target).value" /><footer><button type="button" class="secondary-button" (click)="closeDeleteModal()">Cancelar</button><button type="button" class="danger-button" [disabled]="!canDeleteAccount" (click)="deleteAccount()">Eliminar definitivamente</button></footer></article></div>
+  }
+</section>
