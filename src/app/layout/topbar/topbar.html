@@ -6,22 +6,19 @@
       [attr.aria-label]="sidebarCollapsed ? 'Abrir menú lateral' : 'Contraer menú lateral'"
       (click)="emitSidebarToggle()"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
 
     <div>
       <h1>Dashboard SOC</h1>
-      <p>Bienvenida, <span>Sandra</span></p>
+      <p>Bienvenida, <span>{{ user().displayName }}</span></p>
     </div>
   </div>
 
   <div class="topbar-actions">
     <div class="search-wrapper" (click)="$event.stopPropagation()">
-      <label class="search">
+      <label class="search" for="global-search-input">
         <span class="search-icon">⌕</span>
-
         <input
           id="global-search-input"
           type="search"
@@ -32,12 +29,11 @@
           (focus)="openSearch()"
           (keydown.enter)="submitSearch()"
         />
-
         <kbd>Ctrl K</kbd>
       </label>
 
       @if (searchOpen) {
-        <section class="dropdown search-dropdown">
+        <section class="dropdown search-dropdown" aria-label="Resultados de búsqueda">
           @if (filteredSearchItems.length > 0) {
             <header class="dropdown-heading">
               <span>Resultados</span>
@@ -48,12 +44,10 @@
               @for (item of filteredSearchItems; track item.route) {
                 <button type="button" (click)="chooseSearchResult(item)">
                   <span class="result-icon">⌕</span>
-
                   <span class="result-copy">
                     <strong>{{ item.title }}</strong>
                     <small>{{ item.category }} · {{ item.description }}</small>
                   </span>
-
                   <span class="result-arrow">→</span>
                 </button>
               }
@@ -75,24 +69,26 @@
         class="icon-button"
         aria-label="Abrir actividad y logros"
         [attr.aria-expanded]="notificationsOpen"
-        (click)="toggleNotifications($event)"
+        (click)="toggleMenu('notifications', $event)"
       >
         <span class="diamond-icon">◇</span>
-
         @if (unreadNotifications > 0) {
           <small>{{ unreadNotifications }}</small>
         }
       </button>
 
       @if (notificationsOpen) {
-        <section class="dropdown notifications-dropdown">
+        <section class="dropdown notifications-dropdown" aria-label="Actividad y logros">
           <header class="dropdown-heading">
             <div>
               <strong>Actividad y logros</strong>
               <small>{{ unreadNotifications }} novedades</small>
             </div>
-
-            <button type="button" (click)="markAllNotificationsAsRead()">
+            <button
+              type="button"
+              [disabled]="unreadNotifications === 0"
+              (click)="markAllNotificationsAsRead()"
+            >
               Marcar leídas
             </button>
           </header>
@@ -105,11 +101,7 @@
                 [class.unread]="notification.unread"
                 (click)="openNotification(notification)"
               >
-                <span
-                  class="notification-dot"
-                  [class]="notification.tone"
-                ></span>
-
+                <span class="notification-dot" [class]="notification.tone"></span>
                 <span>
                   <strong>{{ notification.title }}</strong>
                   <small>{{ notification.text }}</small>
@@ -134,13 +126,13 @@
         class="icon-button"
         aria-label="Abrir centro de ayuda"
         [attr.aria-expanded]="helpOpen"
-        (click)="toggleHelp($event)"
+        (click)="toggleMenu('help', $event)"
       >
         ?
       </button>
 
       @if (helpOpen) {
-        <section class="dropdown help-dropdown">
+        <section class="dropdown help-dropdown" aria-label="Centro de ayuda">
           <header class="dropdown-heading">
             <div>
               <strong>Centro de ayuda</strong>
@@ -149,17 +141,13 @@
           </header>
 
           <nav>
-            <button
-              type="button"
-              (click)="navigateTo('/about-secureboard')"
-            >
+            <button type="button" (click)="navigateTo('/about-secureboard')">
               <span>◎</span>
               <span>
                 <strong>¿Qué es SecureBoard?</strong>
                 <small>Objetivo y funcionamiento del proyecto.</small>
               </span>
             </button>
-
             <button type="button" (click)="navigateTo('/cases')">
               <span>▱</span>
               <span>
@@ -167,7 +155,6 @@
                 <small>Consulta todos los escenarios disponibles.</small>
               </span>
             </button>
-
             <button type="button" (click)="navigateTo('/settings')">
               <span>⚙</span>
               <span>
@@ -191,59 +178,50 @@
         class="user-card"
         aria-label="Abrir menú de usuario"
         [attr.aria-expanded]="userMenuOpen"
-        (click)="toggleUserMenu($event)"
+        (click)="toggleMenu('user', $event)"
       >
         <span class="avatar-wrapper">
-          <img
-            src="https://i.pravatar.cc/80?img=47"
-            alt="Sandra De Tena"
-          />
+          @if (user().avatarUrl; as avatarUrl) {
+            <img [src]="avatarUrl" [alt]="'Fotografía de ' + user().displayName" />
+          } @else {
+            <span class="avatar-initials">{{ userInitials() }}</span>
+          }
           <i></i>
         </span>
 
         <span class="user-copy">
-          <strong>Sandra De Tena</strong>
-          <small>Analista SOC</small>
+          <strong>{{ user().displayName }}</strong>
+          <small>{{ user().roleLabel }}</small>
         </span>
-
         <span class="chevron" [class.open]="userMenuOpen">⌄</span>
       </button>
 
       @if (userMenuOpen) {
-        <section class="dropdown user-dropdown">
+        <section class="dropdown user-dropdown" aria-label="Menú del usuario">
           <header class="user-summary">
-            <img
-              src="https://i.pravatar.cc/80?img=47"
-              alt=""
-            />
+            <span class="summary-avatar">
+              @if (user().avatarUrl; as avatarUrl) {
+                <img [src]="avatarUrl" [alt]="'Fotografía de ' + user().displayName" />
+              } @else {
+                <span class="avatar-initials">{{ userInitials() }}</span>
+              }
+            </span>
 
             <div>
-              <strong>Sandra De Tena</strong>
-              <small>sandra.soc · Nivel 5</small>
+              <strong>{{ user().displayName }}</strong>
+              <small>@{{ user().username }} · Nivel {{ user().level }}</small>
             </div>
           </header>
 
           <nav>
-            <button type="button" (click)="navigateTo('/profile')">
-              <span>♙</span>
-              Mi perfil
-            </button>
-
-            <button type="button" (click)="navigateTo('/progress')">
-              <span>⌁</span>
-              Mi progreso
-            </button>
-
-            <button type="button" (click)="navigateTo('/settings')">
-              <span>⚙</span>
-              Ajustes
-            </button>
+            <button type="button" (click)="navigateTo('/profile')"><span>♙</span>Mi perfil</button>
+            <button type="button" (click)="navigateTo('/progress')"><span>⌁</span>Mi progreso</button>
+            <button type="button" (click)="navigateTo('/settings')"><span>⚙</span>Ajustes</button>
           </nav>
 
           <footer>
             <button type="button" class="logout-button" (click)="logout()">
-              <span>↪</span>
-              Cerrar sesión
+              <span>↪</span>Cerrar sesión
             </button>
           </footer>
         </section>

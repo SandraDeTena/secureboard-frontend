@@ -692,3 +692,35 @@ button {
     width: auto;
   }
 }
+
+/* AVATAR DINÁMICO DEL USUARIO AUTENTICADO */
+.avatar-initials {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: linear-gradient(145deg, #6d28d9, #a855f7);
+}
+
+.summary-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  flex: 0 0 2.7rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.summary-avatar img,
+.summary-avatar .avatar-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}

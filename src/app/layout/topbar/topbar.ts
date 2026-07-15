@@ -4,8 +4,11 @@ import {
   HostListener,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { CurrentUserService } from '../../core/services/current-user.service';
 
 interface SearchItem {
   title: string;
@@ -25,6 +28,8 @@ interface NotificationItem {
   tone: 'purple' | 'blue' | 'green' | 'orange';
 }
 
+type OpenMenu = 'search' | 'notifications' | 'help' | 'user' | null;
+
 @Component({
   selector: 'app-topbar',
   imports: [],
@@ -32,14 +37,17 @@ interface NotificationItem {
   styleUrl: './topbar.css',
 })
 export class Topbar {
+  private readonly router = inject(Router);
+  private readonly currentUserService = inject(CurrentUserService);
+
   @Input() sidebarCollapsed = false;
   @Output() toggleSidebar = new EventEmitter<void>();
 
+  readonly user = this.currentUserService.user;
+  readonly userInitials = this.currentUserService.initials;
+
   searchQuery = '';
-  searchOpen = false;
-  notificationsOpen = false;
-  helpOpen = false;
-  userMenuOpen = false;
+  activeMenu: OpenMenu = null;
 
   readonly searchItems: SearchItem[] = [
     {
@@ -165,8 +173,6 @@ export class Topbar {
     },
   ];
 
-  constructor(private readonly router: Router) {}
-
   emitSidebarToggle(): void {
     this.closeAllMenus();
     this.toggleSidebar.emit();
@@ -174,22 +180,13 @@ export class Topbar {
 
   updateSearch(value: string): void {
     this.searchQuery = value.slice(0, 80);
-    this.searchOpen = this.searchQuery.trim().length > 0;
-    this.notificationsOpen = false;
-    this.helpOpen = false;
-    this.userMenuOpen = false;
+    this.activeMenu = this.searchQuery.trim() ? 'search' : null;
   }
 
   openSearch(): void {
     if (this.searchQuery.trim()) {
-      this.searchOpen = true;
+      this.activeMenu = 'search';
     }
-  }
-
-  chooseSearchResult(item: SearchItem): void {
-    this.router.navigateByUrl(item.route);
-    this.searchQuery = '';
-    this.searchOpen = false;
   }
 
   submitSearch(): void {
@@ -200,37 +197,28 @@ export class Topbar {
     }
   }
 
-  toggleNotifications(event: MouseEvent): void {
-    event.stopPropagation();
-    this.notificationsOpen = !this.notificationsOpen;
-    this.helpOpen = false;
-    this.userMenuOpen = false;
-    this.searchOpen = false;
+  chooseSearchResult(item: SearchItem): void {
+    this.searchQuery = '';
+    this.closeAllMenus();
+    this.router.navigateByUrl(item.route);
   }
 
-  toggleHelp(event: MouseEvent): void {
+  toggleMenu(
+    menu: Exclude<OpenMenu, 'search' | null>,
+    event: MouseEvent,
+  ): void {
     event.stopPropagation();
-    this.helpOpen = !this.helpOpen;
-    this.notificationsOpen = false;
-    this.userMenuOpen = false;
-    this.searchOpen = false;
-  }
-
-  toggleUserMenu(event: MouseEvent): void {
-    event.stopPropagation();
-    this.userMenuOpen = !this.userMenuOpen;
-    this.notificationsOpen = false;
-    this.helpOpen = false;
-    this.searchOpen = false;
+    this.activeMenu = this.activeMenu === menu ? null : menu;
   }
 
   openNotification(notification: NotificationItem): void {
     this.notifications = this.notifications.map((item) =>
-      item.id === notification.id ? { ...item, unread: false } : item
+      item.id === notification.id
+        ? { ...item, unread: false }
+        : item,
     );
 
-    this.notificationsOpen = false;
-    this.router.navigateByUrl(notification.route);
+    this.navigateTo(notification.route);
   }
 
   markAllNotificationsAsRead(): void {
@@ -247,14 +235,29 @@ export class Topbar {
 
   logout(): void {
     this.closeAllMenus();
+
+    // Cuando exista AuthService, aquí se invalidará la sesión real.
     this.router.navigateByUrl('/');
   }
 
   closeAllMenus(): void {
-    this.searchOpen = false;
-    this.notificationsOpen = false;
-    this.helpOpen = false;
-    this.userMenuOpen = false;
+    this.activeMenu = null;
+  }
+
+  get searchOpen(): boolean {
+    return this.activeMenu === 'search';
+  }
+
+  get notificationsOpen(): boolean {
+    return this.activeMenu === 'notifications';
+  }
+
+  get helpOpen(): boolean {
+    return this.activeMenu === 'help';
+  }
+
+  get userMenuOpen(): boolean {
+    return this.activeMenu === 'user';
   }
 
   get filteredSearchItems(): SearchItem[] {
@@ -272,7 +275,7 @@ export class Topbar {
             item.description,
             item.category,
             ...item.keywords,
-          ].join(' ')
+          ].join(' '),
         );
 
         return content.includes(query);
@@ -281,25 +284,26 @@ export class Topbar {
   }
 
   get unreadNotifications(): number {
-    return this.notifications.filter((notification) => notification.unread)
-      .length;
+    return this.notifications.filter(
+      (notification) => notification.unread,
+    ).length;
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardShortcut(event: KeyboardEvent): void {
     const target = event.target as HTMLElement | null;
-    const tag = target?.tagName?.toLowerCase();
-    const writing =
-      tag === 'input' || tag === 'textarea' || tag === 'select';
+    const elementTag = target?.tagName.toLowerCase();
+    const isWriting =
+      elementTag === 'input' ||
+      elementTag === 'textarea' ||
+      elementTag === 'select';
 
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === 'k'
+    ) {
       event.preventDefault();
-      const input = document.getElementById(
-        'global-search-input'
-      ) as HTMLInputElement | null;
-
-      input?.focus();
-      this.searchOpen = this.searchQuery.trim().length > 0;
+      this.focusGlobalSearch();
       return;
     }
 
@@ -308,19 +312,27 @@ export class Topbar {
       return;
     }
 
-    if (!writing && event.key === '/') {
+    if (!isWriting && event.key === '/') {
       event.preventDefault();
-      const input = document.getElementById(
-        'global-search-input'
-      ) as HTMLInputElement | null;
-
-      input?.focus();
+      this.focusGlobalSearch();
     }
   }
 
   @HostListener('document:click')
   handleDocumentClick(): void {
     this.closeAllMenus();
+  }
+
+  private focusGlobalSearch(): void {
+    const input = document.getElementById(
+      'global-search-input',
+    ) as HTMLInputElement | null;
+
+    input?.focus();
+
+    if (this.searchQuery.trim()) {
+      this.activeMenu = 'search';
+    }
   }
 
   private normalize(value: string): string {
