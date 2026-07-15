@@ -15,7 +15,13 @@
   <section class="profile-grid">
     <aside class="player-card panel">
       <div class="avatar-wrap">
-        <div class="avatar">{{ initials }}</div>
+        <div class="avatar">
+          @if (user().avatarUrl; as avatarUrl) {
+            <img [src]="avatarUrl" [alt]="'Fotografía de ' + user().displayName" />
+          } @else {
+            <span>{{ initials }}</span>
+          }
+        </div>
         <span class="online-dot"></span>
       </div>
 
@@ -115,7 +121,54 @@
     <div class="modal-backdrop" (click)="closeModal()">
       <article class="edit-modal" (click)="$event.stopPropagation()">
         <header><div><span class="eyebrow">Editar jugador</span><h2>Información del perfil</h2></div><button type="button" class="close-button" (click)="closeModal()">×</button></header>
-        <div class="edit-avatar"><div class="avatar small">{{ initials }}</div><div><strong>Avatar del jugador</strong><p>La carga de imagen se conectará con el backend.</p></div></div>
+        <section class="avatar-editor">
+          <div class="avatar small">
+            @if (displayedAvatar; as avatarUrl) {
+              <img [src]="avatarUrl" [alt]="'Vista previa de ' + user().displayName" />
+            } @else {
+              <span>{{ initials }}</span>
+            }
+          </div>
+
+          <input
+            #avatarInput
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            hidden
+            (change)="onAvatarSelected($event)"
+          />
+
+          <div class="avatar-editor-copy">
+            <strong>Fotografía del jugador</strong>
+            <p>JPG, PNG o WEBP. Tamaño máximo: 2 MB.</p>
+
+            <div class="avatar-actions">
+              <button type="button" class="secondary-button compact" (click)="openAvatarSelector()">
+                Seleccionar fotografía
+              </button>
+
+              @if (avatarPreview) {
+                <button type="button" class="text-button compact" (click)="cancelAvatarPreview()">
+                  Cancelar vista previa
+                </button>
+              }
+
+              @if (user().avatarUrl && !avatarPreview) {
+                <button type="button" class="danger-button compact" (click)="removeAvatar()">
+                  Eliminar fotografía
+                </button>
+              }
+            </div>
+
+            @if (avatarError) {
+              <p class="avatar-message error">{{ avatarError }}</p>
+            }
+
+            @if (avatarSuccess) {
+              <p class="avatar-message success">{{ avatarSuccess }}</p>
+            }
+          </div>
+        </section>
         <div class="edit-form">
           <label><span>Nombre visible</span><input [value]="editName" (input)="editName = $any($event.target).value" /></label>
           <label><span>Nombre de usuario</span><input [value]="editUsername" (input)="editUsername = $any($event.target).value" /></label>
