@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { TrainingCaseDetail } from '../../core/models/training-case.model';
+import { CasesService } from '../../core/services/cases.service';
 
 type OsintTab = 'summary' | 'phases' | 'findings' | 'report' | 'notes';
 
@@ -72,7 +77,13 @@ interface OsintTool {
   templateUrl: './osint-investigation.html',
   styleUrl: './osint-investigation.css',
 })
-export class Osint {
+export class Osint implements OnInit {
+  private readonly casesService = inject(CasesService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  caseData: TrainingCaseDetail | null = null;
+  loadingCase = true;
+  caseLoadError = '';
   selectedTab: OsintTab = 'summary';
   guideOpen = false;
   showAllTools = false;
@@ -399,6 +410,54 @@ export class Osint {
   ];
 
   noteFilters = ['Todas', 'Idea', 'Importante', 'Recordatorio', 'Hallazgo'];
+
+  ngOnInit(): void {
+    this.loadCase();
+  }
+
+  retryLoadCase(): void {
+    this.loadCase();
+  }
+
+  private loadCase(): void {
+    this.loadingCase = true;
+    this.caseLoadError = '';
+
+    this.casesService
+      .getCaseBySlug('osint-investigation')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (caseData) => {
+          this.caseData = caseData;
+          this.loadingCase = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('No se ha podido cargar el caso OSINT:', error);
+          this.caseLoadError = error.status === 401
+            ? 'Tu sesión ha caducado. Inicia sesión de nuevo.'
+            : 'No se ha podido cargar el caso OSINT desde el backend.';
+          this.loadingCase = false;
+        },
+      });
+  }
+
+  get difficultyLabel(): string {
+    switch (this.caseData?.difficulty) {
+      case 'EASY': return 'Fácil';
+      case 'MEDIUM': return 'Media';
+      case 'HARD': return 'Difícil';
+      default: return 'Cargando';
+    }
+  }
+
+  get difficultyDots(): number {
+    switch (this.caseData?.difficulty) {
+      case 'EASY': return 2;
+      case 'MEDIUM': return 3;
+      case 'HARD': return 5;
+      default: return 0;
+    }
+  }
 
   selectTab(tab: OsintTab): void {
     this.selectedTab = tab;
