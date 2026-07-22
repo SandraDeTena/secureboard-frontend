@@ -10,6 +10,8 @@ import {
   TrainingCaseSummary,
 } from '../models/training-case.model';
 
+import { CasePhaseProgress } from '../models/case-phase-progress.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -52,6 +54,24 @@ export class CasesService {
   ): Observable<TrainingCaseDetail> {
     return this.http.get<TrainingCaseDetail>(
       `${this.apiUrl}/${encodeURIComponent(slug)}`
+    );
+  }
+
+  getPhaseProgress(
+    slug: string
+  ): Observable<CasePhaseProgress[]> {
+    return this.http.get<CasePhaseProgress[]>(
+      `${this.apiUrl}/${encodeURIComponent(slug)}/phases`
+    );
+  }
+
+  completePhase(
+    slug: string,
+    phaseNumber: number
+  ): Observable<CasePhaseProgress> {
+    return this.http.put<CasePhaseProgress>(
+      `${this.apiUrl}/${encodeURIComponent(slug)}/phases/${phaseNumber}`,
+      {}
     );
   }
 

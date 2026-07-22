@@ -2,6 +2,7 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CasePhaseProgress } from '../../core/models/case-phase-progress.model';
 
 import { TrainingCaseDetail } from '../../core/models/training-case.model';
 import { CasesService } from '../../core/services/cases.service';
@@ -430,6 +431,8 @@ export class Osint implements OnInit {
         next: (caseData) => {
           this.caseData = caseData;
           this.loadingCase = false;
+
+          this.loadPhaseProgress();
         },
         error: (error: HttpErrorResponse) => {
           console.error('No se ha podido cargar el caso OSINT:', error);
@@ -477,10 +480,47 @@ export class Osint implements OnInit {
   }
 
   togglePhase(phaseId: number): void {
-    this.phases = this.phases.map((phase) =>
-      phase.id === phaseId ? { ...phase, completed: !phase.completed } : phase,
-    );
+
+  const phase = this.phases.find(
+    (p) => p.id === phaseId
+  );
+
+  if (!phase) {
+    return;
   }
+
+  if (phase.completed) {
+    return;
+  }
+
+  this.casesService
+    .completePhase(
+      'osint-investigation',
+      phaseId
+    )
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+
+      next: () => {
+
+        this.phases = this.phases.map((p) =>
+          p.id === phaseId
+            ? { ...p, completed: true }
+            : p
+        );
+
+      },
+
+      error: (error) => {
+        console.error(
+          'Error guardando la fase',
+          error
+        );
+      },
+
+    });
+
+}
 
   isCurrentPhase(index: number): boolean {
     const firstPendingIndex = this.phases.findIndex((phase) => !phase.completed);
@@ -813,4 +853,32 @@ export class Osint implements OnInit {
       minute: '2-digit',
     }).format(new Date());
   }
+
+  private loadPhaseProgress(): void {
+  this.casesService
+    .getPhaseProgress('osint-investigation')
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (progress: CasePhaseProgress[]) => {
+
+        this.phases = this.phases.map((phase) => {
+          const saved = progress.find(
+            (p) => p.phaseNumber === phase.id
+          );
+
+          return {
+            ...phase,
+            completed: saved?.completed ?? false,
+          };
+        });
+
+      },
+      error: (error) => {
+        console.error(
+          'No se pudo cargar el progreso:',
+          error
+        );
+      },
+    });
+}
 }
