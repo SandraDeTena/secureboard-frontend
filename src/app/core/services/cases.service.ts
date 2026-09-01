@@ -78,4 +78,43 @@ export class CasesService {
   clearCache(): void {
     this.casesCache$ = undefined;
   }
+
+  /* HALLAZGOS */
+
+  getFindings(slug: string): Observable<any[]> {
+  return this.http.get<any[]>(
+    `${this.apiUrl}/${encodeURIComponent(slug)}/findings`
+  );
 }
+
+  createFinding(
+    slug: string,
+    finding: any
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/${encodeURIComponent(slug)}/findings`,
+      finding
+    );
+  }
+
+  updateFinding(
+    slug: string,
+    id: number,
+    finding: any
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${this.apiUrl}/${encodeURIComponent(slug)}/findings/${id}`,
+      finding
+    );
+  }
+
+  deleteFinding(
+    slug: string,
+    id: number
+  ): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/${encodeURIComponent(slug)}/findings/${id}`
+    );
+  }
+}
+

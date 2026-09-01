@@ -433,6 +433,7 @@ export class Osint implements OnInit {
           this.loadingCase = false;
 
           this.loadPhaseProgress();
+           this.loadFindings();
         },
         error: (error: HttpErrorResponse) => {
           console.error('No se ha podido cargar el caso OSINT:', error);
@@ -553,54 +554,109 @@ export class Osint implements OnInit {
   }
 
   saveFinding(): void {
-    if (!this.canSaveFinding) {
-      return;
-    }
+  if (!this.canSaveFinding) {
+    return;
+  }
 
-    if (this.editingFindingId !== null) {
-      this.findings = this.findings.map((finding) =>
-        finding.id === this.editingFindingId
-          ? {
-              ...finding,
-              title: this.cleanText(this.findingTitle),
-              category: this.findingCategory,
-              severity: this.findingSeverity,
-              status: this.findingStatus,
-              evidence: this.cleanText(this.findingEvidence),
-              risk: this.cleanText(this.findingRisk),
-              recommendation: this.cleanText(this.findingRecommendation),
-            }
-          : finding,
-      );
-    } else {
-      const finding: OsintFinding = {
-        id: Date.now(),
-        code: this.createFindingCode(),
-        title: this.cleanText(this.findingTitle),
-        category: this.findingCategory,
-        severity: this.findingSeverity,
-        status: this.findingStatus,
-        evidence: this.cleanText(this.findingEvidence),
-        risk: this.cleanText(this.findingRisk),
-        recommendation: this.cleanText(this.findingRecommendation),
-        createdAt: this.formatCurrentDate(),
-      };
+  const findingData = {
+    code:
+      this.editingFindingId !== null
+        ? this.findings.find(
+            (finding) => finding.id === this.editingFindingId
+          )?.code ?? this.createFindingCode()
+        : this.createFindingCode(),
 
-      this.findings = [finding, ...this.findings];
-    }
+    title: this.cleanText(this.findingTitle),
+    category: this.findingCategory,
+    severity: this.findingSeverity,
+    status: this.findingStatus,
+    evidence: this.cleanText(this.findingEvidence),
+    risk: this.cleanText(this.findingRisk),
+    recommendation: this.cleanText(this.findingRecommendation),
+  };
 
-    this.closeFindingForm();
+  if (this.editingFindingId !== null) {
+    this.casesService
+      .updateFinding(
+        'osint-investigation',
+        this.editingFindingId,
+        findingData
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updatedFinding) => {
+          this.findings = this.findings.map((finding) =>
+            finding.id === this.editingFindingId
+              ? updatedFinding
+              : finding
+          );
+
+          this.closeFindingForm();
+        },
+        error: (error) => {
+          console.error(
+            'No se pudo actualizar el hallazgo:',
+            error
+          );
+        },
+      });
+
+    return;
+  }
+
+  this.casesService
+    .createFinding(
+      'osint-investigation',
+      findingData
+    )
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (createdFinding) => {
+        this.findings = [
+          createdFinding,
+          ...this.findings,
+        ];
+
+        this.closeFindingForm();
+      },
+      error: (error) => {
+        console.error(
+          'No se pudo guardar el hallazgo:',
+          error
+        );
+      },
+    });
   }
 
   deleteFinding(findingId: number): void {
-    const confirmed = window.confirm('¿Seguro que quieres eliminar este hallazgo?');
+  const confirmed = window.confirm(
+    '¿Seguro que quieres eliminar este hallazgo?'
+  );
 
-    if (!confirmed) {
-      return;
-    }
-
-    this.findings = this.findings.filter((finding) => finding.id !== findingId);
+  if (!confirmed) {
+    return;
   }
+
+  this.casesService
+    .deleteFinding(
+      'osint-investigation',
+      findingId
+    )
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: () => {
+        this.findings = this.findings.filter(
+          (finding) => finding.id !== findingId
+        );
+      },
+      error: (error) => {
+        console.error(
+          'No se pudo eliminar el hallazgo:',
+          error
+        );
+      },
+    });
+  } 
 
   useFindingExample(example: FindingExample): void {
     this.resetFindingForm();
@@ -833,8 +889,19 @@ export class Osint implements OnInit {
   }
 
   private createFindingCode(): string {
-    const nextNumber = this.findings.length + 1;
-    return `OSINT-${String(nextNumber).padStart(3, '0')}`;
+  const existingNumbers = this.findings
+    .map((finding) => {
+      const match = finding.code.match(/OSINT-(\d+)/);
+      return match ? Number(match[1]) : 0;
+    });
+
+  const maxNumber = existingNumbers.length > 0
+    ? Math.max(...existingNumbers)
+    : 0;
+
+  const nextNumber = maxNumber + 1;
+
+  return `OSINT-${String(nextNumber).padStart(3, '0')}`;
   }
 
   private cleanText(value: string): string {
@@ -880,5 +947,22 @@ export class Osint implements OnInit {
         );
       },
     });
-}
+  }
+
+  private loadFindings(): void {
+  this.casesService
+    .getFindings('osint-investigation')
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (findings) => {
+        this.findings = findings;
+      },
+      error: (error) => {
+        console.error(
+          'No se pudieron cargar los hallazgos:',
+          error
+        );
+      },
+    });
+  }
 }
